@@ -22,7 +22,6 @@
       "extensions": [
         "antfu.unocss",
         "bradgashler.htmltagwrap",
-        "bradlc.vscode-tailwindcss",
         "christian-kohler.path-intellisense",
         "dbaeumer.vscode-eslint",
         "esbenp.prettier-vscode",

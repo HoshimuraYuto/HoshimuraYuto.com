@@ -2,6 +2,7 @@
 module.exports = {
   extends: [
     "eslint:recommended",
+    "@unocss",
     "plugin:import/recommended",
     "plugin:import/typescript",
     "plugin:@typescript-eslint/recommended",
