@@ -5,13 +5,14 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
+    "build-storybook": "storybook build",
     "start": "next start",
     "lint": "next lint",
-    "test:unit": "jest --watch",
-    "test:e2e": "playwright test",
     "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "test-storybook": "test-storybook"
+    "test:unit": "jest",
+    "test:unit:watch": "jest --watch",
+    "test:e2e": "playwright test",
+    "test:storybook": "test-storybook"
   },
   "dependencies": {
     "@types/jest": "^29.5.5",
