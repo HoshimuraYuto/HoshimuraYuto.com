@@ -7,7 +7,95 @@ on:
     branches: [main, master]
 
 jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build
+        run: pnpm build
+
+      - name: Upload build artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./out
+          retention-days: 1
+
+  test-unit:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Unit test
+        run: pnpm test:unit
+
+  test-e2e:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: build-artifacts
+          path: ./out
+
+      - name: E2E test
+        run: pnpm test:e2e
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 1
+
+  test-ui:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Install Playwright Browsers
+        run: pnpm exec playwright install --with-deps
+
+      - name: Build Storybook
+        run: pnpm build:storybook --quiet
+
+      - name: UI test
+        run: |
+          pnpx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "pnpx http-server storybook-static --port 6006 --silent" \
+            "pnpx wait-on tcp:6006 && pnpm test:storybook"
+
   deploy:
+    needs: [test-unit, test-e2e, test-ui]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -18,32 +106,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
+      - name: Download build artifacts
+        uses: actions/download-artifact@v3
         with:
-          node-version: 20.3.0
-        env:
-          NODE_ENV: production
-
-      - name: Install pnpm
-        uses: pnpm/action-setup@v2
-        with:
-          version: 8.6.3
-          run_install: false
-
-      - name: Setup cache
-        uses: actions/cache@v3
-        with:
-          path: |
-            ${{ steps.pnpm-cache.outputs.STORE_PATH }}
-            ${{ github.workspace }}/.next/cache
-          key: ${{ runner.os }}-cache-${{ hashFiles('**/pnpm-lock.yaml') }}
-
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Build
-        run: pnpm build
+          name: build-artifacts
+          path: ./out
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
