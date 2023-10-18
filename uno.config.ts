@@ -1,3 +1,4 @@
+import presetMini from "@unocss/preset-mini";
 import {
   defineConfig,
   presetUno,
@@ -18,6 +19,17 @@ export default defineConfig({
         display: "inline-block",
         "vertical-align": "middle",
       },
+      collections: {
+        carbon: () =>
+          import("@iconify-json/carbon/icons.json").then((i) => i.default),
+      },
     }),
+    presetMini(),
+  ],
+  rules: [
+    [
+      /^(?:wh|hw)-(.+)$/,
+      ([_, num]) => ({ width: `${num / 4}rem`, height: `${num / 4}rem` }),
+    ],
   ],
 });
