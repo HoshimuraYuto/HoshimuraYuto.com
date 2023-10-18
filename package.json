@@ -8,7 +8,7 @@
     "build:storybook": "storybook build",
     "start": "next start",
     "lint": "next lint",
-    "storybook": "storybook dev -p 6006",
+    "storybook": "storybook dev -p 6006 & unocss 'app/**/*' --out-file=.storybook/public/uno.css --watch",
     "test:unit": "jest",
     "test:unit:watch": "jest --watch",
     "test:e2e": "playwright test",
@@ -56,6 +56,7 @@
     "prettier": "^3.0.3",
     "prettier-plugin-tailwindcss": "^0.5.5",
     "storybook": "^7.4.6",
+    "storybook-dark-mode": "^3.0.1",
     "typescript": "^5.2.2",
     "unocss": "^0.56.5"
   }
