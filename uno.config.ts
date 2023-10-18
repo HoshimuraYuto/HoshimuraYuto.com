@@ -29,7 +29,7 @@ export default defineConfig({
   rules: [
     [
       /^(?:wh|hw)-(.+)$/,
-      ([_, num]) => ({ width: `${num / 4}rem`, height: `${num / 4}rem` }),
+      ([_, num]) => ({ width: `${+num / 4}rem`, height: `${+num / 4}rem` }),
     ],
   ],
 });
