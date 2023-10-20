@@ -1,6 +1,7 @@
 import "./reset.css";
 import "./globals.css";
 
+import Footer from "./components/layouts/Footer";
 import Header from "./components/layouts/Header";
 import { Providers } from "./providers";
 
@@ -25,6 +26,7 @@ export default function RootLayout({
         <Providers>
           <Header />
           {children}
+          <Footer />
         </Providers>
       </body>
     </html>
