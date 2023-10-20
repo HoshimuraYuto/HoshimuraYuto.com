@@ -22,6 +22,7 @@ export default defineConfig({
       collections: {
         carbon: () =>
           import("@iconify-json/carbon/icons.json").then((i) => i.default),
+        ri: () => import("@iconify-json/ri/icons.json").then((i) => i.default),
       },
     }),
     presetMini(),

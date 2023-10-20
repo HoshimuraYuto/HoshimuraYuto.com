@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@iconify-json/carbon": "^1.1.21",
+    "@iconify-json/ri": "^1.1.12",
     "@playwright/test": "^1.39.0",
     "@storybook/addon-essentials": "^7.4.6",
     "@storybook/addon-interactions": "^7.4.6",

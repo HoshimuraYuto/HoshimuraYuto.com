@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 
+import siteConfig from "../../config/siteConfig";
 import { ThemeChanger } from "../../theme";
 import { Button } from "../elements/Button";
 import {
@@ -23,7 +24,7 @@ const Header = () => {
             href={`/`}
             className="flex"
           >
-            <div className="i-carbon-star-filled color-neutral-9 wh-6 dark:color-neutral-1" />
+            {siteConfig.headerIcon}
           </Link>
           <span className="color-neutral-2 dark:color-neutral-7">/</span>
           <DropdownMenu>
