@@ -16,7 +16,7 @@ export function ThemeChanger() {
       onClick={handleTheme}
       size="icon"
     >
-      <div className="i-carbon-sun dark:i-carbon-moon wh-4" />
+      <div className="i-carbon-moon wh-4 dark:i-carbon-sun" />
     </Button>
   );
 }
