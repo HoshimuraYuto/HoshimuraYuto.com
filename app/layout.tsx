@@ -1,6 +1,7 @@
 import "./reset.css";
 import "./globals.css";
 
+import Header from "./components/layouts/Header";
 import { Providers } from "./providers";
 
 import type { Metadata } from "next";
@@ -21,7 +22,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="bg-white color-neutral-9 transition duration-100 dark:bg-neutral-9 dark:color-neutral-1">
-        <Providers>{children}</Providers>
+        <Providers>
+          <Header />
+          {children}
+        </Providers>
       </body>
     </html>
   );
