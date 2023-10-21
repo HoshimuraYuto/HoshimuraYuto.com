@@ -47,7 +47,7 @@ const Header = () => {
                   className="p-0 outline-0"
                   aria-label="page changer"
                 >
-                  <div className="i-carbon-chevron-down color-neutral-4 wh-4 dark:color-neutral-5" />
+                  <div className="i-carbon-caret-down color-neutral-4 wh-5 dark:color-neutral-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
