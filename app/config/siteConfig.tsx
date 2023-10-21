@@ -20,6 +20,16 @@ const siteConfig = {
       slug: "/contact",
     },
   ],
+  blogLinks: [
+    {
+      icon: "i-ri-rss-fill",
+      url: "https://hoshimurayuto.com/#",
+    },
+    {
+      icon: "i-ri-twitter-x-fill",
+      url: "https://twitter.com/HoshimuraYuto",
+    },
+  ],
   credit: `MIT ${new Date().getFullYear()} © hoshimurayuto.com`,
   footerLinks: [
     {
