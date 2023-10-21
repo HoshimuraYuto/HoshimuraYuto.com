@@ -15,6 +15,7 @@ export function ThemeChanger() {
     <Button
       onClick={handleTheme}
       size="icon"
+      aria-label="theme toggle"
     >
       <div className="i-carbon-moon wh-4 dark:i-carbon-sun" />
     </Button>
