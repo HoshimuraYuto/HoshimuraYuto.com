@@ -1,6 +1,10 @@
 import "./reset.css";
 import "./globals.css";
 
+import Footer from "./components/layouts/Footer";
+import Header from "./components/layouts/Header";
+import { Providers } from "./providers";
+
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -14,8 +18,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ja">
-      <body>{children}</body>
+    <html
+      lang="ja"
+      suppressHydrationWarning
+    >
+      <body className="bg-white color-neutral-9 transition duration-100 dark:bg-neutral-9 dark:color-neutral-1">
+        <Providers>
+          <Header />
+          {children}
+          <Footer />
+        </Providers>
+      </body>
     </html>
   );
 }
