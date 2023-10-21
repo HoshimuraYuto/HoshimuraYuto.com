@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 import siteConfig from "../../config/siteConfig";
 import { ThemeChanger } from "../../theme";
@@ -15,6 +15,9 @@ import {
 
 const Header = () => {
   const router = useRouter();
+  const pathname = usePathname();
+
+  const pageTitle = pathname === "/" ? "home" : /\w+/.exec(pathname);
 
   return (
     <header className="sticky inset-0 top-0 border-0 border-b-1 border-neutral-1 border-solid bg-white/95 p-3 backdrop-blur-2 dark:border-neutral-7 dark:bg-neutral-9/75 dark:backdrop-blur-5">
@@ -33,9 +36,9 @@ const Header = () => {
               <Link
                 href={``}
                 className="color-neutral-9 decoration-none dark:color-white"
-                aria-label="home"
+                aria-label="page title"
               >
-                home
+                {pageTitle}
               </Link>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -51,12 +54,16 @@ const Header = () => {
                 align="center"
                 sideOffset={8}
                 className="bg-white dark:bg-neutral-9"
+                aria-label="page dropdown"
               >
-                <DropdownMenuItem
-                  onClick={() => router.push("/", { scroll: false })}
-                >
-                  home
-                </DropdownMenuItem>
+                {siteConfig.headerPageNav.map(({ title, slug }) => (
+                  <DropdownMenuItem
+                    onClick={() => router.push(slug, { scroll: false })}
+                    key={title}
+                  >
+                    {title}
+                  </DropdownMenuItem>
+                ))}
               </DropdownMenuContent>
             </div>
           </DropdownMenu>
