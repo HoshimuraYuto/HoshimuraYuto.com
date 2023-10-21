@@ -1,0 +1,34 @@
+# Block bots
+User-agent: CCBot
+Disallow: /
+
+User-agent: Google-Extended
+Disallow: /
+
+User-agent: GPTBot
+Disallow: /
+
+User-agent: ChatGPT-User
+Disallow: /
+
+User-agent: ia_archiver
+Disallow: /
+
+User-Agent: omgili
+Disallow: /
+
+User-Agent: omgilibot
+Disallow: /
+
+User-agent: Megalodon
+Disallow: /
+
+# Default
+User-agent: *
+Allow: /
+
+# Host
+Host: https://hoshimurayuto.com
+
+# Sitemaps
+Sitemap: https://hoshimurayuto.com/sitemap.xml
