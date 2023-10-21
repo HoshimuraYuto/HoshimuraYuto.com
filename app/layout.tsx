@@ -10,6 +10,15 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Hi 👋, I'm Hoshimura Yuto.",
   description: "Personal website.",
+  manifest: "/manifest.json",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#171717" },
+  ],
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
