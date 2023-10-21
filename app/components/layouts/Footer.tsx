@@ -3,7 +3,7 @@ import { Button } from "../elements/Button";
 
 const Footer = () => {
   return (
-    <header className="p-10">
+    <header className="p-10 lt-sm:px-6">
       <div className="m-auto max-w-[1200px] flex items-center justify-between">
         <p className="font-size-4 color-neutral-7 dark:color-neutral-2">
           {siteConfig.credit}
@@ -15,6 +15,7 @@ const Footer = () => {
               target="_blank"
               key={link.icon}
               aria-label="sns link"
+              className="flex items-center justify-center"
             >
               <Button
                 variant="plain"
