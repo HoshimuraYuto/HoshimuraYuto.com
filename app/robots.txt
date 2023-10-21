@@ -29,6 +29,3 @@ Allow: /
 
 # Host
 Host: https://hoshimurayuto.com
-
-# Sitemaps
-Sitemap: https://hoshimurayuto.com/sitemap.xml
