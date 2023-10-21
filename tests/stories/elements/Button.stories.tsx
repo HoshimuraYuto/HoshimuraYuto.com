@@ -80,10 +80,14 @@ export const Disabled: Story = {
 };
 
 export const Icon: Story = {
+  render: () => (
+    <Button aria-label="icon">
+      <div className="i-carbon-sun dark:i-carbon-moon" />
+    </Button>
+  ),
   args: {
     variant: "outline",
     size: "icon",
-    children: <div className="i-carbon-sun dark:i-carbon-moon" />,
   },
 };
 

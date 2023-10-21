@@ -14,11 +14,13 @@ const Footer = () => {
               href={link.url}
               target="_blank"
               key={link.icon}
+              aria-label="sns link"
             >
               <Button
                 variant="plain"
                 size="original"
                 className="p-0 outline-0"
+                aria-label="sns link button"
               >
                 <div
                   className={`${link.icon} color-neutral-4 wh-4 wh-6 dark:color-neutral-5`}

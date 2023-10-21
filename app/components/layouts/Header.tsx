@@ -23,6 +23,7 @@ const Header = () => {
           <Link
             href={`/`}
             className="flex"
+            aria-label="home"
           >
             {siteConfig.headerIcon}
           </Link>
@@ -32,6 +33,7 @@ const Header = () => {
               <Link
                 href={``}
                 className="color-neutral-9 decoration-none dark:color-white"
+                aria-label="home"
               >
                 home
               </Link>
@@ -40,6 +42,7 @@ const Header = () => {
                   variant="plain"
                   size="original"
                   className="p-0 outline-0"
+                  aria-label="page changer"
                 >
                   <div className="i-carbon-chevron-down color-neutral-4 wh-4 dark:color-neutral-5" />
                 </Button>
