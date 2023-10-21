@@ -20,7 +20,7 @@ const Header = () => {
   const pageTitle = pathname === "/" ? "home" : /\w+/.exec(pathname);
 
   return (
-    <header className="sticky inset-0 top-0 border-0 border-b-1 border-neutral-1 border-solid bg-white/95 p-3 backdrop-blur-2 dark:border-neutral-7 dark:bg-neutral-9/75 dark:backdrop-blur-5">
+    <header className="sticky inset-0 top-0 border-0 border-b-1 border-neutral-1 border-solid bg-white/95 px-10 py-3 backdrop-blur-2 dark:border-neutral-7 dark:bg-neutral-9/75 lt-sm:px-6 dark:backdrop-blur-5">
       <div className="m-auto max-w-[1200px] flex items-center justify-between">
         <div className="flex items-center gap-3">
           <Link
@@ -47,7 +47,7 @@ const Header = () => {
                   className="p-0 outline-0"
                   aria-label="page changer"
                 >
-                  <div className="i-carbon-chevron-down color-neutral-4 wh-4 dark:color-neutral-5" />
+                  <div className="i-carbon-caret-down color-neutral-4 wh-5 dark:color-neutral-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
