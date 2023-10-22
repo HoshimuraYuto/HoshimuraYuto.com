@@ -1,10 +1,6 @@
 name: deploy-to-cloudflare-pages
 
-on:
-  push:
-    branches: [main, master, "feature/*"]
-  pull_request:
-    branches: [main, master, "phase/*", "feature/*"]
+on: [push, pull_request]
 
 jobs:
   build:
