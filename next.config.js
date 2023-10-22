@@ -4,8 +4,6 @@ const withPWA = require("next-pwa")({
   disable: process.env.NODE_ENV === "development",
 });
 
-const nextConfig = {
-  output: "export",
-};
+const nextConfig = {};
 
 module.exports = withPWA(nextConfig);

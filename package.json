@@ -24,6 +24,7 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
+    "@cloudflare/next-on-pages": "^1.7.2",
     "@iconify-json/carbon": "^1.1.21",
     "@iconify-json/ri": "^1.1.12",
     "@playwright/test": "^1.39.0",

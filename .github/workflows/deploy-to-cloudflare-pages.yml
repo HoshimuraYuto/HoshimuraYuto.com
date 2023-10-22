@@ -24,7 +24,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: ./out
+          path: ./.next
           retention-days: 1
 
   test-unit:
@@ -59,7 +59,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
-          path: ./out
+          path: ./.next
 
       - name: E2E test
         run: pnpm test:e2e
@@ -110,7 +110,13 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
-          path: ./out
+          path: ./.next
+
+      - name: Setup
+        uses: ./.github/actions/setup
+
+      - name: Build for cloudflare
+        run: pnpx @cloudflare/next-on-pages@1
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
@@ -119,7 +125,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: "./out"
+          directory: "./.vercel/output/static"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add publish URL as commit status
