@@ -3,7 +3,7 @@ import { Button } from "../elements/Button";
 
 const Footer = () => {
   return (
-    <header className="p-10 lt-sm:px-6">
+    <footer className="p-10 lt-sm:px-6">
       <div className="m-auto max-w-[1200px] flex items-center justify-between">
         <p className="font-size-4 color-neutral-7 dark:color-neutral-2">
           {siteConfig.credit}
@@ -31,7 +31,7 @@ const Footer = () => {
           ))}
         </div>
       </div>
-    </header>
+    </footer>
   );
 };
 
