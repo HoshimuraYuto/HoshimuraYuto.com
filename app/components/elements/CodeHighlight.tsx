@@ -22,7 +22,7 @@ const CodeHighlight = ({
 
   return (
     <pre
-      className={`m-0 language-${lang}`}
+      className={`my-4 py-4 px-6 language-${lang}`}
       key={key}
       tabIndex={0}
     >

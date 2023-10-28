@@ -11,7 +11,7 @@ const ExternalSiteCardWrapper = ({
   return (
     <a
       href={url}
-      className="flex flex-col gap-3 border-1 border-neutral-1 border-solid p-4 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:hover:bg-neutral-7"
+      className="my-4 flex flex-col gap-3 border-1 border-neutral-1 border-solid p-4 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:hover:bg-neutral-7"
     >
       {children}
     </a>
@@ -47,6 +47,7 @@ export const ExternalSiteCard = async ({ url }: { url: string }) => {
           src={`https://t2.gstatic.com/faviconV2?client=SOCIAL&type=FAVICON&fallback_opts=TYPE,SIZE,URL&url=${url}&size=32`}
           alt=""
           className="rd-50% wh-5"
+          loading="lazy"
         />
         <span className="font-size-3 color-neutral-9 dark:color-neutral-1">
           {url}

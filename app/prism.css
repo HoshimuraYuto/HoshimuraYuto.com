@@ -22,21 +22,8 @@ pre[class*="language-"] {
     Meiryo,
     monospace;
   font-size: 0.95rem;
-  -webkit-hyphens: none;
-  -moz-hyphens: none;
-  -ms-hyphens: none;
-  hyphens: none;
-  line-height: 1.5;
   color: #b6b6b6;
-  text-align: left;
-  word-break: normal;
-  word-wrap: normal;
-  -moz-tab-size: 4;
-  -o-tab-size: 4;
-  tab-size: 4;
-  white-space: pre;
-  background: none;
-  word-spacing: normal;
+  tab-size: 2;
 }
 
 code[class*="language-"] {
@@ -49,15 +36,16 @@ code[class*="language-"]:focus-visible {
 
 /* Code blocks */
 pre[class*="language-"] {
-  padding: 1rem 1.5rem;
-  margin-bottom: 7.5em;
   overflow: auto;
-  /* border-radius: 0.3em; */
 }
 
 :not(pre) > code[class*="language-"],
 pre[class*="language-"] {
-  margin: 0;
+  background: #1f232ee6;
+}
+
+.dark :not(pre) > code[class*="language-"],
+.dark pre[class*="language-"] {
   background: #1f232efa;
 }
 
@@ -164,9 +152,6 @@ pre[class*="language-"].line-numbers > code {
   font-size: 100%;
   letter-spacing: -1px;
   pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   border-right: 1px solid #999;
 }
@@ -191,9 +176,6 @@ pre[class*="language-"].line-numbers > code {
   font-size: 100%;
   letter-spacing: -1px;
   pointer-events: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
   border-right: 1px solid #999;
 }
@@ -261,9 +243,7 @@ div.code-toolbar > .toolbar button {
   font: inherit;
   line-height: normal;
   color: inherit;
-  -webkit-user-select: none; /* for button */
-  -moz-user-select: none;
-  -ms-user-select: none;
+  user-select: none;
   background: none;
   border: 0;
 }
