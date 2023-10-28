@@ -52,6 +52,7 @@
     "@unocss/cli": "^0.57.1",
     "@unocss/eslint-config": "^0.57.1",
     "@unocss/postcss": "^0.57.1",
+    "@unocss/preset-attributify": "^0.57.1",
     "@unocss/preset-icons": "^0.57.1",
     "@unocss/preset-mini": "^0.57.1",
     "autoprefixer": "^10.4.16",

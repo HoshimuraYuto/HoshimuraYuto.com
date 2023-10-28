@@ -109,6 +109,9 @@ devDependencies:
   '@unocss/postcss':
     specifier: ^0.57.1
     version: 0.57.1(postcss@8.4.31)
+  '@unocss/preset-attributify':
+    specifier: ^0.57.1
+    version: 0.57.1
   '@unocss/preset-icons':
     specifier: ^0.57.1
     version: 0.57.1
