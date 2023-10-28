@@ -9,7 +9,7 @@ const BlogTagList = async () => {
     const tags = fetchTags.properties.tags as TagsProperty;
 
     return (
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-4 lt-md:flex-row lt-md:flex-wrap">
         {tags.multi_select.options.map((tag) => {
           return <BlogTagItem key={tag.id}>{tag.name}</BlogTagItem>;
         })}

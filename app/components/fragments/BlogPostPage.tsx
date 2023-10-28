@@ -42,7 +42,7 @@ const BlogPostPage = async ({ id }: { id: string }) => {
     return (
       <article className="flex flex-col gap-16">
         <header className="flex flex-col gap-4">
-          <h2 className="font-size-8 font-700 line-height-8">{title}</h2>
+          <h2 className="font-size-8 font-700">{title}</h2>
           <BlogPostMeta
             date={date}
             tags={tags ?? []}

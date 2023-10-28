@@ -7,8 +7,8 @@ import siteConfig from "../config/siteConfig";
 
 const Aside = () => {
   return (
-    <div className="flex flex-col gap-12 pr-10">
-      <h1 className="font-size-8 font-400 line-height-8">Blog</h1>
+    <div className="flex flex-col gap-12 pr-10 lt-md:pb-6 lt-md:pr-0">
+      <h1 className="font-size-8 font-400 line-height-8 lt-md:hidden">Blog</h1>
       <div className="flex flex-col gap-6">
         <div className="flex flex-col gap-4">
           <Suspense

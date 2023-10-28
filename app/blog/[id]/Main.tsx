@@ -11,11 +11,11 @@ const Main = ({ id }: { id: string }) => {
         fallback={
           <div className="flex flex-col gap-16">
             <div className="flex flex-col gap-4">
-              <Skeleton className="h-8 w-150" />
+              <Skeleton className="h-12 w-150" />
               <Skeleton className="h-6 w-33" />
             </div>
             <div className="flex flex-col gap-4">
-              {Array.from({ length: 5 }).map((_, idx) => {
+              {Array.from({ length: 10 }).map((_, idx) => {
                 return (
                   <Skeleton
                     key={idx}
