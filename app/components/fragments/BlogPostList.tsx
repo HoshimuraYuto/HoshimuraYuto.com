@@ -1,22 +1,12 @@
-import notion from "../../services/notionClient";
+import { databaseQuery } from "../../services/notionClient";
 import BlogPostItem from "../elements/BlogPostItem";
 
-import type { BlogPostItemInterface } from "@/app/types";
-import type { QueryDatabaseResponse } from "@notionhq/client/build/src/api-endpoints";
+import type { ExtendedPageObjectResponse } from "@/app/types";
 
 const BlogPostList = async () => {
   try {
-    const pages: QueryDatabaseResponse = await notion.databases.query({
-      database_id: process.env.NOTION_BLOG_DATABASE_ID ?? "",
-      sorts: [
-        {
-          timestamp: "last_edited_time",
-          direction: "descending",
-        },
-      ],
-    });
-
-    const posts = pages.results as BlogPostItemInterface[];
+    const fetchPosts = await databaseQuery();
+    const posts = fetchPosts.results as ExtendedPageObjectResponse[];
 
     return (
       <div className="flex flex-col gap-8">
@@ -24,9 +14,9 @@ const BlogPostList = async () => {
           return (
             <BlogPostItem
               key={post.id}
-              keyId={post.id}
-              title={post.properties.title.title[0].plain_text}
-              tags={post.properties.tags?.multi_select}
+              id={post.id}
+              title={post.properties.title?.title[0].plain_text ?? ""}
+              tags={post.properties.tags?.multi_select ?? []}
               date={post.last_edited_time}
             />
           );

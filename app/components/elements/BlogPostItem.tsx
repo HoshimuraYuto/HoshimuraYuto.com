@@ -1,12 +1,14 @@
+import Link from "next/link";
+
 import intersperse from "../../utils/intersperse";
 
 const BlogPostItem = ({
-  keyId,
+  id,
   title,
   tags,
   date,
 }: {
-  keyId: string;
+  id: string;
   title: string;
   tags: {
     id: string;
@@ -26,9 +28,11 @@ const BlogPostItem = ({
   return (
     <div
       className="flex flex-col gap-2"
-      key={keyId}
+      key={id}
     >
-      <h2 className="font-size-4.5 font-normal line-height-9">{title}</h2>
+      <h2 className="font-size-4.5 font-normal line-height-9">
+        <Link href={`/blog/${id}`}>{title}</Link>
+      </h2>
       <div className="flex gap-2">
         <div className="flex gap-1 color-neutral-4 dark:color-neutral-5">
           {interspersedTagsEl}

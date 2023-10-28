@@ -1,4 +1,7 @@
-const Null = () => {
-  return <></>;
+import Main from "./Main";
+
+const Page = () => {
+  return <Main />;
 };
-export default Null;
+
+export default Page;
