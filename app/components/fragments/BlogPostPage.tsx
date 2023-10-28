@@ -11,28 +11,37 @@ import type {
 
 const fetchPageWithChildren = async (
   id: string,
+  cache = new Map<string, Promise<BlockObjectWithChildren[]>>(),
 ): Promise<BlockObjectWithChildren[]> => {
-  const fetchPage = await blocksChildrenList(id);
-  const page = fetchPage.results as BlockObjectResponse[];
+  if (cache.has(id)) return (await cache.get(id)) ?? [];
 
-  const pageWithChildren = await Promise.all(
-    page.map(async (block) => {
-      if (block.has_children) {
-        const children = await fetchPageWithChildren(block.id);
-        return { ...block, children };
-      } else {
-        return block;
-      }
-    }),
-  );
+  const fetchPagePromise = blocksChildrenList(id).then(async (fetchPage) => {
+    const page = fetchPage.results as BlockObjectResponse[];
 
-  return pageWithChildren;
+    const pageWithChildren = await Promise.all(
+      page.map(async (block) => {
+        if (block.has_children) {
+          const children = await fetchPageWithChildren(block.id, cache);
+          return { ...block, children };
+        } else {
+          return block;
+        }
+      }),
+    );
+
+    return pageWithChildren;
+  });
+
+  cache.set(id, fetchPagePromise);
+  return await fetchPagePromise;
 };
 
 const BlogPostPage = async ({ id }: { id: string }) => {
   try {
-    const pageWithChildren = await fetchPageWithChildren(id);
-    const pageObject = (await pagesRetrieve(id)) as PageObjectResponse;
+    const [pageWithChildren, pageObject] = await Promise.all([
+      fetchPageWithChildren(id),
+      pagesRetrieve(id).then((res) => res as PageObjectResponse),
+    ]);
 
     const pageProperties = pageObject.properties as ExtendedProperties;
     const title = pageProperties.title?.title[0].plain_text;
