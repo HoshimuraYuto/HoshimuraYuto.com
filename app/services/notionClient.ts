@@ -31,3 +31,9 @@ export const databaseQuery = async () => {
     ],
   });
 };
+
+export const databaseRetrieve = async () => {
+  return notion.databases.retrieve({
+    database_id: process.env.NOTION_BLOG_DATABASE_ID ?? "",
+  });
+};
