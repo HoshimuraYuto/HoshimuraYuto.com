@@ -16,7 +16,7 @@ const Skeleton: React.FC<SkeletonProps> = ({
   const skeltonEl = Array.from({ length: count }, (_, i) => i).map((index) => (
     <div
       className={cn(
-        "animate-pulse bg-neutral-9/10 dark:bg-white/10",
+        "max-w-[100%] animate-pulse bg-neutral-9/10 dark:bg-white/10",
         circle ? "rd-50%" : "",
         className,
       )}
