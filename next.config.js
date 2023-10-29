@@ -5,7 +5,10 @@ const withPWA = require("next-pwa")({
 });
 
 const nextConfig = {
-  output: "export",
+  // ref: https://nextjs.org/docs/pages/api-reference/components/image
+  // images: {
+  //   domains: ["prod-files-secure.s3.us-west-2.amazonaws.com"],
+  // },
 };
 
 module.exports = withPWA(nextConfig);

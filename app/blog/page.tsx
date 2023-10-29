@@ -1,11 +1,7 @@
-import Page from "../components/layouts/Page";
+import Main from "./Main";
 
-const Blog = () => {
-  return (
-    <Page title="Blog">
-      <p className="line-height-8">Blog page</p>
-    </Page>
-  );
+const Page = () => {
+  return <Main />;
 };
 
-export default Blog;
+export default Page;
