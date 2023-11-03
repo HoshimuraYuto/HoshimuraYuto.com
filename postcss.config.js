@@ -1,9 +1,9 @@
 module.exports = {
   plugins: {
-    autoprefixer: {},
+    "postcss-preset-env": { stage: 0 },
     "@unocss/postcss": {
       // Optional
-      content: ["**/*.{html,js,ts,jsx,tsx}"],
+      content: ["**/*.{html,js,ts,jsx,tsx,css,scss}"],
     },
   },
 };
