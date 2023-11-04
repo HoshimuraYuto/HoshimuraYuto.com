@@ -10,12 +10,8 @@ const BlogPostItem = ({
 }: {
   id: string;
   title: string;
-  tags: {
-    id: string;
-    name: string;
-    color: string;
-  }[];
-  date: string;
+  tags: string[];
+  date: Date;
 }) => {
   return (
     <article

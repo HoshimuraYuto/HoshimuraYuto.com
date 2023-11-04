@@ -41,3 +41,8 @@ export interface TagsProperty {
 export type BlockObjectWithChildren = BlockObjectResponse & {
   children?: BlockObjectWithChildren[];
 };
+
+export interface FrontMatter {
+  title: string;
+  tags?: string[];
+}
