@@ -12,19 +12,14 @@ const nextConfig = {
   images: {
     disableStaticImages: true,
   },
-  webpack(config, options) {
+  webpack(config) {
     config.module.rules.push({
       test: /\.(png|jpg|gif|svg)$/,
       use: {
-        loader: "url-loader",
+        loader: "file-loader",
         options: {
-          fallback: {
-            loader: "file-loader",
-            options: {
-              publicPath: "/_next/static/images",
-              outputPath: "static/images",
-            },
-          },
+          publicPath: "/_next/static/images",
+          outputPath: "static/images",
         },
       },
     });
