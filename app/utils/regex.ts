@@ -4,7 +4,7 @@ const match = (target: string) => (regex: RegExp) => {
 };
 
 export const getTitleFromHTML = (html: string) => {
-  return match(html)(/<title>(.*?)<\/title>/i);
+  return match(html)(/<title.*>(.*?)<\/title>/i);
 };
 
 export const getDescriptionFromHTML = (html: string) => {
@@ -19,4 +19,12 @@ export const getBaseDomainFromURL = (url: string) => {
 
 export const getLastPathFromURL = (url: string) => {
   return match(url)(/\/([^/?]+)(?:\?.*)?$/);
+};
+
+export const getFileNameWithoutExtension = (filename: string) => {
+  return match(filename)(/^(.+)(?:\.\w+)$/);
+};
+
+export const isInternalLink = (url: string) => {
+  return match(url)(/^(https?:\/\/)[\w+.]+[\w+]{2,}/) === null;
 };

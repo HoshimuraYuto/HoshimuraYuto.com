@@ -3,6 +3,7 @@ import type {
   RichTextItemResponse,
   BlockObjectResponse,
 } from "@notionhq/client/build/src/api-endpoints";
+import type { Node } from "unist";
 
 export interface ExtendedProperties {
   title?: {
@@ -45,4 +46,17 @@ export type BlockObjectWithChildren = BlockObjectResponse & {
 export interface FrontMatter {
   title: string;
   tags?: string[];
+}
+
+export interface LinkCard extends Node {
+  type: "LinkCard";
+  data: {
+    hProperties: {
+      title: string;
+      description: string;
+      image: string;
+      url: string;
+      urlOrigin: string;
+    };
+  };
 }
