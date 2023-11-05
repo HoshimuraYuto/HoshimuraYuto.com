@@ -17,14 +17,13 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
-      - name: Setup SSH
-        uses: MrSquaare/ssh-setup-action@v3
-        with:
-          host: github.com
-          private-key: ${{ secrets.SSH_PRIVATE_KEY }}
-
       - name: Clone repository
-        run: git clone ${{ secrets.CONTENT_GIT_URL }} content
+        env:
+          GIT_SSH_COMMAND: ssh -i ~/secret
+        run: |
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/secret
+          chmod 600 ~/secret
+          git clone ${{ secrets.CONTENT_GIT_URL }} content
 
       - name: Build
         run: pnpm build:prod
