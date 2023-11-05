@@ -20,10 +20,10 @@ jobs:
       - name: Clone repository
         env:
           SECRET: ${{ secrets.SSH_PRIVATE_KEY }}
-          GIT_SSH_COMMAND: ssh -i ~/secret
+          GIT_SSH_COMMAND: ssh -i ~/github_rsa
         run: |
-          echo "$SECRET" > ~/secret
-          chmod 600 ~/secret
+          echo "$SECRET" > ~/github_rsa
+          chmod 600 ~/github_rsa
           git clone ${{ secrets.CONTENT_GIT_URL }} content
 
       - name: Build
