@@ -19,9 +19,10 @@ jobs:
 
       - name: Clone repository
         env:
+          SECRET: ${{ secrets.SSH_PRIVATE_KEY }}
           GIT_SSH_COMMAND: ssh -i ~/secret
         run: |
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/secret
+          echo "$SECRET" > ~/secret
           chmod 600 ~/secret
           git clone ${{ secrets.CONTENT_GIT_URL }} content
 
