@@ -13,3 +13,97 @@ main {
 }
 
 @unocss all;
+
+@custom-selector :--list ul, ol;
+@custom-selector :--heading h1, h2, h3, h4, h5, h6;
+
+article section {
+  /* pagagraph */
+  & p {
+    @apply my-8 line-height-8 tracking-[0.05rem];
+  }
+
+  /* divider */
+  & hr {
+    @apply my-4 border-0 border-t-2 border-color-neutral-4 border-solid dark:border-color-neutral-5;
+  }
+
+  /* list */
+  & :--list {
+    @apply my-4 list-inside p-0;
+
+    & :--list {
+      @apply pl-6 m-inherit;
+    }
+  }
+  & li {
+    @apply my-2;
+  }
+
+  /* heading */
+  & :--heading {
+    @apply my-16 tracking-[0.05rem];
+  }
+  & h1 {
+    @apply font-size-8 font-700;
+  }
+  & h2 {
+    @apply font-size-8 font-bold;
+  }
+  & h3 {
+    @apply font-size-6 font-bold;
+  }
+  & h4 {
+    @apply font-size-4 font-bold;
+  }
+  & h5 {
+    @apply font-size-4 font-normal;
+  }
+  & h6 {
+    @apply font-size-4 font-normal;
+  }
+
+  /* image */
+  & img {
+    @apply my-4 h-auto;
+  }
+
+  /* blockquote */
+  & blockquote {
+    @apply my-4 border-0 border-l-2 border-neutral-2 border-solid pl-4 dark:border-neutral-7;
+  }
+
+  /* toggle */
+  & details {
+    @apply cursor-pointer;
+
+    & *:not[summary] {
+      @apply m-y--4 p-l-3.5;
+    }
+  }
+
+  /* code */
+  & pre {
+    @apply my-4 py-4 px-6;
+  }
+
+  /* linkCard */
+  & .linkCard {
+    @apply my-4 flex flex-col gap-3 border-1 border-neutral-1 border-solid p-4 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:hover:bg-neutral-7;
+  }
+  & .linkCard__title {
+    @apply color-neutral-9 dark:color-neutral-1;
+  }
+  & .linkCard__description {
+    @apply font-size-2 color-neutral-4 dark:color-neutral-5;
+  }
+  & .linkCard__content {
+    @apply flex items-center gap-2;
+  }
+  & .linkCard__icon {
+    @apply m-0 rd-50% wh-5;
+  }
+  & .linkCard__url {
+    @apply font-size-3 color-neutral-9 dark:color-neutral-1;
+  }
+}

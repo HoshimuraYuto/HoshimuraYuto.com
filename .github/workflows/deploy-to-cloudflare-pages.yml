@@ -17,14 +17,23 @@ jobs:
       - name: Setup
         uses: ./.github/actions/setup
 
+      - name: Clone repository
+        env:
+          SECRET: ${{ secrets.SSH_PRIVATE_KEY }}
+          GIT_SSH_COMMAND: ssh -i ~/github_rsa
+        run: |
+          echo "$SECRET" > ~/github_rsa
+          chmod 600 ~/github_rsa
+          git clone ${{ secrets.CONTENT_GIT_URL }} content
+
       - name: Build
-        run: pnpm build
+        run: pnpm build:prod
 
       - name: Upload build artifacts
         uses: actions/upload-artifact@v3
         with:
           name: build-artifacts
-          path: ./.next
+          path: ./out
           retention-days: 1
 
   test-unit:
@@ -59,7 +68,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
-          path: ./.next
+          path: ./out
 
       - name: E2E test
         run: pnpm test:e2e
@@ -110,13 +119,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: build-artifacts
-          path: ./.next
-
-      - name: Setup
-        uses: ./.github/actions/setup
-
-      - name: Build for cloudflare
-        run: pnpx @cloudflare/next-on-pages@1
+          path: ./out
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
@@ -125,7 +128,7 @@ jobs:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           projectName: ${{ secrets.CLOUDFLARE_PROJECT_NAME }}
-          directory: "./.vercel/output/static"
+          directory: "./out"
           gitHubToken: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Add publish URL as commit status

@@ -1,23 +1,24 @@
-import { databaseQuery } from "../../services/notionClient";
+import { getAllContentsMetadata } from "../../utils/getAllContentsMetadata";
 import BlogPostItem from "../elements/BlogPostItem";
 
-import type { ExtendedPageObjectResponse } from "@/app/types";
+import type { FrontMatter } from "@/app/types";
 
 const BlogPostList = async () => {
   try {
-    const fetchPosts = await databaseQuery();
-    const posts = fetchPosts.results as ExtendedPageObjectResponse[];
+    const posts = await getAllContentsMetadata("content", 1);
 
     return (
       <div className="flex flex-col gap-8">
-        {posts.map((post) => {
+        {Object.keys(posts).map((post) => {
+          const data = posts[post].data as FrontMatter;
+          const date = posts[post].mtime as Date;
           return (
             <BlogPostItem
-              key={post.id}
-              id={post.id}
-              title={post.properties.title?.title[0].plain_text ?? ""}
-              tags={post.properties.tags?.multi_select ?? []}
-              date={post.last_edited_time}
+              key={post}
+              id={post}
+              title={data.title}
+              tags={data.tags ?? []}
+              date={date}
             />
           );
         })}

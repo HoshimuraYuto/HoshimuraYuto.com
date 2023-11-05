@@ -1,69 +1,42 @@
-import { BlockObjectWithChildren, ExtendedProperties } from "@/app/types";
-import { renderContent } from "@/app/utils/renderContent";
+import path from "path";
 
-import { blocksChildrenList, pagesRetrieve } from "../../services/notionClient";
+import { ReactElement } from "react";
+
+import { readFileContent, getFileStats } from "@/app/utils/fs";
+import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
+
 import BlogPostMeta from "../elements/BlogPostMeta";
 
-import type {
-  BlockObjectResponse,
-  PageObjectResponse,
-} from "@notionhq/client/build/src/api-endpoints";
+import type { FrontMatter } from "@/app/types";
 
-const fetchPageWithChildren = async (
-  id: string,
-  cache = new Map<string, Promise<BlockObjectWithChildren[]>>(),
-): Promise<BlockObjectWithChildren[]> => {
-  if (cache.has(id)) return (await cache.get(id)) ?? [];
+const BlogPostPage = async ({ id }: { id: string }): Promise<ReactElement> => {
+  const contentPath = path.join(process.cwd(), "content", `${id}.md`);
 
-  const fetchPagePromise = blocksChildrenList(id).then(async (fetchPage) => {
-    const page = fetchPage.results as BlockObjectResponse[];
-
-    const pageWithChildren = await Promise.all(
-      page.map(async (block) => {
-        if (block.has_children) {
-          const children = await fetchPageWithChildren(block.id, cache);
-          return { ...block, children };
-        } else {
-          return block;
-        }
-      }),
-    );
-
-    return pageWithChildren;
-  });
-
-  cache.set(id, fetchPagePromise);
-  return await fetchPagePromise;
-};
-
-const BlogPostPage = async ({ id }: { id: string }) => {
   try {
-    const [pageWithChildren, pageObject] = await Promise.all([
-      fetchPageWithChildren(id),
-      pagesRetrieve(id).then((res) => res as PageObjectResponse),
-    ]);
+    const fileData = await readFileContent(contentPath);
+    const { result, data } = await transformMarkdownToReactElement(fileData);
+    const reactElement = result as React.ReactElement;
+    const frontMatter = data.frontMatter as FrontMatter;
+    const { title, tags } = frontMatter;
 
-    const pageProperties = pageObject.properties as ExtendedProperties;
-    const title = pageProperties.title?.title[0].plain_text;
-    const tags = pageProperties.tags?.multi_select;
-    const date = pageObject.last_edited_time;
+    const stats = await getFileStats(contentPath);
+    const { mtime } = stats;
 
     return (
       <article className="flex flex-col gap-16">
         <header className="flex flex-col gap-4">
           <h2 className="font-size-8 font-700">{title}</h2>
           <BlogPostMeta
-            date={date}
+            date={mtime}
             tags={tags ?? []}
           />
         </header>
-        <section>
-          {pageWithChildren.map((result) => renderContent(result))}
-        </section>
+        <section>{reactElement}</section>
       </article>
     );
-  } catch (error: unknown) {
-    return <p>Request failed with Notion API</p>;
+  } catch (error) {
+    console.error(error);
+    return <p>Unable to load the blog post.</p>;
   }
 };
 

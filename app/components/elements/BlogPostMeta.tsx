@@ -1,18 +1,8 @@
 import intersperse from "../../utils/intersperse";
 
-const BlogPostMeta = ({
-  tags,
-  date,
-}: {
-  tags: {
-    id: string;
-    name: string;
-    color: string;
-  }[];
-  date: string;
-}) => {
+const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
   const tagsEl = tags.map((tag) => {
-    return <span key={tag.id}>{tag.name}</span>;
+    return <span key={tag}>{tag}</span>;
   });
   const interspersedTagsEl = intersperse(
     tagsEl,
@@ -26,7 +16,7 @@ const BlogPostMeta = ({
       </div>
       <span className="color-neutral-1 dark:color-neutral-7">/</span>
       <span className="color-neutral-4 dark:color-neutral-5">
-        {new Date(date).toLocaleDateString("ja-JP")}
+        {date.toLocaleDateString("ja-JP")}
       </span>
     </div>
   );

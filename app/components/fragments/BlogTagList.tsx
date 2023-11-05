@@ -1,17 +1,31 @@
-import { databaseRetrieve } from "../../services/notionClient";
+import { getAllContentsMetadata } from "@/app/utils/getAllContentsMetadata";
+
 import BlogTagItem from "../elements/BlogTagItem";
 
-import type { TagsProperty } from "@/app/types";
+import type { DirectoryMetadata, FileMetadata, FrontMatter } from "@/app/types";
+
+const extractTags = (obj: DirectoryMetadata | FileMetadata): string[] => {
+  const tags = [] as string[];
+  Object.values(obj).forEach((value) => {
+    if ((value as FrontMatter).tags) {
+      tags.push(...((value as FrontMatter).tags ?? []));
+    } else {
+      tags.push(...extractTags(value as DirectoryMetadata));
+    }
+  });
+  return tags;
+};
 
 const BlogTagList = async () => {
   try {
-    const fetchTags = await databaseRetrieve();
-    const tags = fetchTags.properties.tags as TagsProperty;
+    const posts = await getAllContentsMetadata("content", 1);
+    const allTags = extractTags(posts);
+    const uniqueTags = Array.from(new Set(allTags));
 
     return (
       <div className="flex flex-col gap-4 lt-md:flex-row lt-md:flex-wrap">
-        {tags.multi_select.options.map((tag) => {
-          return <BlogTagItem key={tag.id}>{tag.name}</BlogTagItem>;
+        {uniqueTags.map((tag) => {
+          return <BlogTagItem key={tag}>{tag}</BlogTagItem>;
         })}
       </div>
     );
