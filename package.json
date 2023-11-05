@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build:local": "source .env && rm -rf content && git clone $CONTENT_GIT_URL content && next build",
+    "build:prod": "next build",
     "build:storybook": "unocss 'app/**/*' --out-file=.storybook/public/uno.css && storybook build",
     "start": "next start",
     "lint": "next lint",
