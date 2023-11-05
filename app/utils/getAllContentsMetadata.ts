@@ -5,32 +5,24 @@ import matter from "gray-matter";
 
 import { getFileNameWithoutExtension } from "./regex";
 
-import type { FrontMatter } from "../types";
-
-export interface FileMetadata {
-  birthtime: Date;
-  mtime: Date;
-  data: FrontMatter;
-}
-
-export interface DirectoryMetadata {
-  [name: string]: FileMetadata | DirectoryMetadata;
-}
-
-type MetadataResult = DirectoryMetadata;
+import type { FrontMatter, FileMetadata, DirectoryMetadata } from "../types";
 
 export const getAllContentsMetadata = async (
   dir: string,
   depth: number = Infinity,
-): Promise<MetadataResult> => {
+): Promise<DirectoryMetadata> => {
   const getMetadata = async (
     currentDir: string,
     currentDepth: number,
-  ): Promise<MetadataResult> => {
-    const result: MetadataResult = {};
+  ): Promise<DirectoryMetadata> => {
+    const result: DirectoryMetadata = {};
     const dirFileList = await fs.promises.readdir(currentDir);
 
     for (const name of dirFileList) {
+      if (name === "assets") {
+        continue;
+      }
+
       const slug = getFileNameWithoutExtension(name) ?? name;
       const filename = path.join(currentDir, name);
       const stats = await fs.promises.stat(filename);
