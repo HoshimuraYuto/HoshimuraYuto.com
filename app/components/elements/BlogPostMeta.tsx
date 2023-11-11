@@ -1,6 +1,16 @@
 import intersperse from "../../utils/intersperse";
 
 const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
+  if (tags.length === 0) {
+    return (
+      <div className="flex gap-2">
+        <span className="color-neutral-4 dark:color-neutral-5">
+          {date.toLocaleDateString("ja-JP")}
+        </span>
+      </div>
+    );
+  }
+
   const tagsEl = tags.map((tag) => {
     return <span key={tag}>{tag}</span>;
   });

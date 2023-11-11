@@ -23,6 +23,14 @@ export const getAllContentsMetadata = async (
         continue;
       }
 
+      if (/^\..*/.exec(name)) {
+        continue;
+      }
+
+      if (/^_+.*/.exec(name) && process.env.NODE_ENV === "production") {
+        continue;
+      }
+
       const slug = getFileNameWithoutExtension(name) ?? name;
       const filename = path.join(currentDir, name);
       const stats = await fs.promises.stat(filename);
