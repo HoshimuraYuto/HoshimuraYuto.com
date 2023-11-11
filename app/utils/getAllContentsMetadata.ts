@@ -23,6 +23,10 @@ export const getAllContentsMetadata = async (
         continue;
       }
 
+      if (/^\..*/.exec(name)) {
+        continue;
+      }
+
       if (/^_+.*/.exec(name) && process.env.NODE_ENV === "production") {
         continue;
       }
