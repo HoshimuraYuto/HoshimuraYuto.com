@@ -18,6 +18,10 @@ main {
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 
 article section {
+  & :first-child {
+    margin-top: 0;
+  }
+
   /* pagagraph */
   & p {
     @apply my-8 line-height-8 tracking-[0.05rem];
@@ -29,8 +33,11 @@ article section {
   }
 
   /* list */
+  & > :--list {
+    @apply ml-[30px];
+  }
   & :--list {
-    @apply my-4 list-inside p-0;
+    @apply my-4 p-0;
 
     & :--list {
       @apply pl-6 m-inherit;

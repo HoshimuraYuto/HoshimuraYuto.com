@@ -49,3 +49,7 @@ next-env.d.ts
 # markdown content
 content
 __*.*
+
+# json data
+blog-*.json
+wiki-*.json

@@ -44,6 +44,7 @@ export type BlockObjectWithChildren = BlockObjectResponse & {
 };
 
 export interface FileMetadata {
+  path: string[];
   birthtime: Date;
   mtime: Date;
   data: FrontMatter;
@@ -55,6 +56,7 @@ export interface DirectoryMetadata {
 
 export interface FrontMatter {
   title: string;
+  description?: string;
   tags?: string[];
 }
 
