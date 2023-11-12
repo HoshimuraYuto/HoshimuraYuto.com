@@ -1,11 +1,20 @@
-import { getAllContentsMetadata } from "../../utils/getAllContentsMetadata";
+import fs from "fs";
+
+// import { getAllContentsMetadata } from "../../utils/getAllContentsMetadata";
 import BlogPostItem from "../elements/BlogPostItem";
 
-import type { FrontMatter } from "@/app/types";
+import type { DirectoryMetadata, FrontMatter } from "@/app/types";
 
 const BlogPostList = async () => {
   try {
-    const posts = await getAllContentsMetadata("content", 1);
+    // const posts = (await getAllContentsMetadata(
+    //   "content",
+    //   1,
+    //   "nest",
+    // )) as DirectoryMetadata;
+
+    const jsonData = await fs.promises.readFile("blog-nest.json", "utf-8");
+    const posts = JSON.parse(jsonData) as DirectoryMetadata;
 
     return (
       <div className="flex flex-col gap-8">

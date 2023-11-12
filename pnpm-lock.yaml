@@ -247,6 +247,9 @@ devDependencies:
   ts-pattern:
     specifier: ^5.0.5
     version: 5.0.5
+  tsx:
+    specifier: ^4.1.1
+    version: 4.1.1
   typescript:
     specifier: ^5.2.2
     version: 5.2.2
@@ -16963,6 +16966,18 @@ packages:
     dependencies:
       tslib: 1.14.1
       typescript: 5.2.2
+    dev: true
+
+  /tsx@4.1.1:
+    resolution: {integrity: sha512-zyPn5BFMB0TB5kMLbYPNx4x/oL/oSlaecdKCv6WeJ0TeSEfx8RTJWjuB5TZ2dSewktgfBsBO/HNA9mrMWqLXMA==}
+    engines: {node: '>=18.0.0'}
+    hasBin: true
+    dependencies:
+      esbuild: 0.18.20
+      get-tsconfig: 4.7.2
+      source-map-support: 0.5.21
+    optionalDependencies:
+      fsevents: 2.3.3
     dev: true
 
   /tty-browserify@0.0.1:
