@@ -5,7 +5,7 @@ const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
     return (
       <div className="flex gap-2">
         <span className="color-neutral-4 dark:color-neutral-5">
-          {date.toLocaleDateString("ja-JP")}
+          {new Date(date).toLocaleDateString("ja-JP")}
         </span>
       </div>
     );
