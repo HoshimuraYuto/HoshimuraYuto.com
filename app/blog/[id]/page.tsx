@@ -1,6 +1,34 @@
+import path from "path";
+
+import { readFileContent } from "@/app/utils/fs";
 import { getAllContentsMetadata } from "@/app/utils/getAllContentsMetadata";
+import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
 
 import Main from "./Main";
+
+import type { FrontMatter } from "@/app/types";
+import type { Metadata } from "next";
+
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const contentPath = path.join(process.cwd(), "content", `${params.id}.md`);
+  const fileData = await readFileContent(contentPath);
+  const { data } = await transformMarkdownToReactElement(fileData);
+  const frontMatter = data.frontMatter as FrontMatter;
+  const { title, description } = frontMatter;
+
+  return {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+    },
+  };
+}
 
 const Page = ({ params }: { params: { id: string } }) => {
   return <Main id={params.id} />;
