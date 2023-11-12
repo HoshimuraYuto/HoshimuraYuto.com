@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "pnpm json:blog && next dev",
     "build:local": "rm -rf {.next,out} && source .env && rm -rf content && git clone $CONTENT_GIT_URL content && pnpm json:blog && next build",
-    "build:prod": "pnpm json:blog && next build && next-sitemap",
+    "build:prod": "NODE_ENV=production pnpm json:blog && next build && next-sitemap",
     "build:storybook": "unocss 'app/**/*' --out-file=.storybook/public/uno.css && storybook build",
     "start": "next start",
     "lint": "next lint",
