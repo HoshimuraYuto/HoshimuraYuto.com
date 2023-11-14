@@ -3,8 +3,6 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
-import Search from "@/app/components/elements/Search";
-
 import siteConfig from "../../config/siteConfig";
 import { ThemeChanger } from "../../theme";
 import { Button } from "../elements/Button";
@@ -14,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../elements/Dropdown";
+import Search from "../elements/Search";
 
 const Header = () => {
   const router = useRouter();
