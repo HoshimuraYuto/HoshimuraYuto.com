@@ -43,7 +43,7 @@ const Search = () => {
 
   const handleFocus = async () => {
     if (!isDataLoaded.current) {
-      const BlogFlat = (await import("@/blog-flat.json")).default;
+      const BlogFlat = (await import("../../../blog-flat.json")).default;
       const formattedBlogs: FileMetadata[] = BlogFlat.map((blog) => ({
         ...blog,
         birthtime: new Date(blog.birthtime),
