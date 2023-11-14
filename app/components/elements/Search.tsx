@@ -4,10 +4,9 @@ import Fuse from "fuse.js";
 import Link from "next/link";
 import React, { useEffect, useState, useRef } from "react";
 
-import { Dialog, DialogTrigger } from "@/app/components/elements/Dialog";
-
 import { Button } from "./Button";
 import { CommandDialog } from "./Command";
+import { Dialog, DialogTrigger } from "./Dialog";
 
 import type { FileMetadata } from "../../types";
 
