@@ -12,6 +12,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../elements/Dropdown";
+import Search from "../elements/Search";
 
 const Header = () => {
   const router = useRouter();
@@ -68,7 +69,8 @@ const Header = () => {
             </div>
           </DropdownMenu>
         </div>
-        <div>
+        <div className="flex gap-4">
+          <Search />
           <ThemeChanger />
         </div>
       </div>
