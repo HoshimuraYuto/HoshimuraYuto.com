@@ -19,8 +19,10 @@
   },
   "dependencies": {
     "@notionhq/client": "^2.2.13",
+    "@radix-ui/react-dialog": "^1.0.5",
     "@radix-ui/react-dropdown-menu": "^2.0.6",
     "@radix-ui/react-slot": "^1.0.2",
+    "fuse.js": "^7.0.0",
     "next": "^14.0.2",
     "next-themes": "^0.2.1",
     "prismjs": "^1.29.0",
@@ -44,6 +46,7 @@
     "@storybook/testing-library": "^0.2.2",
     "@testing-library/jest-dom": "^6.1.4",
     "@testing-library/react": "^14.1.0",
+    "@types/fuse": "^2.6.0",
     "@types/jest": "^29.5.8",
     "@types/mdast": "^4.0.3",
     "@types/node": "^20.9.0",

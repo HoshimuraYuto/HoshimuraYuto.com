@@ -3,6 +3,8 @@
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 
+import Search from "@/app/components/elements/Search";
+
 import siteConfig from "../../config/siteConfig";
 import { ThemeChanger } from "../../theme";
 import { Button } from "../elements/Button";
@@ -68,7 +70,8 @@ const Header = () => {
             </div>
           </DropdownMenu>
         </div>
-        <div>
+        <div className="flex gap-4">
+          <Search />
           <ThemeChanger />
         </div>
       </div>
