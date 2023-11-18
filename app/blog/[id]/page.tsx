@@ -1,13 +1,18 @@
 import fs from "fs";
 import path from "path";
 
+import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
 import { readFileContent } from "@/app/utils/fs";
-// import { getAllContentsMetadata } from "@/app/utils/getAllContentsMetadata";
 import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
 
 import Main from "./Main";
 
-import type { DirectoryMetadata, FrontMatter } from "@/app/types";
+import type {
+  File,
+  Directory,
+  FrontMatter,
+  ResultInterface,
+} from "@/app/types";
 import type { Metadata } from "next";
 
 export async function generateMetadata({
@@ -15,7 +20,11 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const contentPath = path.join(process.cwd(), "content", `${params.id}.md`);
+  const contentPath = path.join(
+    process.cwd(),
+    "content/blog",
+    `${params.id}.md`,
+  );
   const fileData = await readFileContent(contentPath);
   const { data } = await transformMarkdownToReactElement(fileData);
   const frontMatter = data.frontMatter as FrontMatter;
@@ -38,11 +47,25 @@ const Page = ({ params }: { params: { id: string } }) => {
 export default Page;
 
 export async function generateStaticParams() {
-  // const pages = await getAllContentsMetadata("content", 1, "nest");
+  const contentData = JSON.parse(
+    await fs.promises.readFile("data.json", "utf-8"),
+  ) as ResultInterface;
 
-  const jsonData = await fs.promises.readFile("blog-nest.json", "utf-8");
-  const pages = JSON.parse(jsonData) as DirectoryMetadata;
+  const blogDirectory = contentData.filter(
+    (item) => item.id === "blog",
+  ) as Directory[];
 
-  const pageIds = Object.keys(pages).map((id) => ({ id }));
-  return pageIds;
+  const posts = (await getChildrenFromDirectories(
+    contentData,
+    blogDirectory,
+    "files",
+    false,
+  )) as File[];
+
+  const targetIds = posts.map((post) => {
+    return {
+      id: post.attributes.pathArray ? post.attributes.pathArray[1] : null,
+    };
+  });
+  return targetIds;
 }

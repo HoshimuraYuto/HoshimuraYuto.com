@@ -1,40 +1,61 @@
 import fs from "fs";
 
-// import { getAllContentsMetadata } from "../../utils/getAllContentsMetadata";
+import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
+
 import BlogPostItem from "../elements/BlogPostItem";
 
-import type { DirectoryMetadata, FrontMatter } from "@/app/types";
+import type {
+  File,
+  Directory,
+  FrontMatter,
+  ResultInterface,
+} from "@/app/types";
 
 const BlogPostList = async () => {
   try {
-    // const posts = (await getAllContentsMetadata(
-    //   "content",
-    //   1,
-    //   "nest",
-    // )) as DirectoryMetadata;
+    const contentData = JSON.parse(
+      await fs.promises.readFile("data.json", "utf-8"),
+    ) as ResultInterface;
 
-    const jsonData = await fs.promises.readFile("blog-nest.json", "utf-8");
-    const posts = JSON.parse(jsonData) as DirectoryMetadata;
+    const blogDirectory = contentData.filter(
+      (item) => item.id === "blog",
+    ) as Directory[];
+
+    const posts = (await getChildrenFromDirectories(
+      contentData,
+      blogDirectory,
+      "files",
+      false,
+    )) as File[];
+
+    const sortedPosts = posts.sort((a, b) => {
+      const dateA = new Date(a.attributes.timestamps.modified).getTime();
+      const dateB = new Date(b.attributes.timestamps.modified).getTime();
+      return dateB - dateA;
+    });
 
     return (
       <div className="flex flex-col gap-8">
-        {Object.keys(posts).map((post) => {
-          const data = posts[post].data as FrontMatter;
-          const date = posts[post].mtime as Date;
+        {sortedPosts.map((post: File) => {
+          console.log(post);
+          const attributes = post.attributes;
+          const data = attributes.data as FrontMatter;
+
           return (
             <BlogPostItem
-              key={post}
-              id={post}
+              key={post.id}
+              id={post.id}
+              pathArray={attributes.pathArray}
               title={data.title}
-              tags={data.tags ?? []}
-              date={date}
+              tags={data?.tags ?? []}
+              date={attributes.timestamps.modified}
             />
           );
         })}
       </div>
     );
   } catch (error: unknown) {
-    return <p>Request failed with Notion API</p>;
+    return <p>{String(error)}</p>;
   }
 };
 

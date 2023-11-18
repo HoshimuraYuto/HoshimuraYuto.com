@@ -1,39 +1,39 @@
 import fs from "fs";
 
-// import { getAllContentsMetadata } from "@/app/utils/getAllContentsMetadata";
+import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
 
 import BlogTagItem from "../elements/BlogTagItem";
 
-import type { DirectoryMetadata, FileMetadata } from "@/app/types";
+import type {
+  File,
+  Directory,
+  FrontMatter,
+  ResultInterface,
+} from "@/app/types";
 
-const extractTags = (obj: DirectoryMetadata | FileMetadata): string[] => {
-  const tags = [] as string[];
-  Object.values(obj).forEach((value: unknown) => {
-    if (
-      "data" in (value as DirectoryMetadata) &&
-      "tags" in (value as DirectoryMetadata).data
-    ) {
-      const fileMetadata = value as FileMetadata;
-      if (fileMetadata.data.tags) {
-        tags.push(...fileMetadata.data.tags);
-      }
-    } else if (typeof value === "object" && value !== null) {
-      tags.push(...extractTags(value as DirectoryMetadata));
-    }
-  });
-  return tags;
+const extractTags = (obj: File[]): string[] => {
+  return obj.reduce((prev, cur) => {
+    const data = cur.attributes.data as FrontMatter;
+    return [...prev, ...(data.tags ?? [])];
+  }, [] as string[]);
 };
 
 const BlogTagList = async () => {
   try {
-    // const posts = (await getAllContentsMetadata(
-    //   "content",
-    //   1,
-    //   "nest",
-    // )) as DirectoryMetadata;
+    const contentData = JSON.parse(
+      await fs.promises.readFile("data.json", "utf-8"),
+    ) as ResultInterface;
 
-    const jsonData = await fs.promises.readFile("blog-nest.json", "utf-8");
-    const posts = JSON.parse(jsonData) as DirectoryMetadata;
+    const blogDirectory = contentData.filter(
+      (item) => item.id === "blog",
+    ) as Directory[];
+
+    const posts = (await getChildrenFromDirectories(
+      contentData,
+      blogDirectory,
+      "files",
+      false,
+    )) as File[];
 
     const allTags = extractTags(posts);
     const uniqueTags = Array.from(new Set(allTags));

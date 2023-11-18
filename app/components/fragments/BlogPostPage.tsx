@@ -10,7 +10,7 @@ import BlogPostMeta from "../elements/BlogPostMeta";
 import type { FrontMatter } from "@/app/types";
 
 const BlogPostPage = async ({ id }: { id: string }): Promise<ReactElement> => {
-  const contentPath = path.join(process.cwd(), "content", `${id}.md`);
+  const contentPath = path.join(process.cwd(), "content/blog", `${id}.md`);
 
   try {
     const fileData = await readFileContent(contentPath);

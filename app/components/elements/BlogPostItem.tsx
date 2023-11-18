@@ -4,11 +4,13 @@ import BlogPostMeta from "./BlogPostMeta";
 
 const BlogPostItem = ({
   id,
+  pathArray,
   title,
   tags,
   date,
 }: {
   id: string;
+  pathArray: string[];
   title: string;
   tags: string[];
   date: Date;
@@ -19,7 +21,7 @@ const BlogPostItem = ({
       key={id}
     >
       <h2 className="font-size-4.5 font-normal line-height-9">
-        <Link href={`/blog/${id}`}>{title}</Link>
+        <Link href={pathArray.join("/")}>{title}</Link>
       </h2>
       <BlogPostMeta
         date={date}
