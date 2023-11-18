@@ -17,6 +17,29 @@ main {
 @custom-selector :--list ul, ol;
 @custom-selector :--heading h1, h2, h3, h4, h5, h6;
 
+.light {
+  & pre[data-theme="dark"],
+  & code[data-theme="dark"] {
+    display: none;
+  }
+
+  & pre {
+    background-color: rgb(246, 248, 250);
+  }
+}
+
+.dark {
+  & pre[data-theme="light"],
+  & code[data-theme="light"] {
+    display: none;
+  }
+
+  & pre {
+    /* background-color: rgb(22, 27, 34); */
+    background-color: rgb(34, 39, 46);
+  }
+}
+
 article section {
   & :first-child {
     margin-top: 0;
@@ -91,12 +114,12 @@ article section {
 
   /* code */
   & pre {
-    @apply my-4 py-4 px-6;
+    @apply relative my-4 rounded-2 px-6 py-4 font-size-3.5;
   }
 
   /* linkCard */
   & .linkCard {
-    @apply my-4 flex flex-col gap-3 border-1 border-neutral-1 border-solid p-4 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:hover:bg-neutral-7;
+    @apply my-4 flex flex-col gap-3 border-1 border-neutral-1 rounded-2 border-solid p-4 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:hover:bg-neutral-7;
   }
   & .linkCard__title {
     @apply color-neutral-9 dark:color-neutral-1;
