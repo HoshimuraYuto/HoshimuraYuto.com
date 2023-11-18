@@ -13,6 +13,7 @@ import remarkRehype from "remark-rehype";
 import { unified, Processor } from "unified";
 import yaml from "yaml";
 
+import CustomCode from "../components/elements/CustomCode";
 import CustomImage from "../components/elements/CustomImage";
 import CustomLink from "../components/elements/CustomLink";
 
@@ -65,7 +66,13 @@ const enhanceHast = (processor: Processor) => {
       .use(rehypeRaw)
       .use(rehypeSlug)
       // @ts-expect-error: ts(2345)
-      .use(rehypePrettyCode, { theme: "one-dark-pro" })
+      .use(rehypePrettyCode, {
+        keepBackground: false,
+        theme: {
+          dark: "github-dark-dimmed",
+          light: "github-light",
+        },
+      })
   );
 };
 
@@ -75,6 +82,7 @@ const convertHastToReact = (processor: Processor) => {
     components: {
       a: CustomLink,
       img: CustomImage,
+      pre: CustomCode,
     },
     createElement: createElement,
   } as RehypeReactOptions);
