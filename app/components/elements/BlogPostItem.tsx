@@ -21,7 +21,12 @@ const BlogPostItem = ({
       key={id}
     >
       <h2 className="font-size-4.5 font-normal line-height-9">
-        <Link href={pathArray.join("/")}>{title}</Link>
+        <Link
+          href={pathArray.join("/")}
+          className="color-neutral-9 decoration-none dark:color-white hover:decoration-underline"
+        >
+          {title}
+        </Link>
       </h2>
       <BlogPostMeta
         date={date}

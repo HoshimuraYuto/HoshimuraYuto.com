@@ -223,6 +223,12 @@ devDependencies:
   rehype-slug:
     specifier: ^6.0.0
     version: 6.0.0
+  rehype-stringify:
+    specifier: ^10.0.0
+    version: 10.0.0
+  rehype-toc:
+    specifier: ^3.0.2
+    version: 3.0.2
   remark-breaks:
     specifier: ^4.0.0
     version: 4.0.0
@@ -3074,6 +3080,11 @@ packages:
     dependencies:
       '@jridgewell/resolve-uri': 3.1.1
       '@jridgewell/sourcemap-codec': 1.4.15
+    dev: true
+
+  /@jsdevtools/rehype-toc@3.0.2:
+    resolution: {integrity: sha512-n5JEf16Wr4mdkRMZ8wMP/wN9/sHmTjRPbouXjJH371mZ2LEGDl72t8tEsMRNFerQN/QJtivOxqK1frdGa4QK5Q==}
+    engines: {node: '>=10'}
     dev: true
 
   /@juggle/resize-observer@3.4.0:
@@ -15619,6 +15630,13 @@ packages:
       '@types/hast': 3.0.3
       hast-util-to-html: 9.0.0
       unified: 11.0.4
+    dev: true
+
+  /rehype-toc@3.0.2:
+    resolution: {integrity: sha512-DMt376+4i1KJGgHJL7Ezd65qKkJ7Eqp6JSB47BJ90ReBrohI9ufrornArM6f4oJjP2E2DVZZHufWucv/9t7GUQ==}
+    engines: {node: '>=10'}
+    dependencies:
+      '@jsdevtools/rehype-toc': 3.0.2
     dev: true
 
   /rehype@13.0.1:

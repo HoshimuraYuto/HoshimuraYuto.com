@@ -100,7 +100,7 @@ const Search = () => {
                 results.map((searchResult, index) => (
                   <Link
                     key={index}
-                    href={[...searchResult.item.pathArray].join("/")}
+                    href={`/${[...searchResult.item.pathArray].join("/")}`}
                     onClick={() => {
                       setQuery("");
                       setOpen(false);

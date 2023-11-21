@@ -4,6 +4,8 @@ import rehypePrettyCode from "rehype-pretty-code";
 import rehypeRaw from "rehype-raw";
 import rehypeReact from "rehype-react";
 import rehypeSlug from "rehype-slug";
+import rehypeStringify from "rehype-stringify";
+import rehypeToc from "rehype-toc";
 import remarkBreaks from "remark-breaks";
 import remarkExtractFrontmatter from "remark-extract-frontmatter";
 import remarkFrontmatter from "remark-frontmatter";
@@ -76,6 +78,10 @@ const enhanceHast = (processor: Processor) => {
   );
 };
 
+const createTocFromHast = (processor: Processor) => {
+  return processor.use(rehypeSlug).use(rehypeToc);
+};
+
 const convertHastToReact = (processor: Processor) => {
   return processor.use(rehypeReact, {
     ...production,
@@ -86,6 +92,10 @@ const convertHastToReact = (processor: Processor) => {
     },
     createElement: createElement,
   } as RehypeReactOptions);
+};
+
+const convertHastToHtml = (processor: Processor) => {
+  return processor.use(rehypeStringify);
 };
 
 const createProcessor = () => {
@@ -99,6 +109,16 @@ const createProcessor = () => {
   return processor;
 };
 
+const createTocProcessor = () => {
+  const processor: Processor = unified();
+  parseMarkdown(processor);
+  extractFrontmatter(processor);
+  convertMdastToHast(processor);
+  createTocFromHast(processor);
+  convertHastToHtml(processor);
+  return processor;
+};
+
 const transformMarkdown = async (processor: Processor, markdown: string) => {
   const result = await processor.process(markdown);
   return result;
@@ -106,6 +126,12 @@ const transformMarkdown = async (processor: Processor, markdown: string) => {
 
 export const transformMarkdownToReactElement = async (markdown: string) => {
   const processor = createProcessor();
+  const result = await transformMarkdown(processor, markdown);
+  return result;
+};
+
+export const transformMarkdownToTocElement = async (markdown: string) => {
+  const processor = createTocProcessor();
   const result = await transformMarkdown(processor, markdown);
   return result;
 };

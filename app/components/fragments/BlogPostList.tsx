@@ -37,7 +37,6 @@ const BlogPostList = async () => {
     return (
       <div className="flex flex-col gap-8">
         {sortedPosts.map((post: File) => {
-          console.log(post);
           const attributes = post.attributes;
           const data = attributes.data as FrontMatter;
 

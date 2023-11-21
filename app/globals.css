@@ -41,7 +41,7 @@ main {
 }
 
 article section {
-  & :first-child {
+  & :first-child:not(:--heading) {
     margin-top: 0;
   }
 
@@ -72,7 +72,7 @@ article section {
 
   /* heading */
   & :--heading {
-    @apply my-16 tracking-[0.05rem];
+    @apply my-16 mt--15 pt-15 tracking-[0.05rem];
   }
   & h1 {
     @apply font-size-8 font-700;
@@ -91,6 +91,11 @@ article section {
   }
   & h6 {
     @apply font-size-4 font-normal;
+  }
+
+  /* link */
+  & a {
+    @apply color-[#0072F5] decoration-none;
   }
 
   /* image */
@@ -135,5 +140,30 @@ article section {
   }
   & .linkCard__url {
     @apply font-size-3 color-neutral-9 dark:color-neutral-1;
+  }
+}
+
+.toc {
+  & > :--list {
+    @apply ml-[0px];
+  }
+
+  & :--list {
+    @apply my-4 p-0;
+
+    & :--list {
+      @apply pl-6 m-inherit;
+    }
+  }
+  & li {
+    @apply my-2 break-words color-neutral-4 dark:color-neutral-5 hover:color-neutral-9 hover:dark:color-white;
+
+    & a {
+      @apply color-neutral-4 decoration-none transition duration-200 dark:color-neutral-5 hover:color-neutral-9 hover:dark:color-white;
+    }
+
+    &::marker {
+      @apply content-[""];
+    }
   }
 }
