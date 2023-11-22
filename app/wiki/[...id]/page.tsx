@@ -65,13 +65,13 @@ export async function generateStaticParams() {
     await fs.promises.readFile("data.json", "utf-8"),
   ) as ResultInterface;
 
-  const blogDirectory = contentData.filter(
+  const wikiDirectory = contentData.filter(
     (item) => item.id === "wiki",
   ) as Directory[];
 
   const posts = (await getChildrenFromDirectories(
     contentData,
-    blogDirectory,
+    wikiDirectory,
     "files",
     true,
   )) as File[];
