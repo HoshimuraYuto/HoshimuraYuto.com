@@ -55,6 +55,12 @@ export interface DirectoryMetadata {
 }
 
 export interface FrontMatter {
+  title: string;
+  description?: string;
+  tags?: string[];
+}
+
+export interface FrontMatterAcceptEmpty {
   title?: string;
   description?: string;
   tags?: string[] | null;
@@ -135,5 +141,5 @@ export interface EntryCallback {
 
 export interface FileSearch {
   pathArray: string[];
-  data: FrontMatter;
+  data: FrontMatterAcceptEmpty;
 }
