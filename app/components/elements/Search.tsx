@@ -8,10 +8,10 @@ import { Button } from "./Button";
 import { CommandDialog } from "./Command";
 import { Dialog, DialogTrigger } from "./Dialog";
 
-import type { FileMetadata } from "../../types";
+import type { FileSearch } from "../../types";
 
 interface SearchResult {
-  item: FileMetadata;
+  item: FileSearch;
   refIndex: number;
 }
 
@@ -19,7 +19,7 @@ const Search = () => {
   const [open, setOpen] = useState(false);
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<SearchResult[]>([]);
-  const fuseRef = useRef<Fuse<FileMetadata> | null>(null);
+  const fuseRef = useRef<Fuse<FileSearch> | null>(null);
   const isDataLoaded = useRef(false);
 
   useEffect(() => {
@@ -43,13 +43,8 @@ const Search = () => {
 
   const handleFocus = async () => {
     if (!isDataLoaded.current) {
-      const BlogFlat = (await import("../../../blog-flat.json")).default;
-      const formattedBlogs: FileMetadata[] = BlogFlat.map((blog) => ({
-        ...blog,
-        birthtime: new Date(blog.birthtime),
-        mtime: new Date(blog.mtime),
-      }));
-      fuseRef.current = new Fuse(formattedBlogs, {
+      const BlogFlat = (await import("../../../search.json")).default;
+      fuseRef.current = new Fuse(BlogFlat, {
         includeScore: true,
         minMatchCharLength: 2,
         keys: [
@@ -105,7 +100,7 @@ const Search = () => {
                 results.map((searchResult, index) => (
                   <Link
                     key={index}
-                    href={["/blog", ...searchResult.item.path].join("/")}
+                    href={`/${[...searchResult.item.pathArray].join("/")}`}
                     onClick={() => {
                       setQuery("");
                       setOpen(false);

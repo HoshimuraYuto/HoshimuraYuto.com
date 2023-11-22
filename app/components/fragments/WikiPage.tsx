@@ -9,8 +9,12 @@ import BlogPostMeta from "../elements/BlogPostMeta";
 
 import type { FrontMatter } from "@/app/types";
 
-const BlogPostPage = async ({ id }: { id: string }): Promise<ReactElement> => {
-  const contentPath = path.join(process.cwd(), "content/blog", `${id}.md`);
+const WikiPage = async ({ id }: { id: string[] }): Promise<ReactElement> => {
+  const contentPath = path.join(
+    process.cwd(),
+    "content/wiki",
+    `/${id.join("/")}.md`,
+  );
 
   try {
     const fileData = await readFileContent(contentPath);
@@ -40,4 +44,4 @@ const BlogPostPage = async ({ id }: { id: string }): Promise<ReactElement> => {
   }
 };
 
-export default BlogPostPage;
+export default WikiPage;

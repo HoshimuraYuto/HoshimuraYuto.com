@@ -12,6 +12,10 @@ const siteConfig = {
       slug: "/blog",
     },
     {
+      title: "wiki",
+      slug: "/wiki/index",
+    },
+    {
       title: "about",
       slug: "/about",
     },

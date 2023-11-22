@@ -32,6 +32,7 @@ export default function RootLayout({
     <html
       lang="ja"
       suppressHydrationWarning
+      className="scroll-smooth"
     >
       <body className="bg-white color-neutral-9 transition duration-100 dark:bg-neutral-9 dark:color-neutral-1">
         <Providers>

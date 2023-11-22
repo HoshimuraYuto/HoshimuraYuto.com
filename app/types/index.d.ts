@@ -60,6 +60,12 @@ export interface FrontMatter {
   tags?: string[];
 }
 
+export interface FrontMatterAcceptEmpty {
+  title?: string;
+  description?: string;
+  tags?: string[] | null;
+}
+
 export interface LinkCard extends Node {
   type: "LinkCard";
   data: {
@@ -71,4 +77,69 @@ export interface LinkCard extends Node {
       urlOrigin: string;
     };
   };
+}
+
+export interface ResultInterface extends Array<Directory | File> {}
+
+export interface EntryReference {
+  type: "directories" | "files";
+  id: string;
+}
+
+interface AdditionalAttributes {
+  [key: string]: unknown;
+}
+
+export interface Directory {
+  type: "directories";
+  id: string;
+  attributes: DirectoryAttributes;
+  relationships: {
+    children: {
+      data: EntryReference[];
+    };
+  };
+}
+
+export interface DirectoryAttributes extends AdditionalDirectoryAttributes {
+  depth: number;
+}
+
+interface AdditionalDirectoryAttributes {
+  name: string;
+  pathArray?: string[];
+}
+
+export interface File {
+  type: "files";
+  id: string;
+  attributes: FileAttributes;
+}
+
+export interface FileAttributes extends AdditionalFileAttributes {
+  depth: number;
+}
+
+interface AdditionalFileAttributes {
+  pathArray: string[];
+  timestamps: {
+    created: Date;
+    modified: Date;
+  };
+  data: Frontmatter;
+}
+
+export interface EntryCallback {
+  (
+    entry: fs.Dirent,
+    entryPath: string,
+    relativePath: string,
+  ):
+    | Promise<DirectoryAttributes | FileAttributes>
+    | (DirectoryAttributes | FileAttributes | object);
+}
+
+export interface FileSearch {
+  pathArray: string[];
+  data: FrontMatterAcceptEmpty;
 }
