@@ -55,9 +55,9 @@ export interface DirectoryMetadata {
 }
 
 export interface FrontMatter {
-  title: string;
+  title?: string;
   description?: string;
-  tags?: string[];
+  tags?: string[] | null;
 }
 
 export interface LinkCard extends Node {
