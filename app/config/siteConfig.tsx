@@ -13,7 +13,7 @@ const siteConfig = {
     },
     {
       title: "wiki",
-      slug: "/wiki",
+      slug: "/wiki/index",
     },
     {
       title: "about",

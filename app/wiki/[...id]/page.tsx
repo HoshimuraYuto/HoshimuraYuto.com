@@ -9,9 +9,9 @@ import AsideRight from "../AsideRight";
 import Main from "../Main";
 
 import type {
+  FrontMatter,
   File,
   Directory,
-  FrontMatter,
   ResultInterface,
 } from "@/app/types";
 import type { Metadata } from "next";
@@ -44,13 +44,13 @@ export async function generateMetadata({
 const Page = ({ params }: { params: { id: string[] } }) => {
   return (
     <>
-      <main className="w-[620px] flex flex-col gap-12 lt-md:w-auto">
+      <main className="w-full flex flex-1 flex-col gap-12 lt-md:w-auto">
         <Main id={params.id} />
       </main>
       <aside
         w="[250px]"
         // border="0 l-1 neutral-1 solid"
-        className="lt-md:w-auto lt-md:border-b-1 lt-md:border-r-0 dark:border-neutral-7"
+        className="lt-xl:hidden lt-md:w-auto lt-md:border-b-1 lt-md:border-r-0 dark:border-neutral-7"
       >
         <AsideRight id={params.id} />
       </aside>

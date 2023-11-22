@@ -17,7 +17,7 @@ const AsideRight = async ({ id }: { id: string[] }) => {
 
     if (tocContent) {
       return (
-        <div className="sticky top-[100px] flex flex-col select-none gap-4">
+        <div className="sticky top-[100px] flex flex-col select-none gap-4 lt-xl:top-[160px]">
           <span className="font-size-4.5">目次</span>
           <div
             className="toc-wrapper"
