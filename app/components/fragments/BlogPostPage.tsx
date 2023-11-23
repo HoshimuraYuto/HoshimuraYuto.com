@@ -25,7 +25,7 @@ const BlogPostPage = async ({ id }: { id: string }): Promise<ReactElement> => {
     return (
       <article className="flex flex-col gap-16">
         <header className="flex flex-col gap-4">
-          <h2 className="font-size-8 font-700">{title}</h2>
+          <h2 className="font-size-8 font-700">{title ?? id}</h2>
           <BlogPostMeta
             date={mtime}
             tags={tags ?? []}
