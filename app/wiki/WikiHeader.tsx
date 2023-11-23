@@ -20,7 +20,7 @@ const WikiHeader = () => {
               size="icon"
               aria-label="search toggle"
             >
-              <div className="i-carbon-menu wh-4" />
+              <div className="min-wh-4 i-carbon-menu" />
             </Button>
           </SheetTrigger>
           <SheetContent

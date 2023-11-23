@@ -39,9 +39,9 @@ const CustomCode = ({
         className="absolute right-[10px] top-[10px]"
       >
         {copied ? (
-          <div className="i-carbon-checkmark color-green wh-4" />
+          <div className="min-wh-4 i-carbon-checkmark color-green" />
         ) : (
-          <div className="i-carbon-copy wh-4" />
+          <div className="min-wh-4 i-carbon-copy" />
         )}
       </Button>
       {children}

@@ -74,7 +74,7 @@ const Search = () => {
           size="icon"
           aria-label="search toggle"
         >
-          <div className="i-carbon-search wh-4" />
+          <div className="min-wh-4 i-carbon-search" />
         </Button>
       </DialogTrigger>
       <CommandDialog className="bg-neutral-1 dark:bg-neutral-7">
