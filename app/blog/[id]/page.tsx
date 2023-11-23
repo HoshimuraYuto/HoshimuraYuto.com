@@ -30,11 +30,13 @@ export async function generateMetadata({
   const frontMatter = data.frontMatter as FrontMatter;
   const { title, description } = frontMatter;
 
+  const assignTitleOrFilename = title ?? params.id;
+
   return {
     title,
     description,
     openGraph: {
-      title,
+      title: assignTitleOrFilename,
       description,
     },
   };
