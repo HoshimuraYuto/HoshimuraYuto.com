@@ -17,7 +17,7 @@ export function ThemeChanger() {
       size="icon"
       aria-label="theme toggle"
     >
-      <div className="i-carbon-moon wh-4 dark:i-carbon-sun" />
+      <div className="min-wh-4 i-carbon-moon dark:i-carbon-sun" />
     </Button>
   );
 }

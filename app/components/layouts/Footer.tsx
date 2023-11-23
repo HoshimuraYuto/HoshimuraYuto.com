@@ -24,7 +24,7 @@ const Footer = () => {
                 aria-label="sns link button"
               >
                 <div
-                  className={`${link.icon} color-neutral-4 wh-4 wh-6 dark:color-neutral-5`}
+                  className={`${link.icon} color-neutral-4 wh-6 dark:color-neutral-5`}
                 />
               </Button>
             </a>

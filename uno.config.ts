@@ -32,5 +32,19 @@ export default defineConfig({
       /^(?:wh|hw)-(.+)$/,
       ([_, num]) => ({ width: `${+num / 4}rem`, height: `${+num / 4}rem` }),
     ],
+    [
+      /^(?:min-wh|min-hw)-(.+)$/,
+      ([_, num]) => ({
+        "min-width": `${+num / 4}rem`,
+        "min-height": `${+num / 4}rem`,
+      }),
+    ],
+    [
+      /^(?:max-wh|max-hw)-(.+)$/,
+      ([_, num]) => ({
+        "max-width": `${+num / 4}rem`,
+        "max-height": `${+num / 4}rem`,
+      }),
+    ],
   ],
 });
