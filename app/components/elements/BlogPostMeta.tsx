@@ -20,7 +20,7 @@ const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
   );
 
   return (
-    <div className="flex gap-2">
+    <div className="flex flex-wrap gap-2">
       <div className="flex gap-1 color-neutral-4 dark:color-neutral-5">
         {interspersedTagsEl}
       </div>

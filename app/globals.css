@@ -23,7 +23,8 @@ main {
     display: none;
   }
 
-  & pre {
+  & pre,
+  & code {
     background-color: rgb(246, 248, 250);
   }
 }
@@ -34,7 +35,8 @@ main {
     display: none;
   }
 
-  & pre {
+  & pre,
+  & code {
     /* background-color: rgb(22, 27, 34); */
     background-color: rgb(34, 39, 46);
   }
@@ -72,7 +74,7 @@ article section {
 
   /* heading */
   & :--heading {
-    @apply my-16 mt--15 pt-15 tracking-[0.05rem];
+    @apply my-16 tracking-[0.05rem];
   }
   & h1 {
     @apply font-size-8 font-700;
@@ -130,11 +132,16 @@ article section {
       Meiryo,
       monospace;
   }
-  [data-rehype-pretty-code-fragment] {
-    @apply relative;
+  div[data-rehype-pretty-code-fragment] {
+    @apply relative grid;
+  }
+  span[data-rehype-pretty-code-fragment] {
+    & > code {
+      @apply mx-1 rounded-1 px-2 py-0.5;
+    }
   }
   & pre {
-    @apply overflow-scroll my-4 rounded-2 px-6 py-4 font-size-3.5;
+    @apply my-4 overflow-scroll rounded-2 px-6 py-4 font-size-3.5;
   }
 
   /* linkCard */

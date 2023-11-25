@@ -74,6 +74,7 @@ const enhanceHast = (processor: Processor) => {
           dark: "github-dark-dimmed",
           light: "github-light",
         },
+        defaultLang: "plaintext",
       })
   );
 };
