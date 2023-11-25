@@ -46,7 +46,7 @@ export async function generateMetadata({
 const Page = ({ params }: { params: { id: string[] } }) => {
   return (
     <>
-      <main className="w-full flex flex-1 flex-col gap-12 lt-md:w-auto">
+      <main className="max-w-[620px] w-full flex flex-1 flex-col gap-12 lt-md:w-auto">
         <Main id={params.id} />
       </main>
       <aside
