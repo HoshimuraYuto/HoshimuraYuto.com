@@ -91,6 +91,9 @@ devDependencies:
   '@types/fuse':
     specifier: ^2.6.0
     version: 2.6.0
+  '@types/he':
+    specifier: ^1.2.3
+    version: 1.2.3
   '@types/jest':
     specifier: ^29.5.8
     version: 29.5.8
@@ -178,6 +181,9 @@ devDependencies:
   hastscript:
     specifier: ^8.0.0
     version: 8.0.0
+  he:
+    specifier: ^1.2.0
+    version: 1.2.0
   image-size:
     specifier: ^1.0.2
     version: 1.0.2
@@ -5808,6 +5814,10 @@ packages:
     resolution: {integrity: sha512-2fYGlaDy/qyLlhidX42wAH0KBi2TCjKMH8CHmBXgRlJ3Y+OXTiqsPQ6IWarZKwF1JoUcAJdPogv1d4b0COTpmQ==}
     dependencies:
       '@types/unist': 3.0.2
+    dev: true
+
+  /@types/he@1.2.3:
+    resolution: {integrity: sha512-q67/qwlxblDzEDvzHhVkwc1gzVWxaNxeyHUBF4xElrvjL11O+Ytze+1fGpBHlr/H9myiBUaUXNnNPmBHxxfAcA==}
     dev: true
 
   /@types/html-minifier-terser@6.1.0:
