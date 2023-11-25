@@ -4,17 +4,17 @@ const match = (target: string) => (regex: RegExp) => {
 };
 
 export const getTitleFromHTML = (html: string) => {
-  return match(html)(/<title.*>(.*?)<\/title>/i);
+  return match(html)(/<title.*>\s*(.*?)\s*<\/title>/);
 };
 
 export const getDescriptionFromHTML = (html: string) => {
   return match(html)(
-    /<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/i,
+    /<meta\s+name=["']description["']\s+content=["'](.*?)["']\s*\/?>/,
   );
 };
 
 export const getBaseDomainFromURL = (url: string) => {
-  return match(url)(/^(?:https?:\/\/)?(?:www\.)?([^/]+)/i);
+  return match(url)(/^(?:https?:\/\/)?(?:www\.)?([^/]+)/);
 };
 
 export const getLastPathFromURL = (url: string) => {
