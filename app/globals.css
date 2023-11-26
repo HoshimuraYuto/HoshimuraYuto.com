@@ -133,7 +133,7 @@ article section {
       monospace;
   }
   div[data-rehype-pretty-code-fragment] {
-    @apply relative grid;
+    @apply relative grid my-4;
   }
   span[data-rehype-pretty-code-fragment] {
     & > code {
@@ -141,7 +141,7 @@ article section {
     }
   }
   & pre {
-    @apply my-4 overflow-scroll rounded-2 px-6 py-4 font-size-3.5;
+    @apply overflow-scroll rounded-2 px-6 py-4 font-size-3.5;
   }
 
   /* linkCard */
