@@ -22,6 +22,7 @@ import CustomLink from "../components/elements/CustomLink";
 import rehypeCustomLinkCardHandler from "./rehype/rehypeCustomLinkCardHandler";
 import remarkImageSize from "./remark/remarkImageSize";
 import remarkLinkCard from "./remark/remarkLinkCard";
+import remarkRemoveMdExtension from "./remark/remarkRemoveMdExtension";
 
 import type { Nodes } from "mdast";
 import type { Handler } from "mdast-util-to-hast";
@@ -48,6 +49,7 @@ const extractFrontmatter = (processor: Processor) => {
 const enhanceMdast = (processor: Processor) => {
   return processor
     .use(remarkImageSize, { dir: "content" })
+    .use(remarkRemoveMdExtension)
     .use(remarkLinkCard)
     .use(remarkGfm)
     .use(remarkBreaks);

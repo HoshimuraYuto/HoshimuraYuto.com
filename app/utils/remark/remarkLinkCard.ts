@@ -2,6 +2,8 @@ import { visit } from "unist-util-visit";
 
 import getSiteInformation from "@/app/services/getSiteInformation";
 
+import { isInternalLink } from "../regex";
+
 import type { LinkCard } from "@/app/types";
 import type { Paragraph, Link } from "mdast";
 import type { Node } from "unist";
@@ -12,7 +14,8 @@ const remarkLinkCardPlugin = () => {
       return (
         node.type === "paragraph" &&
         node.children.length === 1 &&
-        node.children[0].type === "link"
+        node.children[0].type === "link" &&
+        !isInternalLink(node.children[0].url)
       );
     };
 
