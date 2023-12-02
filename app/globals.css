@@ -43,10 +43,6 @@ main {
 }
 
 article section {
-  & :first-child:not(:--heading) {
-    margin-top: 0;
-  }
-
   /* pagagraph */
   & p {
     @apply my-8 line-height-8 tracking-[0.05rem];
