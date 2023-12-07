@@ -3,7 +3,10 @@
 {
   "name": "Node.js & TypeScript",
   // Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-  "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+  // "image": "mcr.microsoft.com/devcontainers/typescript-node:1-20-bullseye",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
 
   // Features to add to the dev container. More info: https://containers.dev/features.
   // "features": {},
@@ -29,8 +32,10 @@
         "github.vscode-github-actions",
         "GitHub.vscode-pull-request-github",
         "mosapride.zenkaku",
+        "ms-azuretools.vscode-docker",
         "MS-CEINTL.vscode-language-pack-ja",
         "ms-playwright.playwright",
+        "ms-python.python",
         "ms-vscode.js-debug-companion",
         "Prisma.prisma",
         "Prisma.prisma-insider",
