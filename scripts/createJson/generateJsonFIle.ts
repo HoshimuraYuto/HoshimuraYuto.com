@@ -2,8 +2,9 @@ import fs from "node:fs";
 
 import matter from "gray-matter";
 
-import { FileAttributes, FrontMatter } from "@/app/types";
+import { File, FileAttributes, FrontMatter } from "@/app/types";
 import { scanDirectoryStructure } from "@/app/utils/dirScanner";
+import executePythonScript from "@/app/utils/executePythonScript";
 
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
@@ -12,7 +13,7 @@ const generateJsonFile = async () => {
     async (_, entryPath, relativePath) => {
       const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
-      const { data } = matter(fileData);
+      const { data, content } = matter(fileData);
       // const { data, content } = matter(fileData);
 
       const trimExtensionRegex = /^(.+?)(\.[^.]*$|$)/;
@@ -28,7 +29,10 @@ const generateJsonFile = async () => {
           modified: stats.mtime,
         },
         data,
-        // content,
+        content:
+          content
+            .match(/[\w\u3040-\u30FF\u3400-\u4DBF\u4E00-\u9FFF]/g)
+            ?.join("") ?? "",
       };
     },
     (entry, _, relativePath) => {
@@ -37,12 +41,51 @@ const generateJsonFile = async () => {
 
       return {
         name: entry.name as string,
-        pathArray: pathMatch?.[1].split("/"),
+        pathArray: pathMatch?.[0].split("/"),
       };
     },
   );
 
-  fs.writeFileSync(`data.json`, JSON.stringify(allContents, null, ""));
+  const createInputDataForPythonScript = allContents
+    .filter(
+      (item): item is File =>
+        item.type === "files" && item.attributes.pathArray[0] === "wiki",
+    )
+    .map((item) => {
+      return {
+        id: item.id,
+        content: item.attributes.content ?? "",
+      };
+    });
+
+  const pythonScriptOutput = await executePythonScript(
+    createInputDataForPythonScript,
+  );
+  const parsedResults = (await JSON.parse(pythonScriptOutput)) as {
+    id: string;
+    relatedPosts: string[];
+  }[];
+
+  fs.writeFileSync(
+    `data.json`,
+    JSON.stringify(
+      allContents.map((item) => {
+        const { content, ...attributesWithoutContent } = item.attributes;
+
+        return {
+          ...item,
+          attributes: {
+            ...attributesWithoutContent,
+            relatedPosts: parsedResults
+              .filter((res) => item.id === res.id)
+              .map((i) => i.relatedPosts)?.[0],
+          },
+        };
+      }),
+      null,
+      "",
+    ),
+  );
   fs.writeFileSync(
     `search.json`,
     JSON.stringify(

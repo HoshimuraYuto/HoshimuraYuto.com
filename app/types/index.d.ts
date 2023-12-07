@@ -127,6 +127,8 @@ interface AdditionalFileAttributes {
     modified: Date;
   };
   data: Frontmatter;
+  content?: string;
+  relatedPosts?: string[];
 }
 
 export interface EntryCallback {
