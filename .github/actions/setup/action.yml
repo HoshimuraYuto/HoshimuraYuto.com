@@ -33,5 +33,5 @@ runs:
         cache: "pip"
 
     - name: Install python dependencies
-      run: pip install mecab-python3 scikit-learn unidic-lite
+      run: pip install -r requirements.txt
       shell: bash
