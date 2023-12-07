@@ -34,3 +34,4 @@ runs:
 
     - name: Install python dependencies
       run: pip install mecab-python3 scikit-learn unidic-lite
+      shell: bash
