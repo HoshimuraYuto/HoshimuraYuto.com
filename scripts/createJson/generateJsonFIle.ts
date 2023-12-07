@@ -70,7 +70,8 @@ const generateJsonFile = async () => {
     `data.json`,
     JSON.stringify(
       allContents.map((item) => {
-        const { content, ...attributesWithoutContent } = item.attributes;
+        const { content, ...attributesWithoutContent } = (item as File)
+          .attributes;
 
         return {
           ...item,
