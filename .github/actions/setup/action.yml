@@ -26,11 +26,11 @@ runs:
       run: pnpm install
       shell: bash
 
-     - name: Python setup
-        uses: actions/setup-python@v4
-        with:
-          python-version: "3.9.2"
-          cache: "pip"
+    - name: Python setup
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.9.2"
+        cache: "pip"
 
-      - name: Install python dependencies
-        run: pip install mecab-python3 scikit-learn unidic-lite
+    - name: Install python dependencies
+      run: pip install mecab-python3 scikit-learn unidic-lite
