@@ -11,7 +11,7 @@ const CustomLink = ({
   href: string;
 }): JSX.Element =>
   isInternalLink(href) || href === "" ? (
-    <Link href={href}>{children}</Link>
+    <Link href={`/${href}`}>{children}</Link>
   ) : (
     <a
       href={href}
