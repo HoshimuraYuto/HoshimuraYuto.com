@@ -147,7 +147,9 @@ const Comments = ({ id }: { id: string }) => {
       <h3>コメントを投稿する</h3>
       <form
         className="flex flex-col gap-8"
-        onSubmit={handleSubmit(onSubmit)}
+        onSubmit={(event) => {
+          void handleSubmit(onSubmit)(event);
+        }}
       >
         <div className="flex flex-col gap-4">
           <label
