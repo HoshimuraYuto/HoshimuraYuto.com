@@ -9,7 +9,7 @@ import executePythonScript from "@/app/utils/executePythonScript";
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
     "content",
-    /^(?!.*\/_+[^/]+$)(?!.*assets).*$/,
+    /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!.*DS_Store).*$/,
     async (_, entryPath, relativePath) => {
       const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
