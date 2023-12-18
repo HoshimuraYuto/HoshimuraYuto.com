@@ -90,6 +90,8 @@ const Comments = ({ id }: { id: string }) => {
               ? `http://localhost:50431/comments?post=${id}`
               : `https://api.hoshimurayuto.com/comments?post=${id}`,
           );
+          // ! : This line causes errors only in GitHub Actions
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           const json: CommentsList = await res.json();
           setComments(json);
         } catch (e) {
