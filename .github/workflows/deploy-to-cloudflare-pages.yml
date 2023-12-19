@@ -136,7 +136,7 @@ jobs:
           NODE_ENV: production
 
       - name: Publish to Cloudflare Workers
-        run: npx wrangler deploy --minify worker/src/index.ts --compatibility-date 2023-12-06
+        run: npx wrangler deploy --minify worker/src/index.ts --name worker --compatibility-date 2023-12-06
         shell: bash
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
