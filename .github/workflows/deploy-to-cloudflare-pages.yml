@@ -130,8 +130,8 @@ jobs:
 
       - name: Publish to Cloudflare Workers
         run: |
-          pnpm i wrangler@3.13.2 \
-            pnpx wrangler deploy --minify worker/src/index.ts
+          /usr/local/bin/npm i wrangler@3.13.2 \
+            /usr/local/bin/npx wrangler deploy --minify worker/src/index.ts
         shell: bash
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
