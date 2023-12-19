@@ -128,10 +128,15 @@ jobs:
       #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       #     workingDirectory: "worker"
 
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20.3.0
+        env:
+          NODE_ENV: production
+
       - name: Publish to Cloudflare Workers
-        run: |
-          /usr/local/bin/npm i wrangler@3.13.2 \
-            /usr/local/bin/npx wrangler deploy --minify worker/src/index.ts
+        run: npx wrangler deploy --minify worker/src/index.ts
         shell: bash
         env:
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
