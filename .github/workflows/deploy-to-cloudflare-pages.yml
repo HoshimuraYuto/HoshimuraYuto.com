@@ -135,6 +135,10 @@ jobs:
         env:
           NODE_ENV: production
 
+      - name: Install dependencies
+        run: pnpm install
+        shell: bash
+
       - name: Publish to Cloudflare Workers
         run: npx wrangler deploy --minify worker/src/index.ts --name worker --compatibility-date 2023-12-06
         shell: bash
