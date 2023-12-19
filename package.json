@@ -15,7 +15,12 @@
     "test:e2e": "playwright test",
     "test:e2e:gui": "playwright test --ui",
     "test:storybook": "test-storybook",
-    "json:create": "tsx scripts/createJson/index.ts"
+    "json:create": "tsx scripts/createJson/index.ts",
+    "migration:generate": "drizzle-kit generate:sqlite --out migrations --schema worker/src/schema.ts",
+    "migration:local": "wrangler d1 migrations apply hoshimurayuto --local",
+    "migration:prod": "wrangler d1 migrations apply hoshimurayuto",
+    "worker:dev": "lsof -ti :50431 | xargs kill -9 && wrangler dev worker/src/index.ts --port 50431",
+    "worker:deploy": "wrangler deploy --minify worker/src/index.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.3.2",
@@ -26,6 +31,7 @@
     "@radix-ui/react-slot": "^1.0.2",
     "boring-avatars": "^1.10.1",
     "fuse.js": "^7.0.0",
+    "hono": "^3.11.8",
     "moment": "^2.29.4",
     "next": "^14.0.4",
     "next-themes": "^0.2.1",
@@ -37,6 +43,7 @@
   },
   "devDependencies": {
     "@cloudflare/next-on-pages": "^1.8.2",
+    "@cloudflare/workers-types": "^4.20231121.0",
     "@iconify-json/carbon": "^1.1.26",
     "@iconify-json/ri": "^1.1.17",
     "@playwright/test": "^1.40.1",
@@ -70,8 +77,11 @@
     "@unocss/preset-mini": "^0.58.0",
     "autoprefixer": "^10.4.16",
     "axe-playwright": "^1.2.3",
+    "better-sqlite3": "^9.2.2",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.0.0",
+    "drizzle-kit": "^0.20.7",
+    "drizzle-orm": "^0.29.1",
     "encoding": "^0.1.13",
     "eslint": "^8.56.0",
     "eslint-config-next": "^14.0.4",
@@ -118,6 +128,7 @@
     "unist-util-visit": "^5.0.0",
     "unocss": "^0.58.0",
     "url-loader": "^4.1.1",
+    "wrangler": "^3.21.0",
     "yaml": "^2.3.4"
   }
 }
