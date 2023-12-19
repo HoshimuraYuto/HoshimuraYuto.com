@@ -126,7 +126,7 @@ jobs:
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          workingDirectory: "./worker"
+          workingDirectory: "worker"
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
