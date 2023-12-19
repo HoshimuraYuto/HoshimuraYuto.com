@@ -136,7 +136,7 @@ jobs:
           NODE_ENV: production
 
       - name: Install dependencies
-        run: pnpm install
+        run: npm install
         shell: bash
 
       - name: Publish to Cloudflare Workers
