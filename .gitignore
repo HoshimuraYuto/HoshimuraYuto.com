@@ -53,3 +53,8 @@ __*.*
 # json data
 data.json
 search.json
+
+# wrangler
+.wrangler
+.dev.vars
+wrangler.toml

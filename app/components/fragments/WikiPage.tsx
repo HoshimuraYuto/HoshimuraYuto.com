@@ -5,6 +5,7 @@ import { ReactElement } from "react";
 
 import { readFileContent, getFileStats } from "@/app/utils/fs";
 import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
+import Comments from "@/app/wiki/[...id]/comment";
 
 import BlogPostMeta from "../elements/BlogPostMeta";
 
@@ -28,7 +29,7 @@ const WikiPage = async ({
     const { result, data } = await transformMarkdownToReactElement(fileData);
     const reactElement = result as React.ReactElement;
     const frontMatter = data.frontMatter as FrontMatter;
-    const { title, tags } = frontMatter;
+    const { id: wikiId, title, tags } = frontMatter;
 
     const stats = await getFileStats(contentPath);
     const { mtime } = stats;
@@ -52,13 +53,14 @@ const WikiPage = async ({
               <Link
                 key={wiki.path}
                 href={wiki.path}
-                className="border-1 border-neutral-1 rounded-2 border-solid p-4 line-height-8 color-neutral-9 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:color-white dark:hover:bg-neutral-7"
+                className="border-1 border-neutral-1 rounded-2 border-solid p-4 color-neutral-9 line-height-8 decoration-none transition duration-100 dark:border-neutral-7 hover:bg-neutral-1 dark:color-white dark:hover:bg-neutral-7"
               >
                 {wiki.title}
               </Link>
             ))}
           </div>
         </section>
+        <Comments id={wikiId} />
       </article>
     );
   } catch (error) {
