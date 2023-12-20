@@ -14,21 +14,28 @@ const generateJsonFile = async () => {
       const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
       const { data, content } = matter(fileData);
+      const frontMatter = data as FrontMatter;
       // const { data, content } = matter(fileData);
 
       const trimExtensionRegex = /^(.+?)(\.[^.]*$|$)/;
       // const fileMatch = trimExtensionRegex.exec(entry.name);
       const pathMatch = trimExtensionRegex.exec(relativePath);
+      const pathArray = pathMatch?.[1].split("/");
 
       return {
         // name: fileMatch?.[1] ?? "",
         // extension: fileMatch?.[2] ?? "",
-        pathArray: pathMatch?.[1].split("/"),
+        pathArray: pathArray,
         timestamps: {
           created: stats.birthtime,
           modified: stats.mtime,
         },
-        data,
+        data: {
+          id: frontMatter.id,
+          title: frontMatter.title ?? pathArray?.[-1],
+          description: frontMatter.description ?? "",
+          tags: frontMatter.tags ?? [],
+        },
         content:
           content
             .match(/[\w\u3040-\u30FF\u3400-\u4DBF\u4E00-\u9FFF]/g)
