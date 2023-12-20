@@ -59,6 +59,7 @@
     "@storybook/testing-library": "^0.2.2",
     "@testing-library/jest-dom": "^6.1.5",
     "@testing-library/react": "^14.1.2",
+    "@types/fuse": "^2.6.0",
     "@types/he": "^1.2.3",
     "@types/jest": "^29.5.11",
     "@types/mdast": "^4.0.3",
