@@ -5,6 +5,8 @@ on:
     branches: [main, master, "feature/*"]
   pull_request:
     branches: [main, master, "phase/*", "feature/*"]
+  schedule:
+    - cron: "0 19 * * *"
 
 jobs:
   build:
@@ -128,23 +130,23 @@ jobs:
       #     accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
       #     workingDirectory: "worker"
 
-      - name: Install Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: 20.3.0
-        env:
-          NODE_ENV: production
+      # - name: Install Node.js
+      #   uses: actions/setup-node@v3
+      #   with:
+      #     node-version: 20.3.0
+      #   env:
+      #     NODE_ENV: production
 
-      - name: Install dependencies
-        run: npm install
-        shell: bash
+      # - name: Install dependencies
+      #   run: npm install
+      #   shell: bash
 
-      - name: Publish to Cloudflare Workers
-        run: npx wrangler deploy --minify worker/src/index.ts --name worker --compatibility-date 2023-12-06
-        shell: bash
-        env:
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      # - name: Publish to Cloudflare Workers
+      #   run: npx wrangler deploy --minify worker/src/index.ts --name worker --compatibility-date 2023-12-06
+      #   shell: bash
+      #   env:
+      #     CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      #     CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
 
       - name: Publish to Cloudflare Pages
         id: cloudflare_pages_deploy
