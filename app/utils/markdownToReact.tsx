@@ -65,17 +65,20 @@ const convertMdastToHast = (processor: Processor) => {
 };
 
 const enhanceHast = (processor: Processor) => {
-  return processor
-    .use(rehypeRaw)
-    .use(rehypeSlug)
-    .use(rehypePrettyCode, {
-      keepBackground: false,
-      theme: {
-        dark: "github-dark-dimmed",
-        light: "github-light",
-      },
-      defaultLang: "plaintext",
-    });
+  return (
+    processor
+      .use(rehypeRaw)
+      .use(rehypeSlug)
+      // @ts-expect-error: ts(2345)
+      .use(rehypePrettyCode, {
+        keepBackground: false,
+        theme: {
+          dark: "github-dark-dimmed",
+          light: "github-light",
+        },
+        defaultLang: "plaintext",
+      })
+  );
 };
 
 const createTocFromHast = (processor: Processor) => {
