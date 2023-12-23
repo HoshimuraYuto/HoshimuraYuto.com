@@ -5,7 +5,7 @@ import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
 import { readFileContent } from "@/app/utils/fs";
 import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
 
-import AsideRight from "../AsideRight";
+import AsideRightWrapper from "../AsideRightWrapper";
 import Main from "../Main";
 
 import type {
@@ -88,7 +88,7 @@ const Page = async ({
         // border="0 l-1 neutral-1 solid"
         className="lt-xl:hidden lt-md:w-auto lt-md:border-b-1 lt-md:border-r-0 dark:border-neutral-7"
       >
-        <AsideRight id={params.id} />
+        <AsideRightWrapper id={params.id} />
       </aside>
     </>
   );

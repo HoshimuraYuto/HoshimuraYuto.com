@@ -42,6 +42,71 @@ main {
   }
 }
 
+/* ref: https://javascript.plainenglish.io/how-to-create-horizontal-vertical-scroll-shadows-26aa7a7f00a0 */
+.light {
+  & .scroll-shadows {
+    background-image: linear-gradient(to top, white, white),
+      linear-gradient(to top, white, white),
+      linear-gradient(to top, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0)),
+      linear-gradient(to bottom, rgba(0, 0, 0, 0.25), rgba(255, 255, 255, 0));
+    background-position:
+      bottom center,
+      top center,
+      bottom center,
+      top center;
+    background-repeat: no-repeat;
+    background-size:
+      100% 20px,
+      100% 20px,
+      100% 10px,
+      100% 10px;
+    background-attachment: local, local, scroll, scroll;
+  }
+}
+
+.dark {
+  & .scroll-shadows {
+    background-image: linear-gradient(
+        to top,
+        rgba(23, 23, 23, 23),
+        rgba(23, 23, 23, 23)
+      ),
+      linear-gradient(to top, rgba(23, 23, 23, 23), rgba(23, 23, 23, 23)),
+      linear-gradient(to top, rgba(255, 255, 255, 0.25), rgba(23, 23, 23, 23)),
+      linear-gradient(
+        to bottom,
+        rgba(255, 255, 255, 0.25),
+        rgba(23, 23, 23, 23)
+      );
+    background-position:
+      bottom center,
+      top center,
+      bottom center,
+      top center;
+    background-repeat: no-repeat;
+    background-size:
+      100% 20px,
+      100% 20px,
+      100% 10px,
+      100% 10px;
+    background-attachment: local, local, scroll, scroll;
+  }
+}
+
+/* ref: https://css-tricks.com/books/greatest-css-tricks/scroll-shadows/ */
+.scroll-shadows {
+  overflow: scroll;
+  overflow-scrolling: touch;
+
+  background-repeat: no-repeat;
+  background-size:
+    100% 40px,
+    100% 40px,
+    100% 14px,
+    100% 14px;
+  background-attachment: local, local, scroll, scroll;
+}
+
 article section {
   /* pagagraph */
   & p {
