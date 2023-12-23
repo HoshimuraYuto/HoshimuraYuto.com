@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/d1";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
+import xss from "xss";
 
 import { comments } from "./schema";
 
@@ -56,8 +57,8 @@ app.post("/comments", async (c) => {
 
     await db.insert(comments).values({
       post_id: postId,
-      author_name: commentData.author_name,
-      content: commentData.content,
+      author_name: xss(commentData.author_name),
+      content: xss(commentData.content),
     });
 
     return c.text("Comment posted successfully");
