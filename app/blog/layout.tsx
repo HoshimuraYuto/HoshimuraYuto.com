@@ -1,5 +1,17 @@
 import Aside from "./Aside";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description: "Blog page.",
+  openGraph: {
+    url: "https://hoshimurayuto.com/blog",
+  },
+  alternates: {
+    canonical: "/blog",
+  },
+};
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <div className="p-10 lt-sm:p-6">

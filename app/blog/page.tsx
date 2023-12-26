@@ -8,6 +8,11 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Blog",
     description: "Blog page",
+    url: `https://hoshimurayuto.com/blog`,
+    siteName: "Hi 👋, I'm Hoshimura Yuto.",
+    images: "/favicon.png",
+    locale: "ja_JP",
+    type: "website",
   },
 };
 

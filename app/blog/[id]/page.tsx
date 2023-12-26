@@ -38,6 +38,14 @@ export async function generateMetadata({
     openGraph: {
       title: assignTitleOrFilename,
       description,
+      url: `https://hoshimurayuto.com/blog/${params.id}`,
+      siteName: "Hi 👋, I'm Hoshimura Yuto.",
+      images: "/favicon.png",
+      locale: "ja_JP",
+      type: "article",
+    },
+    alternates: {
+      canonical: `/blog/${params.id}`,
     },
   };
 }

@@ -5,20 +5,37 @@ import Footer from "./components/layouts/Footer";
 import Header from "./components/layouts/Header";
 import { Providers } from "./providers";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
-  title: "Hi 👋, I'm Hoshimura Yuto.",
+  title: {
+    template: "%s | Hoshimura Yuto",
+    default: "Hi 👋, I'm Hoshimura Yuto.",
+  },
   description: "Personal website.",
+  metadataBase: new URL("https://hoshimurayuto.com"),
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+    other: {
+      rel: "apple-touch-icon-precomposed",
+      url: "/favicon.png",
+    },
+  },
   manifest: "/manifest.json",
+  twitter: {
+    card: "summary_large_image",
+  },
+  alternates: {
+    canonical: "/",
+  },
+};
+
+export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
     { media: "(prefers-color-scheme: dark)", color: "#171717" },
   ],
-  icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
-  },
 };
 
 // export const runtime = "edge";

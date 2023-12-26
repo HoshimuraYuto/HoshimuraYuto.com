@@ -1,6 +1,18 @@
 import AsideLeftWrapper from "./AsideLeftWrapper";
 import WikiHeader from "./WikiHeader";
 
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description: "Wiki page.",
+  openGraph: {
+    url: "https://hoshimurayuto.com/wiki",
+  },
+  alternates: {
+    canonical: "/wiki",
+  },
+};
+
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <>
