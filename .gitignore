@@ -58,3 +58,6 @@ search.json
 .wrangler
 .dev.vars
 wrangler.toml
+
+# rss
+rss.xml

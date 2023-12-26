@@ -1,22 +1,11 @@
 import fs from "fs";
 
 import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
+import { extractTags } from "@/app/utils/extractTags";
 
 import BlogTagItem from "../elements/BlogTagItem";
 
-import type {
-  File,
-  Directory,
-  FrontMatter,
-  ResultInterface,
-} from "@/app/types";
-
-const extractTags = (obj: File[]): string[] => {
-  return obj.reduce((prev, cur) => {
-    const data = cur.attributes.data as FrontMatter;
-    return [...prev, ...(data.tags ?? [])];
-  }, [] as string[]);
-};
+import type { File, Directory, ResultInterface } from "@/app/types";
 
 const BlogTagList = async () => {
   try {

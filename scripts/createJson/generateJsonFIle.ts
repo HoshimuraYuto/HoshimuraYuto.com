@@ -1,10 +1,12 @@
 import fs from "node:fs";
 
 import matter from "gray-matter";
+import RSS from "rss";
 
 import { File, FileAttributes, FrontMatter } from "@/app/types";
 import { scanDirectoryStructure } from "@/app/utils/dirScanner";
 import executePythonScript from "@/app/utils/executePythonScript";
+import { extractTags } from "@/app/utils/extractTags";
 
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
@@ -112,6 +114,57 @@ const generateJsonFile = async () => {
       "",
     ),
   );
+
+  const allTags = extractTags(
+    allContents.filter((item): item is File => item.type === "files"),
+  );
+  const uniqueTags = Array.from(new Set(allTags));
+
+  const feed = new RSS({
+    title: "Hi 👋, I'm Hoshimura Yuto.",
+    description: "Personal website.",
+    feed_url: "https://hoshimurayuto.com/rss.xml",
+    site_url: "https://hoshimurayuto.com",
+    image_url: "https://hoshimurayuto.com/favicon.png",
+    managingEditor: "Hoshimura Yuto",
+    webMaster: "Hoshimura Yuto",
+    copyright: "MIT 2023 © hoshimurayuto.com",
+    language: "ja",
+    categories: uniqueTags,
+    pubDate: new Date(
+      Date.now() + (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000,
+    ),
+  });
+
+  allContents
+    .filter((item) => item.type === "files")
+    .sort(
+      (a, b) =>
+        new Date(
+          (b.attributes as FileAttributes).timestamps.modified,
+        ).getTime() -
+        new Date(
+          (a.attributes as FileAttributes).timestamps.modified,
+        ).getTime(),
+    )
+    .slice(0, 10)
+    .forEach((item) => {
+      const attributes = item.attributes as FileAttributes;
+      const data = attributes.data as FrontMatter;
+
+      feed.item({
+        title: data.title,
+        description: data.description ?? "",
+        url:
+          `https://hoshimurayuto.com/${attributes.pathArray?.join("/")}` ?? "",
+        date: new Date(
+          attributes.timestamps.modified.getTime() +
+            (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000,
+        ),
+      });
+    });
+
+  fs.writeFileSync(`public/rss.xml`, feed.xml());
 };
 
 export default generateJsonFile;

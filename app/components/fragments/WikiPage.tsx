@@ -37,7 +37,7 @@ const WikiPage = async ({
     return (
       <article className="flex flex-col gap-16">
         <header className="flex flex-col gap-4">
-          <h2 className="font-size-8 font-700">{title ?? id.slice(-2)[0]}</h2>
+          <h2 className="font-size-8 font-700">{title}</h2>
           <BlogPostMeta
             date={mtime}
             tags={tags ?? []}

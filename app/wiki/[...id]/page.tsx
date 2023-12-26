@@ -31,13 +31,11 @@ export async function generateMetadata({
   const frontMatter = data.frontMatter as FrontMatter;
   const { title, description } = frontMatter;
 
-  const assignTitleOrFilename = title ?? params.id[-1];
-
   return {
     title,
     description,
     openGraph: {
-      title: assignTitleOrFilename,
+      title,
       description,
       url: `https://hoshimurayuto.com/wiki/${params.id.join("/")}`,
       siteName: "Hi 👋, I'm Hoshimura Yuto.",
@@ -77,7 +75,7 @@ const Page = async ({
           const data = attributes.data as FrontMatter;
 
           return {
-            title: data.title ?? attributes.pathArray.slice(-2)[0],
+            title: data.title,
             path: `/${[...attributes.pathArray].join("/")}`,
           };
         })[0],

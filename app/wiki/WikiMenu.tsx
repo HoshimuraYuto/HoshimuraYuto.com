@@ -44,7 +44,7 @@ const WikiMenu = async () => {
           href={path}
           className="block w-[100%] color-neutral-9 decoration-none dark:color-white"
         >
-          {data.title ?? attributes.pathArray.slice(-2)[0]}
+          {data.title}
         </Link>
       );
     };
@@ -93,7 +93,7 @@ const WikiMenu = async () => {
               href={`/${attributes.pathArray.join("/")}`}
               className="block w-[100%] color-neutral-9 decoration-none dark:color-white"
             >
-              {data.title ?? attributes.pathArray.slice(-1)[0]}
+              {data.title}
             </Link>
           );
         }

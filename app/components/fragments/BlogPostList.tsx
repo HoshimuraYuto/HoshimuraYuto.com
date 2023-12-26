@@ -45,7 +45,7 @@ const BlogPostList = async () => {
               key={post.id}
               id={post.id}
               pathArray={attributes.pathArray}
-              title={data.title ?? attributes.pathArray.slice(-1)[0]}
+              title={data.title}
               tags={data?.tags ?? []}
               date={attributes.timestamps.modified}
             />
