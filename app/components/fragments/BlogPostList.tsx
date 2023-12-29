@@ -29,9 +29,10 @@ const BlogPostList = async () => {
     )) as File[];
 
     const sortedPosts = posts.sort((a, b) => {
-      const dateA = new Date(a.attributes.timestamps.modified).getTime();
-      const dateB = new Date(b.attributes.timestamps.modified).getTime();
-      return dateB - dateA;
+      return (
+        new Date((b.attributes.data as FrontMatter).created_at).getTime() -
+        new Date((a.attributes.data as FrontMatter).created_at).getTime()
+      );
     });
 
     return (
@@ -45,9 +46,9 @@ const BlogPostList = async () => {
               key={post.id}
               id={post.id}
               pathArray={attributes.pathArray}
-              title={data.title ?? attributes.pathArray.slice(-1)[0]}
+              title={data.title}
               tags={data?.tags ?? []}
-              date={attributes.timestamps.modified}
+              date={data.updated_at ?? data.created_at}
             />
           );
         })}

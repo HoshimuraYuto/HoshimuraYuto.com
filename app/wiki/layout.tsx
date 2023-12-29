@@ -1,5 +1,17 @@
-import AsideLeft from "./AsideLeft";
+import AsideLeftWrapper from "./AsideLeftWrapper";
 import WikiHeader from "./WikiHeader";
+
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  description: "Wiki page.",
+  openGraph: {
+    url: "https://hoshimurayuto.com/wiki",
+  },
+  alternates: {
+    canonical: "/wiki",
+  },
+};
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -12,7 +24,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
             // border="0 r-1 neutral-1 solid"
             className="lt-md:w-auto lt-md:border-b-1 lt-md:border-r-0 dark:border-neutral-7"
           >
-            <AsideLeft />
+            <AsideLeftWrapper />
           </aside>
           {children}
         </div>

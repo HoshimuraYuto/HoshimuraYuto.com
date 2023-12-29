@@ -70,6 +70,13 @@ const Header = () => {
           </DropdownMenu>
         </div>
         <div className="flex gap-4">
+          <Button
+            onClick={() => window.open("/rss.xml", "_black")}
+            size="icon"
+            aria-label="theme toggle"
+          >
+            <div className="i-carbon-rss min-wh-4" />
+          </Button>
           <Search />
           <ThemeChanger />
         </div>

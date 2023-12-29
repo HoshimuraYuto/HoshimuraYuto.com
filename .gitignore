@@ -58,3 +58,9 @@ search.json
 .wrangler
 .dev.vars
 wrangler.toml
+
+# rss
+rss.xml
+
+# ogp
+public/ogp/**

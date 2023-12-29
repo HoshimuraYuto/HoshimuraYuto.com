@@ -5,7 +5,7 @@ import { getChildrenFromDirectories } from "@/app/utils/dirScanner";
 import { readFileContent } from "@/app/utils/fs";
 import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
 
-import AsideRight from "../AsideRight";
+import AsideRightWrapper from "../AsideRightWrapper";
 import Main from "../Main";
 
 import type {
@@ -29,16 +29,22 @@ export async function generateMetadata({
   const fileData = await readFileContent(contentPath);
   const { data } = await transformMarkdownToReactElement(fileData);
   const frontMatter = data.frontMatter as FrontMatter;
-  const { title, description } = frontMatter;
-
-  const assignTitleOrFilename = title ?? params.id[-1];
+  const { id, title, description } = frontMatter;
 
   return {
     title,
     description,
     openGraph: {
-      title: assignTitleOrFilename,
+      title,
       description,
+      url: `/wiki/${params.id.join("/")}`,
+      siteName: "Hi 👋, I'm Hoshimura Yuto.",
+      images: `/ogp/${id}.webp`,
+      locale: "ja_JP",
+      type: "article",
+    },
+    alternates: {
+      canonical: `/wiki/${params.id.join("/")}`,
     },
   };
 }
@@ -69,7 +75,7 @@ const Page = async ({
           const data = attributes.data as FrontMatter;
 
           return {
-            title: data.title ?? attributes.pathArray.slice(-2)[0],
+            title: data.title,
             path: `/${[...attributes.pathArray].join("/")}`,
           };
         })[0],
@@ -88,7 +94,7 @@ const Page = async ({
         // border="0 l-1 neutral-1 solid"
         className="lt-xl:hidden lt-md:w-auto lt-md:border-b-1 lt-md:border-r-0 dark:border-neutral-7"
       >
-        <AsideRight id={params.id} />
+        <AsideRightWrapper id={params.id} />
       </aside>
     </>
   );

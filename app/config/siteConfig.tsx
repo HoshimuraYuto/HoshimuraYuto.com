@@ -27,7 +27,7 @@ const siteConfig = {
   blogLinks: [
     {
       icon: "i-ri-rss-fill",
-      url: "https://hoshimurayuto.com/#",
+      url: "rss.xml",
     },
     {
       icon: "i-ri-twitter-x-fill",

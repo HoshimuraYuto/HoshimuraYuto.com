@@ -1,11 +1,18 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Hi 👋, I'm Hoshimura Yuto.",
+  title: {
+    absolute: "Hi 👋, I'm Hoshimura Yuto.",
+  },
   description: "Personal website.",
   openGraph: {
     title: "Hi 👋, I'm Hoshimura Yuto.",
     description: "Personal website.",
+    url: "https://hoshimurayuto.com",
+    siteName: "Hi 👋, I'm Hoshimura Yuto.",
+    images: "/favicon.png",
+    locale: "ja_JP",
+    type: "website",
   },
 };
 

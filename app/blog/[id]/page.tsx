@@ -28,16 +28,22 @@ export async function generateMetadata({
   const fileData = await readFileContent(contentPath);
   const { data } = await transformMarkdownToReactElement(fileData);
   const frontMatter = data.frontMatter as FrontMatter;
-  const { title, description } = frontMatter;
-
-  const assignTitleOrFilename = title ?? params.id;
+  const { id, title, description } = frontMatter;
 
   return {
     title,
     description,
     openGraph: {
-      title: assignTitleOrFilename,
+      title,
       description,
+      url: `/blog/${params.id}`,
+      siteName: "Hi 👋, I'm Hoshimura Yuto.",
+      images: `/ogp/${id}.webp`,
+      locale: "ja_JP",
+      type: "article",
+    },
+    alternates: {
+      canonical: `/blog/${params.id}`,
     },
   };
 }

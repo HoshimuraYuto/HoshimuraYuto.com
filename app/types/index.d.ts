@@ -56,7 +56,9 @@ export interface DirectoryMetadata {
 
 export interface FrontMatter {
   id: string;
-  title?: string;
+  title: string;
+  created_at: string;
+  updated_at?: string;
   description?: string;
   tags?: string[];
 }

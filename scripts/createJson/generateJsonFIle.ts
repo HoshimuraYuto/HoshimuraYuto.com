@@ -1,17 +1,21 @@
 import fs from "node:fs";
 
 import matter from "gray-matter";
+import moment from "moment-timezone";
+import RSS from "rss";
 
 import { File, FileAttributes, FrontMatter } from "@/app/types";
 import { scanDirectoryStructure } from "@/app/utils/dirScanner";
 import executePythonScript from "@/app/utils/executePythonScript";
+import { extractTags } from "@/app/utils/extractTags";
+import { createOgpImage } from "@/app/utils/OgImage";
 
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
     "content",
-    /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!.*DS_Store).*$/,
+    /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!\.git)(?!_template)(?!.*DS_Store).*$/,
     async (_, entryPath, relativePath) => {
-      const stats = await fs.promises.stat(entryPath);
+      // const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
       const { data, content } = matter(fileData);
       const frontMatter = data as FrontMatter;
@@ -26,13 +30,10 @@ const generateJsonFile = async () => {
         // name: fileMatch?.[1] ?? "",
         // extension: fileMatch?.[2] ?? "",
         pathArray: pathArray,
-        timestamps: {
-          created: stats.birthtime,
-          modified: stats.mtime,
-        },
         data: {
           id: frontMatter.id,
           title: frontMatter.title ?? pathArray?.[-1],
+          created_at: moment(frontMatter.created_at).tz("Asia/Tokyo").format(),
           description: frontMatter.description ?? "",
           tags: frontMatter.tags ?? [],
         },
@@ -112,6 +113,67 @@ const generateJsonFile = async () => {
       "",
     ),
   );
+
+  const allTags = extractTags(
+    allContents.filter((item): item is File => item.type === "files"),
+  );
+  const uniqueTags = Array.from(new Set(allTags));
+
+  const feed = new RSS({
+    title: "Hi 👋, I'm Hoshimura Yuto.",
+    description: "Personal website.",
+    feed_url: "https://hoshimurayuto.com/rss.xml",
+    site_url: "https://hoshimurayuto.com",
+    image_url: "https://hoshimurayuto.com/favicon.png",
+    managingEditor: "Hoshimura Yuto",
+    webMaster: "Hoshimura Yuto",
+    copyright: "MIT 2023 © hoshimurayuto.com",
+    language: "ja",
+    categories: uniqueTags,
+    pubDate: new Date(
+      Date.now() + (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000,
+    ),
+  });
+
+  allContents
+    .filter((item) => item.type === "files")
+    .sort(
+      (a, b) =>
+        new Date(
+          ((b.attributes as FileAttributes).data as FrontMatter).created_at,
+        ).getTime() -
+        new Date(
+          ((a.attributes as FileAttributes).data as FrontMatter).created_at,
+        ).getTime(),
+    )
+    .slice(0, 10)
+    .forEach((item) => {
+      const attributes = item.attributes as FileAttributes;
+      const data = attributes.data as FrontMatter;
+
+      feed.item({
+        title: data.title,
+        description: data.description ?? "",
+        url:
+          `https://hoshimurayuto.com/${attributes.pathArray?.join("/")}` ?? "",
+        date: new Date(data.created_at),
+      });
+    });
+
+  fs.writeFileSync(`public/rss.xml`, feed.xml());
+
+  if (!fs.existsSync("public/ogp")) {
+    fs.mkdirSync("public/ogp");
+  }
+
+  for (const item of allContents) {
+    if (item.type === "files") {
+      const attributes = item.attributes;
+      const data = attributes.data as FrontMatter;
+
+      await createOgpImage(data.id, data.title);
+    }
+  }
 };
 
 export default generateJsonFile;
