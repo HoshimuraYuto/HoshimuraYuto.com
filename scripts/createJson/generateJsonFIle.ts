@@ -167,6 +167,10 @@ const generateJsonFile = async () => {
 
   fs.writeFileSync(`public/rss.xml`, feed.xml());
 
+  if (!fs.existsSync("public/ogp")) {
+    fs.mkdirSync("public/ogp");
+  }
+
   for (const item of allContents) {
     if (item.type === "files") {
       const attributes = item.attributes;
