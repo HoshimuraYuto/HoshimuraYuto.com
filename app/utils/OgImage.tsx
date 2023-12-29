@@ -185,7 +185,6 @@ export const createOgpImage = async (
         {
           name: "Noto Sans JP",
           data: notoSansBold,
-          weight: "bold",
           style: "normal",
         },
       ],
