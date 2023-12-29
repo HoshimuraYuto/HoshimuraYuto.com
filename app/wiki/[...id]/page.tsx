@@ -29,7 +29,7 @@ export async function generateMetadata({
   const fileData = await readFileContent(contentPath);
   const { data } = await transformMarkdownToReactElement(fileData);
   const frontMatter = data.frontMatter as FrontMatter;
-  const { title, description } = frontMatter;
+  const { id, title, description } = frontMatter;
 
   return {
     title,
@@ -37,9 +37,9 @@ export async function generateMetadata({
     openGraph: {
       title,
       description,
-      url: `https://hoshimurayuto.com/wiki/${params.id.join("/")}`,
+      url: `/wiki/${params.id.join("/")}`,
       siteName: "Hi 👋, I'm Hoshimura Yuto.",
-      images: "/favicon.png",
+      images: `/ogp/${id}.webp`,
       locale: "ja_JP",
       type: "article",
     },

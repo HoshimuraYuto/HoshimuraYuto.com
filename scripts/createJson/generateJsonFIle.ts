@@ -7,6 +7,7 @@ import { File, FileAttributes, FrontMatter } from "@/app/types";
 import { scanDirectoryStructure } from "@/app/utils/dirScanner";
 import executePythonScript from "@/app/utils/executePythonScript";
 import { extractTags } from "@/app/utils/extractTags";
+import { createOgpImage } from "@/app/utils/OgImage";
 
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
@@ -165,6 +166,15 @@ const generateJsonFile = async () => {
     });
 
   fs.writeFileSync(`public/rss.xml`, feed.xml());
+
+  for (const item of allContents) {
+    if (item.type === "files") {
+      const attributes = item.attributes;
+      const data = attributes.data as FrontMatter;
+
+      await createOgpImage(data.id, data.title);
+    }
+  }
 };
 
 export default generateJsonFile;

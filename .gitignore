@@ -61,3 +61,6 @@ wrangler.toml
 
 # rss
 rss.xml
+
+# ogp
+public/ogp/**
