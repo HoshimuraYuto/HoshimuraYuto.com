@@ -1,6 +1,7 @@
 import fs from "node:fs";
 
 import matter from "gray-matter";
+import moment from "moment-timezone";
 import RSS from "rss";
 
 import { File, FileAttributes, FrontMatter } from "@/app/types";
@@ -14,7 +15,7 @@ const generateJsonFile = async () => {
     "content",
     /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!\.git)(?!_template)(?!.*DS_Store).*$/,
     async (_, entryPath, relativePath) => {
-      const stats = await fs.promises.stat(entryPath);
+      // const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
       const { data, content } = matter(fileData);
       const frontMatter = data as FrontMatter;
@@ -29,13 +30,10 @@ const generateJsonFile = async () => {
         // name: fileMatch?.[1] ?? "",
         // extension: fileMatch?.[2] ?? "",
         pathArray: pathArray,
-        timestamps: {
-          created: stats.birthtime,
-          modified: stats.mtime,
-        },
         data: {
           id: frontMatter.id,
           title: frontMatter.title ?? pathArray?.[-1],
+          created_at: moment(frontMatter.created_at).tz("Asia/Tokyo").format(),
           description: frontMatter.description ?? "",
           tags: frontMatter.tags ?? [],
         },
@@ -142,10 +140,10 @@ const generateJsonFile = async () => {
     .sort(
       (a, b) =>
         new Date(
-          (b.attributes as FileAttributes).timestamps.modified,
+          ((b.attributes as FileAttributes).data as FrontMatter).created_at,
         ).getTime() -
         new Date(
-          (a.attributes as FileAttributes).timestamps.modified,
+          ((a.attributes as FileAttributes).data as FrontMatter).created_at,
         ).getTime(),
     )
     .slice(0, 10)
@@ -158,10 +156,7 @@ const generateJsonFile = async () => {
         description: data.description ?? "",
         url:
           `https://hoshimurayuto.com/${attributes.pathArray?.join("/")}` ?? "",
-        date: new Date(
-          attributes.timestamps.modified.getTime() +
-            (new Date().getTimezoneOffset() + 9 * 60) * 60 * 1000,
-        ),
+        date: new Date(data.created_at),
       });
     });
 

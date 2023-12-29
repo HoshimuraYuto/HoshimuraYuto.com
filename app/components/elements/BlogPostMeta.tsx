@@ -1,6 +1,6 @@
 import intersperse from "../../utils/intersperse";
 
-const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
+const BlogPostMeta = ({ tags, date }: { tags: string[]; date: string }) => {
   if (tags.length === 0) {
     return (
       <div className="flex gap-2">
@@ -25,9 +25,12 @@ const BlogPostMeta = ({ tags, date }: { tags: string[]; date: Date }) => {
         {interspersedTagsEl}
       </div>
       <span className="color-neutral-1 dark:color-neutral-7">/</span>
-      <span className="color-neutral-4 dark:color-neutral-5">
+      <time
+        className="color-neutral-4 dark:color-neutral-5"
+        dateTime={date}
+      >
         {new Date(date).toLocaleDateString("ja-JP")}
-      </span>
+      </time>
     </div>
   );
 };

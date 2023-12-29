@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Avatar from "boring-avatars";
 import clsx from "clsx";
-import moment from "moment";
+import moment from "moment-timezone";
 import { useEffect, useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { z } from "zod";
@@ -134,7 +134,10 @@ const Comments = ({ id }: { id: string }) => {
                       {comment.author_name}
                     </span>
                     <span className="font-size-3.5 color-neutral-4 dark:color-neutral-5">
-                      {moment(comment.created_at).fromNow()}
+                      {moment
+                        .utc(comment.created_at)
+                        .tz("Asia/Tokyo")
+                        .fromNow()}
                     </span>
                   </div>
                 </div>

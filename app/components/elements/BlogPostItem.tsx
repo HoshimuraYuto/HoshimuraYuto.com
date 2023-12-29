@@ -13,7 +13,7 @@ const BlogPostItem = ({
   pathArray: string[];
   title: string;
   tags: string[];
-  date: Date;
+  date: string;
 }) => {
   return (
     <article

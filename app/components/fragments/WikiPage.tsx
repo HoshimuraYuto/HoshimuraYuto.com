@@ -3,7 +3,7 @@ import path from "path";
 import Link from "next/link";
 import { ReactElement } from "react";
 
-import { readFileContent, getFileStats } from "@/app/utils/fs";
+import { readFileContent } from "@/app/utils/fs";
 import { transformMarkdownToReactElement } from "@/app/utils/markdownToReact";
 import Comments from "@/app/wiki/[...id]/comment";
 
@@ -31,15 +31,12 @@ const WikiPage = async ({
     const frontMatter = data.frontMatter as FrontMatter;
     const { id: wikiId, title, tags } = frontMatter;
 
-    const stats = await getFileStats(contentPath);
-    const { mtime } = stats;
-
     return (
       <article className="flex flex-col gap-16">
         <header className="flex flex-col gap-4">
           <h2 className="font-size-8 font-700">{title}</h2>
           <BlogPostMeta
-            date={mtime}
+            date={frontMatter.updated_at ?? frontMatter.created_at}
             tags={tags ?? []}
           />
         </header>
