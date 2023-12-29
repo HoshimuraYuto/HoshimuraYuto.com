@@ -12,7 +12,7 @@ import { createOgpImage } from "@/app/utils/OgImage";
 const generateJsonFile = async () => {
   const allContents = await scanDirectoryStructure(
     "content",
-    /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!.*DS_Store).*$/,
+    /^(?!.*\/_+[^/]+$)(?!.*assets)(?!\.obsidian)(?!\.git)(?!_template)(?!.*DS_Store).*$/,
     async (_, entryPath, relativePath) => {
       const stats = await fs.promises.stat(entryPath);
       const fileData = await fs.promises.readFile(entryPath, "utf-8");
