@@ -166,6 +166,10 @@ article section {
     @apply my-4 h-auto;
   }
 
+  & iframe {
+    @apply my-4 max-w-100%;
+  }
+
   /* blockquote */
   & blockquote {
     @apply my-4 border-0 border-l-2 border-neutral-2 border-solid pl-4 dark:border-neutral-7;
