@@ -18,8 +18,12 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <main className="flex items-center justify-center gap-4">
-      <h1 className="text-2xl">Hi 👋, I&apos;m Hoshimura Yuto.</h1>
+    <main className="flex items-center px-10 py-3 lt-sm:px-6">
+      <div className="m-auto w-[1200px] flex items-center justify-between">
+        <h1 className="text-4xl lt-sm:text-3xl">
+          Hi 👋, I&apos;m Hoshimura Yuto.
+        </h1>
+      </div>
     </main>
   );
 }
