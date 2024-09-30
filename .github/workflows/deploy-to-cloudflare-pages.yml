@@ -28,6 +28,17 @@ jobs:
           chmod 600 ~/github_rsa
           git clone ${{ secrets.CONTENT_GIT_URL }} content
 
+      - name: Create _redirects file if content is provided
+        env:
+          FILE_CONTENT: ${{ secrets._REDIRECTS }}
+        run: |
+          if [ -n "$FILE_CONTENT" ]; then
+            echo "$FILE_CONTENT" > public/_redirects
+            echo "File created successfully."
+          else
+            echo "FILE_CONTENT is not set. Skipping file creation."
+          fi
+
       - name: Build
         run: pnpm build:prod
 
