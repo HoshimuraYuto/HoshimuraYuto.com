@@ -24,6 +24,16 @@ const nextConfig = {
       },
     });
     config.module.rules.push({
+      test: /\.(mp4|webm|mov)$/,
+      use: {
+        loader: "file-loader",
+        options: {
+          publicPath: "/_next/static/videos",
+          outputPath: "static/videos",
+        },
+      },
+    });
+    config.module.rules.push({
       test: /\.(md|markdown)$/,
       type: "asset/source",
     });
