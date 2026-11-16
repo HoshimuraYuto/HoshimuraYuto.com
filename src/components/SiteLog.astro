@@ -1,0 +1,300 @@
+---
+import { archive, contact, SITE_CREATED, uses, writing } from "../data/profile";
+import { deadWorks, smallWorks, works } from "../data/works";
+import type { DeadWork, Work } from "../data/works";
+import { daysBetween } from "../utils/age";
+
+interface Line {
+  key: string;
+  name: string;
+  url?: string | undefined;
+  note?: string | undefined;
+  /** A note long enough to need its own line under the name. */
+  wide?: boolean;
+  dead?: boolean;
+}
+
+function stoppedNote(days: number): string {
+  return days === 0 ? "その日で止まった" : `${days}日間で止まった`;
+}
+
+function byNewest<T extends { updated: string }>(items: T[]): T[] {
+  return items.toSorted((a, b) => b.updated.localeCompare(a.updated));
+}
+
+const sections: {
+  title: string;
+  lines: Line[];
+}[] = [
+  {
+    title: "works",
+    lines: byNewest<Work | DeadWork>([
+      ...works,
+      ...smallWorks,
+      ...deadWorks,
+    ]).map((work) => {
+      const stopped = "created" in work ? work.created : undefined;
+      return {
+        key: work.updated,
+        name: work.name,
+        url: work.url,
+        note:
+          stopped === undefined
+            ? work.note
+            : stoppedNote(daysBetween(stopped, new Date(work.updated))),
+        wide: work.note !== undefined,
+        dead: stopped !== undefined,
+      };
+    }),
+  },
+  { title: "writing", lines: writing },
+  { title: "uses", lines: uses },
+  { title: "contact", lines: contact },
+  { title: "archive", lines: archive },
+];
+---
+
+<div class="log" id="log">
+  <section class="log__section">
+    <h2 class="log__title">now</h2>
+    <p class="log__line" data-activity data-state="quiet">
+      <span class="log__key" data-activity-date>
+        —
+      </span>
+      <span class="log__body">
+        <span class="log__state">
+          <span class="log__lamp" aria-hidden="true"></span>
+          <span class="log__name" data-activity-label>
+            しばらく静か
+          </span>
+        </span>
+        <span class="log__note">
+          <span data-activity-repo></span>{" "}
+          <span class="log__ago" data-activity-ago></span>
+        </span>
+      </span>
+    </p>
+    <p class="log__line">
+      <span class="log__key">{SITE_CREATED}</span>
+      <span class="log__body">
+        <span class="log__name">このサイトを作成</span>
+      </span>
+    </p>
+  </section>
+  {sections.map((section) => (
+    <section class="log__section">
+      <h2 class="log__title">{section.title}</h2>
+      {section.lines.map((line) => (
+        <p class:list={["log__line", { "log__line--dead": line.dead }]}>
+          <span class="log__key">{line.key}</span>
+          <span class="log__body">
+            {line.url ? (
+              <a
+                class="log__name"
+                href={line.url}
+                target="_blank"
+                rel="noopener"
+              >
+                {line.name}
+              </a>
+            ) : (
+              <span class="log__name">{line.name}</span>
+            )}
+            {line.note && (
+              <span
+                class:list={["log__note", { "log__note--wide": line.wide }]}
+              >
+                {line.note}
+              </span>
+            )}
+          </span>
+        </p>
+      ))}
+    </section>
+  ))}
+  <p class="log__prompt">
+    <span class="log__sign" aria-hidden="true">
+      $
+    </span>
+    <a class="log__command" href="#top">
+      cd ~ <span class="log__comment"># 空に戻る</span>
+    </a>
+    <span class="log__cursor" aria-hidden="true"></span>
+  </p>
+</div>
+
+<style>
+  .log {
+    display: grid;
+    gap: 4.5em;
+    padding-bottom: 2em;
+  }
+
+  .log__section {
+    display: grid;
+    gap: 1.25em;
+  }
+
+  .log__title {
+    color: var(--color-strong);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 1rem;
+    font-weight: normal;
+    letter-spacing: 0.02em;
+    margin: 0;
+  }
+
+  .log__title::before {
+    color: var(--color-line);
+    content: "## ";
+  }
+
+  .log__line {
+    align-items: baseline;
+    display: grid;
+    gap: 0 1.5em;
+    grid-template-columns: 7.5em minmax(0, 1fr);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .log__key {
+    color: var(--color-dim);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .log__name {
+    color: var(--color-strong);
+    font-size: 1rem;
+    font-weight: 600;
+    overflow-wrap: anywhere;
+  }
+
+  a.log__name {
+    text-decoration-color: var(--color-line);
+  }
+
+  a.log__name:hover {
+    text-decoration-color: currentcolor;
+  }
+
+  .log__note {
+    color: var(--color-dim);
+    font-size: 0.875rem;
+    margin-left: 0.75em;
+    overflow-wrap: anywhere;
+  }
+
+  .log__note--wide {
+    color: var(--color-fg);
+    display: block;
+    margin: 0.125em 0 0;
+  }
+
+  /* "2日前" must not break between the number and 前 on a narrow screen. */
+  .log__ago {
+    white-space: nowrap;
+  }
+
+  .log__line--dead .log__name {
+    color: var(--color-dim);
+    font-weight: normal;
+  }
+
+  /* The lamp is centred on the label's line box: on the baseline it sits lower than the Japanese text. */
+  .log__state {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.5em;
+  }
+
+  .log__lamp {
+    background: var(--color-line);
+    border-radius: 50%;
+    flex: none;
+    height: 0.5em;
+    width: 0.5em;
+  }
+
+  /* Green means the author is at work right now: the one place on the page where colour carries meaning. */
+  .log__line[data-state="working"] .log__lamp {
+    background: var(--color-working);
+    box-shadow: 0 0 6px var(--color-working);
+  }
+
+  .log__line[data-state="working"] .log__name {
+    color: var(--color-working);
+  }
+
+  .log__line[data-state="recent"] .log__lamp {
+    background: var(--color-dim);
+  }
+
+  .log__prompt {
+    align-items: center;
+    display: flex;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.875rem;
+    gap: 0.75em;
+    margin: 0;
+  }
+
+  .log__sign {
+    color: var(--color-dim);
+  }
+
+  .log__command {
+    color: var(--color-strong);
+    text-decoration: none;
+  }
+
+  .log__command:hover {
+    text-decoration: underline;
+  }
+
+  .log__comment {
+    color: var(--color-dim);
+  }
+
+  .log__cursor {
+    animation: log-blink 1.1s steps(1) infinite;
+    background: var(--color-strong);
+    height: 1.1em;
+    margin-left: -0.5em;
+    width: 0.55em;
+  }
+
+  @keyframes log-blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @media (width < 36em) {
+    .log {
+      gap: 3.5em;
+    }
+
+    .log__line {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .log__cursor {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { setupGithubActivity } from "../scripts/github-activity";
+
+  for (const root of document.querySelectorAll<HTMLElement>(
+    "[data-activity]",
+  )) {
+    void setupGithubActivity(root);
+  }
+</script>

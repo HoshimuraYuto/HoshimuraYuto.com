@@ -1,4 +1,5 @@
 ---
+import SiteFooter from "../components/SiteFooter.astro";
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
 ---
@@ -10,5 +11,12 @@ import Layout from "../layouts/Layout.astro";
     href="https://mesonet.agron.iastate.edu"
     crossorigin
   />
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://api.github.com"
+    crossorigin
+  />
   <Welcome />
+  <SiteFooter />
 </Layout>
