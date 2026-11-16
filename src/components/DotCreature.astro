@@ -1,0 +1,52 @@
+<figure class="creature">
+  <svg
+    class="creature__body"
+    viewBox="0 0 10 10"
+    aria-hidden="true"
+    data-creature
+  ></svg>
+  <figcaption class="creature__caption">このURLに住んでいる生き物</figcaption>
+</figure>
+
+<style>
+  .creature {
+    align-items: end;
+    display: flex;
+    gap: 1em;
+    margin: 0;
+  }
+
+  .creature__body {
+    animation: creature-hop 1.6s steps(2) infinite;
+    fill: var(--color-strong);
+    height: 3em;
+    shape-rendering: crispedges;
+    width: 3em;
+  }
+
+  .creature__caption {
+    color: var(--color-dim);
+    font-size: 0.75rem;
+  }
+
+  /* Two-frame hop, like an old handheld game: steps() keeps it from gliding. */
+  @keyframes creature-hop {
+    to {
+      transform: translateY(-0.25em);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .creature__body {
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  import { creatureCells, drawCreature } from "../scripts/dot-creature";
+
+  for (const svg of document.querySelectorAll<SVGElement>("[data-creature]")) {
+    drawCreature(svg, creatureCells(location.pathname));
+  }
+</script>

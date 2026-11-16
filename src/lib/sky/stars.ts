@@ -65,3 +65,4 @@ function visibleStars(
 }
 
 export { STARS, starPosition, visibleStars };
+export type { CatalogueStar };

@@ -1,0 +1,29 @@
+---
+import Constellation from "../components/Constellation.astro";
+import DotCreature from "../components/DotCreature.astro";
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="404"
+  indexed={false}
+  description="このURLにページはありません。かわりに、このURLだけの星座と生き物を置いています。"
+>
+  <Fragment slot="title">
+    <span class="not-found__code">404</span>ページが見つかりません
+  </Fragment>
+  <p>
+    このURLにページはありません。かわりに、このURLからだけ見える星座と生き物を置いています。
+    <br />
+    同じURLなら、いつ誰が開いても同じ形になります。
+  </p>
+  <Constellation />
+  <DotCreature />
+</PageLayout>
+
+<style>
+  .not-found__code {
+    color: var(--color-dim);
+    margin-inline-end: 0.5em;
+  }
+</style>

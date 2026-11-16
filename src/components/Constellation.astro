@@ -1,0 +1,58 @@
+<figure class="constellation" data-constellation>
+  <svg
+    class="constellation__chart"
+    viewBox="0 0 100 100"
+    aria-hidden="true"
+    data-constellation-chart
+  ></svg>
+  <figcaption class="constellation__caption">
+    <span>
+      星座「<span data-constellation-name></span>」
+    </span>
+    <span class="constellation__where" data-constellation-where></span>
+    <span class="constellation__note">
+      URLから空の一か所を選び、そこにある5等星までの実際の星を明るい順に結んだ
+    </span>
+  </figcaption>
+</figure>
+
+<style>
+  .constellation {
+    display: grid;
+    gap: 0.75em;
+    margin: 0;
+    max-width: 18em;
+    width: 100%;
+  }
+
+  .constellation__chart {
+    display: block;
+    fill: var(--color-strong);
+    stroke: var(--color-dim);
+    stroke-width: 0.3;
+    width: 100%;
+  }
+
+  .constellation__caption {
+    display: grid;
+    font-size: 0.8125rem;
+    gap: 0.25em;
+  }
+
+  .constellation__where,
+  .constellation__note {
+    color: var(--color-dim);
+    font-size: 0.75rem;
+    font-variant-numeric: tabular-nums;
+  }
+</style>
+
+<script>
+  import { setupConstellation } from "../scripts/constellation";
+
+  for (const root of document.querySelectorAll<HTMLElement>(
+    "[data-constellation]",
+  )) {
+    setupConstellation(root, location.pathname);
+  }
+</script>

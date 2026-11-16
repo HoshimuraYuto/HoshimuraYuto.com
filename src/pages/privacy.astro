@@ -1,0 +1,75 @@
+---
+import { BLOG_PRIVACY_URL, CONTACT_URL } from "../data/profile";
+import { services } from "../data/services";
+import PageLayout from "../layouts/PageLayout.astro";
+---
+
+<PageLayout
+  title="Privacy"
+  description="このサイトのアクセス解析と、ブラウザが通信する外部サービスについてです。"
+>
+  <p>
+    このサイトでは、アクセス数や見られたページを知るために、Cloudflare Web
+    Analyticsを使っています。Cookieは使わず、個人を特定したり、サイトをまたいで追跡したりはしません。広告は置いていません。
+  </p>
+
+  <section>
+    <h2>通信する外部サービス</h2>
+    <p>
+      ページの表示中、ブラウザから次のサービスへ直接通信します。そのときIPアドレスなどが各サービスに届き、各サービスのポリシーに沿って扱われます。
+    </p>
+    <ul class="privacy__list">
+      {services.map((service) => (
+        <li>
+          <strong class="privacy__service">{service.name}</strong>
+          <span>{service.what}</span>
+          <a href={service.policy} target="_blank" rel="noopener">
+            {service.policyLabel ?? "プライバシーポリシー"}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+
+  <section>
+    <h2>問い合わせ</h2>
+    <p>
+      問い合わせはブログの
+      <a href={CONTACT_URL} target="_blank" rel="noopener">
+        お問い合わせフォーム
+      </a>
+      で受け付けています。送られた内容は、ブログの
+      <a href={BLOG_PRIVACY_URL} target="_blank" rel="noopener">
+        プライバシーポリシー
+      </a>
+      に沿って扱います。
+    </p>
+  </section>
+
+  <p class="privacy__date">
+    制定: <time datetime="2026-11-15">2026-11-15</time>
+  </p>
+</PageLayout>
+
+<style>
+  .privacy__list {
+    display: grid;
+    gap: 1.25rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .privacy__list li {
+    display: grid;
+  }
+
+  .privacy__service {
+    color: var(--color-strong);
+  }
+
+  .privacy__date {
+    color: var(--color-dim);
+    font-size: 0.875rem;
+  }
+</style>

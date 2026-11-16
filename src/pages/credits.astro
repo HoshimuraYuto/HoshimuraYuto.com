@@ -1,0 +1,136 @@
+---
+import { packageVersion, readPackageFile } from "../build/package-files";
+import PageLayout from "../layouts/PageLayout.astro";
+
+const suncalcLicense = readPackageFile("suncalc", "LICENSE"),
+  suncalcVersion = packageVersion("suncalc"),
+  // Astro's entry point sits in dist/, one level below its LICENSE.
+  astroLicense = readPackageFile("astro", "../LICENSE");
+---
+
+<PageLayout
+  title="Credits"
+  description="このサイトの空・星座・天気に使っているソフトウェアとデータの出典とライセンスです。"
+>
+  <p>このサイトは、次のソフトウェアとデータを使っています。</p>
+
+  <section>
+    <h2>suncalc {suncalcVersion}</h2>
+    <p>
+      太陽と月の位置、月の満ち欠けの計算。
+      <a
+        href="https://github.com/mourner/suncalc"
+        target="_blank"
+        rel="noopener"
+      >
+        github.com/mourner/suncalc
+      </a>
+      、BSD-2-Clause。
+    </p>
+    <pre class="credits__license">{suncalcLicense}</pre>
+  </section>
+
+  <section>
+    <h2>HYG Database v4.1</h2>
+    <p>
+      恒星の位置・等級・色指数。David Nash、
+      <a
+        href="https://codeberg.org/astronexus/hyg"
+        target="_blank"
+        rel="noopener"
+      >
+        codeberg.org/astronexus/hyg
+      </a>
+      、
+      <a
+        href="https://creativecommons.org/licenses/by-sa/4.0/"
+        target="_blank"
+        rel="noopener"
+      >
+        CC BY-SA 4.0
+      </a>
+      。
+    </p>
+    <p>
+      改変内容:
+      視等級5.0等までで、東京から見える赤緯のものを抽出。太陽を除外。赤経を度に換算。列を赤経・赤緯・等級・色指数に削減(色指数の欠けは0)。明るい順に並べ替え。改変したデータも同じCC
+      BY-SA 4.0で提供します。
+    </p>
+  </section>
+
+  <section>
+    <h2>気象庁 天気予報</h2>
+    <p>
+      観測が取れないときと、まだ来ていない日時の天気。出典：気象庁ホームページ(
+      <a
+        href="https://www.jma.go.jp/bosai/forecast/"
+        target="_blank"
+        rel="noopener"
+      >
+        www.jma.go.jp/bosai/forecast/
+      </a>
+      )、
+      <a
+        href="https://www.jma.go.jp/jma/kishou/info/coment.html"
+        target="_blank"
+        rel="noopener"
+      >
+        公共データ利用規約(第1.0版)
+      </a>
+      。
+    </p>
+    <p>
+      加工内容:
+      東京地方の天気コードを、雲の量と降るもの(雨・雪・霧・雷)に読み替えて描いています。雲の量は気象庁の値ではなく、コードの分類ごとにこのサイトで決めた値です。
+    </p>
+  </section>
+
+  <section>
+    <h2>Iowa Environmental Mesonet</h2>
+    <p>
+      東京国際空港(羽田、RJTT)の航空気象の実況報(METAR・SPECI)。過去と現在の雲・雨・雪・霧・風。Iowa
+      State University、
+      <a
+        href="https://mesonet.agron.iastate.edu/request/download.phtml"
+        target="_blank"
+        rel="noopener"
+      >
+        mesonet.agron.iastate.edu
+      </a>
+      。
+    </p>
+    <p>
+      雲の形は観測された形ではありません。報じられた雲の量と高さに合わせて、このサイトが作った模様です。
+    </p>
+  </section>
+
+  <section>
+    <h2>{Astro.generator}</h2>
+    <p>
+      このサイトを組み立てるフレームワーク。ページの先読みなど、一部のコードが配信するページに含まれます。
+      <a
+        href="https://github.com/withastro/astro"
+        target="_blank"
+        rel="noopener"
+      >
+        github.com/withastro/astro
+      </a>
+      、MIT。
+    </p>
+    <pre class="credits__license">{astroLicense}</pre>
+  </section>
+</PageLayout>
+
+<style>
+  .credits__license {
+    border: 1px solid var(--color-line);
+    box-sizing: border-box;
+    font-size: 0.75rem;
+    line-height: 1.6;
+    margin: 0;
+    max-width: 100%;
+    overflow-x: auto;
+    padding: 1rem;
+    white-space: pre-wrap;
+  }
+</style>

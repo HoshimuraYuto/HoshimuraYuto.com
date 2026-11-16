@@ -7,6 +7,7 @@ interface Link {
 const GITHUB_USER = "HoshimuraYuto",
   GITHUB_URL = `https://github.com/${GITHUB_USER}`,
   CONTACT_URL = "https://sukiburo.jp/contact/",
+  BLOG_PRIVACY_URL = "https://sukiburo.jp/privacy-policy/",
   SOURCE_URL = "https://github.com/hoshimurayuto/hoshimurayuto.com",
   SITE_CREATED = "2026-11-11",
   ZENN_URL = "https://zenn.dev/hoshimurayuto";
@@ -52,7 +53,9 @@ const writing: Link[] = [
 export {
   archive,
   GITHUB_USER,
+  BLOG_PRIVACY_URL,
   contact,
+  CONTACT_URL,
   SITE_CREATED,
   SOURCE_URL,
   uses,
