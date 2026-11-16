@@ -1,0 +1,67 @@
+---
+interface Props {
+  kind: "tilt" | "flip" | "slip" | "mirror";
+}
+
+const { kind } = Astro.props;
+---
+
+<button
+  type="button"
+  class:list={["glitch", `glitch--${kind}`]}
+  data-glitch
+  aria-describedby="glitch-hint"
+>
+  <slot />
+</button>
+
+<style>
+  .glitch {
+    background: none;
+    border: 0;
+    color: inherit;
+    cursor: pointer;
+    display: inline-block;
+    font: inherit;
+    letter-spacing: inherit;
+    padding: 0;
+    position: relative;
+    transition: transform 0.3s ease-out;
+  }
+
+  .glitch::after {
+    content: "";
+    inset: -0.75em;
+    position: absolute;
+  }
+
+  .glitch[data-fixed] {
+    cursor: inherit;
+  }
+
+  .glitch[data-fixed]::after {
+    content: none;
+  }
+
+  .glitch--tilt:not([data-fixed]) {
+    transform: rotate(-5deg);
+  }
+
+  .glitch--flip:not([data-fixed]) {
+    transform: rotate(180deg);
+  }
+
+  .glitch--slip:not([data-fixed]) {
+    transform: translate(0.9em, 0.45em);
+  }
+
+  .glitch--mirror:not([data-fixed]) {
+    transform: scaleX(-1);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glitch {
+      transition: none;
+    }
+  }
+</style>

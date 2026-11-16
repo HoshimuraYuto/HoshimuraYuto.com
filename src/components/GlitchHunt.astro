@@ -1,0 +1,64 @@
+<p id="glitch-hint" hidden>
+  ずれている。押すと直る
+</p>
+<p class="glitch-hunt" role="status">
+  <span class="glitch-hunt__count" data-glitch-count></span>
+  <span data-glitch-message></span>
+</p>
+
+<style>
+  .glitch-hunt {
+    backdrop-filter: blur(0.5rem);
+    background: rgb(from var(--color-bg) r g b / 80%);
+    border: 0 solid var(--color-line);
+    border-top-width: 1px;
+    bottom: calc(env(safe-area-inset-bottom, 0) + 2.25rem);
+    box-sizing: border-box;
+    color: var(--color-fg);
+    display: flex;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.75rem;
+    gap: 1em;
+    left: 50%;
+    letter-spacing: 0.02em;
+    margin: 0;
+    max-width: calc(100% - 2.25rem);
+    opacity: 0;
+    padding: 0.75em 1.25em;
+    pointer-events: none;
+    position: fixed;
+    transform: translate(-50%, 0.5em);
+    transition:
+      opacity 0.3s,
+      transform 0.3s,
+      visibility 0.3s;
+    visibility: hidden;
+    width: max-content;
+    z-index: 20;
+  }
+
+  .glitch-hunt[data-visible] {
+    opacity: 1;
+    transform: translate(-50%, 0);
+    visibility: visible;
+  }
+
+  .glitch-hunt__count {
+    color: var(--color-dim);
+    font-variant-numeric: tabular-nums;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .glitch-hunt {
+      transition: none;
+    }
+  }
+</style>
+
+<script>
+  import { setupGlitchHunt } from "../scripts/glitch";
+
+  for (const status of document.querySelectorAll<HTMLElement>(".glitch-hunt")) {
+    setupGlitchHunt(document, status);
+  }
+</script>

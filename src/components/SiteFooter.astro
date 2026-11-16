@@ -1,11 +1,13 @@
 ---
 import { SOURCE_URL } from "../data/profile";
+import Glitch from "./Glitch.astro";
 ---
 
 <footer class="footer">
   <p>© 2026 Yuto Hoshimura</p>
   <p>
-    このサイトはAstroで作り、Cloudflare Workersに置いています。
+    このサイトは<Glitch kind="mirror">Astro</Glitch>で作り、Cloudflare
+    Workersに置いています。
     <a href={SOURCE_URL} target="_blank" rel="noopener">
       ソース
     </a>

@@ -1,8 +1,10 @@
 ---
 import Critter from "../components/Critter.astro";
+import GlitchHunt from "../components/GlitchHunt.astro";
 import SiteFooter from "../components/SiteFooter.astro";
 import Welcome from "../components/Welcome.astro";
 import Layout from "../layouts/Layout.astro";
+import { GLITCH_COMPLETE } from "../scripts/glitch";
 ---
 
 <Layout description="Yuto Hoshimuraのサイトです。東京の今の空と、作ったもの・書いたもの・使っている道具を載せています。">
@@ -20,5 +22,7 @@ import Layout from "../layouts/Layout.astro";
   />
   <Welcome />
   <SiteFooter />
+  <GlitchHunt />
   <Critter />
+  <Critter appearsOn={GLITCH_COMPLETE} />
 </Layout>

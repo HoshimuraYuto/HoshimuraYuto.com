@@ -3,6 +3,7 @@ import { skyAt } from "../lib/sky/sky";
 import { sampleHref, WEATHER_SAMPLES } from "../scripts/sky-debug";
 import { TOKYO } from "../scripts/sky-hero";
 import { formatJst, formatMoonAge, formatPlace } from "../scripts/sky-time";
+import Glitch from "./Glitch.astro";
 import SiteLog from "./SiteLog.astro";
 
 // The caption is written at build time in the same format as the live one, so filling it in does not move the name.
@@ -23,7 +24,9 @@ const builtAt = new Date();
       <br />
       Hoshimura
     </h1>
-    <p class="welcome__role">Engineer / Blogger</p>
+    <p class="welcome__role">
+      <Glitch kind="tilt">Engineer</Glitch> / Blogger
+    </p>
     <p class="welcome__caption">
       <span class="welcome__caption-part" data-sky-caption="time">
         {formatJst(builtAt)}

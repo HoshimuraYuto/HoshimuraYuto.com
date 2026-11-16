@@ -3,6 +3,7 @@ import { archive, contact, SITE_CREATED, uses, writing } from "../data/profile";
 import { deadWorks, smallWorks, works } from "../data/works";
 import type { DeadWork, Work } from "../data/works";
 import { daysBetween } from "../utils/age";
+import Glitch from "./Glitch.astro";
 
 interface Line {
   key: string;
@@ -25,6 +26,7 @@ function byNewest<T extends { updated: string }>(items: T[]): T[] {
 const sections: {
   title: string;
   lines: Line[];
+  glitch?: "flip";
 }[] = [
   {
     title: "works",
@@ -48,7 +50,7 @@ const sections: {
     }),
   },
   { title: "writing", lines: writing },
-  { title: "uses", lines: uses },
+  { title: "uses", lines: uses, glitch: "flip" },
   { title: "contact", lines: contact },
   { title: "archive", lines: archive },
 ];
@@ -83,7 +85,13 @@ const sections: {
   </section>
   {sections.map((section) => (
     <section class="log__section">
-      <h2 class="log__title">{section.title}</h2>
+      <h2 class="log__title">
+        {section.glitch === undefined ? (
+          section.title
+        ) : (
+          <Glitch kind={section.glitch}>{section.title}</Glitch>
+        )}
+      </h2>
       {section.lines.map((line) => (
         <p class:list={["log__line", { "log__line--dead": line.dead }]}>
           <span class="log__key">{line.key}</span>
