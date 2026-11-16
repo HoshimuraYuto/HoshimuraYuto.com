@@ -9,6 +9,9 @@ const inCi = (process.env["CI"] ?? "") !== "",
   ],
   firefox = { name: "firefox", use: { ...devices["Desktop Firefox"] } };
 
+/** Not the dev server's 4321: a running dev server would be reused and tested in place of this build. */
+const E2E_PORT = 4331;
+
 export default defineConfig({
   testDir: "e2e",
   fullyParallel: true,
@@ -23,7 +26,7 @@ export default defineConfig({
   use: {
     trace: "on-first-retry",
     screenshot: "only-on-failure",
-    baseURL: process.env["BASE_URL"] ?? "http://localhost:4321",
+    baseURL: process.env["BASE_URL"] ?? `http://localhost:${E2E_PORT}`,
   },
   projects: [
     { name: "chromium", use: { ...devices["Desktop Chrome"] } },
@@ -31,8 +34,8 @@ export default defineConfig({
   ],
   /** The production build is what visitors get, so e2e runs against it. */
   webServer: {
-    command: "pnpm build && pnpm preview",
-    port: 4321,
+    command: `pnpm build && pnpm preview --port ${E2E_PORT}`,
+    port: E2E_PORT,
     reuseExistingServer: !inCi,
     timeout: 120_000,
   },
