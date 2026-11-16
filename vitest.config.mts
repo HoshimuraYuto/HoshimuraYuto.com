@@ -5,7 +5,6 @@ const inCi = (process.env["CI"] ?? "") !== "";
 
 export default getViteConfig({
   test: {
-    passWithNoTests: true,
     environment: "jsdom",
     setupFiles: ["@testing-library/jest-dom/vitest"],
     include: ["src/**/*.test.ts"],
@@ -16,7 +15,11 @@ export default getViteConfig({
       reporter: ["text", "html", "json-summary", "lcov"],
       reportsDirectory: "./coverage",
       include: ["src/**/*.ts"],
-      exclude: ["src/**/*.test.ts"],
+      exclude: [
+        "src/**/*.test.ts",
+        "src/**/*.test-helper.ts",
+        "src/lib/weather/fixtures/**",
+      ],
       thresholds: { lines: 70, functions: 70, branches: 70, statements: 70 },
     },
   },

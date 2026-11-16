@@ -178,6 +178,9 @@ importers:
       astro:
         specifier: 7.4.11
         version: 7.4.11(@types/node@26.6.6)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1)
+      suncalc:
+        specifier: 2.1.4
+        version: 2.1.4
     devDependencies:
       '@astrojs/compiler-rs':
         specifier: 0.5.3
@@ -221,6 +224,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: 5.1.0
         version: 5.1.0(vitest@5.1.0)
+      astronomy-engine:
+        specifier: 2.1.19
+        version: 2.1.19
       jsdom:
         specifier: 31.0.1
         version: 31.0.1
@@ -2368,6 +2374,9 @@ packages:
       '@astrojs/markdown-remark':
         optional: true
 
+  astronomy-engine@2.1.19:
+    resolution: {integrity: sha512-8yWKNf7UeNbH458h3sAJ6ZgAjE5jTXp/mNNRFoC20j2SHwZIjAQeEsBB2Q3uCFRaTCCJRv33K2XhkhZQMXoX6w==}
+
   async@2.6.4:
     resolution: {integrity: sha512-mzo5dfJYwAn29PeiJ0zvwTo04zj8HDJj0Mn8TD7sno7q12prdbnasKJHhkm2c1LgrhlJ0teaea8860oxi51mGA==}
 
@@ -4170,6 +4179,9 @@ packages:
     resolution: {integrity: sha512-kI10GsHXQvsH/AcklVZdQgwDuxtHi+A+h1Ujzd7h9LDf3e5jQiLQkWFlPtpynX3E6oVWHG1wo9v6dL0Mr+nnSA==}
     engines: {node: ^22.22.2 || ^24.15.0 || >=26.0.0}
     hasBin: true
+
+  suncalc@2.1.4:
+    resolution: {integrity: sha512-V7oSdbSezigEpbqnNWKujDlZaE/QA/0w5IbP/vXX+eIF+EtiE8e9BkSapsOFZc84jJkI3QlklYTWtMqzj9tZQg==}
 
   supports-color@10.2.2:
     resolution: {integrity: sha512-SS+jx45GF1QjgEXQx4NJZV9ImqmO2NPz5FNsIHrsDjh2YsHnawpan7SNQ1o8NuhrbHZy9AZhIoCUiCeaW/C80g==}
@@ -6611,6 +6623,8 @@ snapshots:
       - uploadthing
       - yaml
 
+  astronomy-engine@2.1.19: {}
+
   async@2.6.4:
     dependencies:
       lodash: 4.18.1
@@ -8589,6 +8603,8 @@ snapshots:
       postcss-value-parser: 4.2.0
       tinyglobby: 0.2.17
       write-file-atomic: 8.0.0
+
+  suncalc@2.1.4: {}
 
   supports-color@10.2.2: {}
 

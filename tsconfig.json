@@ -5,7 +5,7 @@
     "moduleResolution": "bundler",
     "target": "esnext",
     "lib": ["esnext", "dom", "dom.iterable"],
-    "types": [],
+    "types": ["@testing-library/jest-dom/vitest"],
     "noEmit": true
   },
   "include": [".astro/types.d.ts", "**/*"],

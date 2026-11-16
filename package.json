@@ -22,7 +22,8 @@
     "deploy": "wrangler deploy"
   },
   "dependencies": {
-    "astro": "7.4.11"
+    "astro": "7.4.11",
+    "suncalc": "2.1.4"
   },
   "devDependencies": {
     "@astrojs/compiler-rs": "0.5.3",
@@ -39,6 +40,7 @@
     "@textlint-ja/textlint-rule-preset-ai-writing": "1.7.0",
     "@types/node": "26.6.6",
     "@vitest/coverage-v8": "5.1.0",
+    "astronomy-engine": "2.1.19",
     "jsdom": "31.0.1",
     "knip": "6.45.1",
     "lefthook": "2.2.2",
