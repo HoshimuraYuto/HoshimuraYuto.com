@@ -13,7 +13,7 @@
     "fix": "oxfmt . && oxlint --fix . && pnpm markuplint --fix && pnpm stylelint --fix && pnpm textlint --fix",
     "type-check": "astro sync && tsc && tsc -p tsconfig.astro.json --runExternalCode",
     "markuplint": "markuplint --no-allow-warnings \"src/**/*.astro\"",
-    "stylelint": "stylelint --ignore-path .gitignore --allow-empty-input \"**/*.{css,astro}\"",
+    "stylelint": "stylelint --ignore-path .gitignore \"**/*.{css,astro}\"",
     "textlint": "textlint --ignore-path .gitignore \"**/*.md\"",
     "secretlint": "secretlint --maskSecrets --secretlintignore .gitignore \"**/*\"",
     "test": "vitest run",

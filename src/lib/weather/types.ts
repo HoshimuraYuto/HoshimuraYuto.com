@@ -110,6 +110,7 @@ export type {
   PrecipitationKind,
   Weather,
   WeatherContext,
+  WeatherOrigin,
   WeatherSource,
   Wind,
 };

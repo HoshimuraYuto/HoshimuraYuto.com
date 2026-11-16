@@ -66,3 +66,24 @@ async function weatherAt(
 }
 
 export { weatherAt };
+export { JMA_FIERCE_GUST_MPS, JMA_WIND_TERMS } from "./constants";
+export { iemMetarSource } from "./iem-metar-source";
+export { jmaForecastSource } from "./jma-forecast-source";
+export { parseMetar } from "./metar";
+export type { WeatherOptions };
+export type {
+  CloudAmount,
+  CloudLayer,
+  Ground,
+  IceKind,
+  Intensity,
+  Obscuration,
+  Phenomenon,
+  Precipitation,
+  PrecipitationKind,
+  Weather,
+  WeatherContext,
+  WeatherOrigin,
+  WeatherSource,
+  Wind,
+} from "./types";

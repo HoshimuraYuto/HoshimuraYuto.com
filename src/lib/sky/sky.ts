@@ -58,4 +58,4 @@ function skyAt(
 }
 
 export { limitingMagnitude, skyAt };
-export type { Horizontal, SunMoonSource } from "./types";
+export type { Horizontal, Observer, Sky, SunMoonSource } from "./types";

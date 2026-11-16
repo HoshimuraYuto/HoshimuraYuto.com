@@ -1,0 +1,14 @@
+---
+import Welcome from "../components/Welcome.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout description="Yuto Hoshimuraのサイトです。東京の今の空と、作ったもの・書いたもの・使っている道具を載せています。">
+  <link
+    slot="head"
+    rel="preconnect"
+    href="https://mesonet.agron.iastate.edu"
+    crossorigin
+  />
+  <Welcome />
+</Layout>

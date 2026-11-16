@@ -103,6 +103,20 @@ export const GROUND_THAW_PER_HOUR_PER_C = 0.08;
 /** Share of the water falling as rain that lying snow loses to it. Chosen for this site. */
 export const GROUND_RAIN_ON_SNOW = 0.2;
 
+/**
+ * JMA's terms for the strength of the wind, by mean speed (m/s), weakest first: 10 to 15 やや強い風, 15 to 20 強い風,
+ * 20 to 30 非常に強い風, about 30 and over (or gusts of 50 and over) 猛烈な風.
+ * 気象庁「予報用語 風」https://www.jma.go.jp/jma/kishou/know/yougo_hp/kaze.html (read 2026-11-13).
+ */
+export const JMA_WIND_TERMS: readonly { from: number; term: string }[] = [
+  { from: 10, term: "やや強い風" },
+  { from: 15, term: "強い風" },
+  { from: 20, term: "非常に強い風" },
+  { from: 30, term: "猛烈な風" },
+];
+/** A gust of this speed (m/s) or more makes the wind 猛烈な風 whatever its mean speed. Same source as above. */
+export const JMA_FIERCE_GUST_MPS = 50;
+
 /** Longest wait for all sources together. Chosen for this site: past this the sky stays as it is. */
 export const WEATHER_TIMEOUT_MS = 8000;
 

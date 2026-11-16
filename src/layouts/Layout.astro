@@ -1,0 +1,99 @@
+---
+interface Props {
+  title?: string;
+  description: string;
+  /** False for pages that stand in for a missing URL: they have no address of their own to give. */
+  indexed?: boolean;
+}
+
+const SITE_NAME = "Yuto Hoshimura";
+
+const { title = SITE_NAME, description, indexed = true } = Astro.props,
+  // With build.format "file" the build sees /credits.html; Workers static assets serve it at /credits.
+  canonical = new URL(
+    Astro.url.pathname.replace(/(?:index)?\.html$/u, ""),
+    Astro.site,
+  ).href;
+---
+
+<!doctype html>
+<html lang="ja">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {indexed && <meta property="og:url" content={canonical} />}
+    <meta property="og:type" content="website" />
+    <meta
+      property="og:image"
+      content={new URL("/favicon.png", Astro.site).href}
+    />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta name="color-scheme" content="dark" />
+    <meta name="description" content={description} />
+    <meta name="robots" content={indexed ? "index, follow" : "noindex"} />
+    <meta name="theme-color" content="#1f2227" />
+    <meta name="twitter:card" content="summary" />
+    {indexed && <link rel="canonical" href={canonical} />}
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
+    <slot name="head" />
+  </head>
+  <body>
+    <slot />
+  </body>
+</html>
+
+<style>
+  html {
+    --color-bg: #1f2227;
+    --color-fg: #abb2bf;
+    --color-strong: #d7dae0;
+    --color-dim: #8b929e;
+    --color-line: #3b4048;
+    --color-working: #98c379;
+    --page-width: 46rem;
+
+    height: 100%;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+
+  body {
+    background-color: var(--color-bg);
+    color: var(--color-fg);
+    display: flex;
+    flex-direction: column;
+    font-family:
+      system-ui,
+      -apple-system,
+      "Hiragino Sans",
+      "Yu Gothic UI",
+      sans-serif;
+    font-size: 1rem;
+    line-height: 1.75;
+    margin: 0;
+    min-height: 100%;
+    position: relative;
+  }
+</style>
+
+<style is:global>
+  a {
+    color: var(--color-strong);
+    text-decoration-thickness: from-font;
+    text-underline-offset: 0.25em;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-strong);
+    outline-offset: 0.125rem;
+  }
+</style>
