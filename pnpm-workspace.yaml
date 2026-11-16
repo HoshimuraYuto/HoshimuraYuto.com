@@ -1,0 +1,20 @@
+pmOnFail: error
+saveExact: true
+
+allowBuilds:
+  esbuild: false
+  lefthook: false
+  workerd: false
+strictDepBuilds: true
+
+blockExoticSubdeps: true
+minimumReleaseAge: 4320
+minimumReleaseAgeExcludePrune: true
+# Exceptions name an exact version: a bare name exempts every version and is never pruned.
+minimumReleaseAgeExclude:
+  - "@hoshimurayuto/code-rules@1.0.1"
+trustPolicy: no-downgrade
+trustPolicyIgnoreAfter: 43200
+trustPolicyExcludePrune: true
+audit:
+  level: high

@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "astro-build.astro-vscode",
+    "oxc.oxc-vscode",
+    "markuplint.markuplint-vscode",
+    "stylelint.vscode-stylelint"
+  ]
+}

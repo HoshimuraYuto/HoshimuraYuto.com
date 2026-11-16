@@ -1,0 +1,11 @@
+rules:
+  "@textlint-ja/preset-ai-writing":
+    # Its style suggestions are vague, and severity "info" has no effect inside the preset.
+    ai-tech-writing-guideline: false
+  ja-space-around-code: true
+  ja-space-around-strong: true
+  ja-space-between-half-and-full-width: true
+  no-mixed-zenkaku-and-hankaku-alphabet: true
+  prh:
+    rulePaths:
+      - ./prh.yaml

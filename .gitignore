@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build output and Astro's generated types
+dist/
+.astro/
+.wrangler/
+
+# Test output
+coverage/
+test-reports/
+test-results/
+playwright-report/
+
+# Logs
+*.log
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# OS and editors
+.DS_Store
+.idea/

@@ -1,0 +1,6 @@
+[tools]
+node = "26"
+
+[settings]
+# pnpm follows packageManager in package.json, so the version is written in one place.
+idiomatic_version_file_enable_tools = ["pnpm"]

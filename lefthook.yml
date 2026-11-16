@@ -1,0 +1,20 @@
+# Hooks only check: fixing and re-staging inside a hook would commit changes nobody reviewed.
+pre-commit:
+  jobs:
+    - name: check
+      run: pnpm check
+
+pre-push:
+  parallel: true
+  jobs:
+    - name: test
+      run: pnpm test
+    - name: build
+      run: pnpm build
+
+# E2E is left to CI: a slow pre-push pushes people to --no-verify.
+
+commit-msg:
+  jobs:
+    - name: commitlint
+      run: pnpm exec commitlint --edit {1}

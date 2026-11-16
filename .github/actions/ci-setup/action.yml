@@ -1,0 +1,38 @@
+name: CI setup
+description: Set up pnpm and Node, then install dependencies through Socket Firewall (sfw)
+
+inputs:
+  sfw-version:
+    description: sfw-free release tag
+    default: "v1.16.0"
+  sfw-sha256:
+    description: SHA-256 of sfw-free-linux-x86_64 for that tag, from the release's asset digest
+    default: "1f24d2628aeb3995f1f2651509e37641c7c41d07749ac68594ecb5bb2dd44d8a"
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+    - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+      with:
+        node-version-file: mise.toml
+        cache: pnpm
+
+    - name: Install sfw
+      shell: bash
+      env:
+        SFW_VERSION: ${{ inputs.sfw-version }}
+        SFW_SHA256: ${{ inputs.sfw-sha256 }}
+      run: |
+        wget -qO "$RUNNER_TEMP/sfw" "https://github.com/SocketDev/sfw-free/releases/download/${SFW_VERSION}/sfw-free-linux-x86_64"
+        echo "${SFW_SHA256}  $RUNNER_TEMP/sfw" | sha256sum --check --strict
+        sudo install -m 0755 "$RUNNER_TEMP/sfw" /usr/local/bin/sfw
+
+    # sfw re-signs registry traffic with its own CA, and pnpm 12 trusts only SSL_CERT_FILE,
+    # so the system CAs are added back for hosts sfw passes through.
+    - name: Install dependencies
+      shell: bash
+      run: |
+        sfw sh -c 'cat "$SSL_CERT_FILE" /etc/ssl/certs/ca-certificates.crt > "$RUNNER_TEMP/ca-bundle.crt" &&
+          SSL_CERT_FILE="$RUNNER_TEMP/ca-bundle.crt" exec pnpm install --frozen-lockfile'
