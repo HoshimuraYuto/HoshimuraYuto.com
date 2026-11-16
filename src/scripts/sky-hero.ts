@@ -9,6 +9,7 @@ import type { Weather, WeatherSource } from "../lib/weather/weather";
 import { smooth } from "../utils/math";
 import { prefersReducedMotion } from "../utils/motion";
 import { seededRandom } from "../utils/random";
+import { moodOf, showMood } from "./critter-mood";
 import { formatWeather } from "./sky-caption";
 import { debugWeather } from "./sky-debug";
 import { SKY_HIDDEN, SKY_SHOWN } from "./sky-dusk";
@@ -60,15 +61,17 @@ function writeCaption(hero: HTMLElement, parts: Record<string, string>): void {
     slot.textContent = parts[slot.dataset["skyCaption"] ?? ""] ?? "";
   }
 }
-/** Everything on the page that follows the sky besides the picture: caption, day or night. */
+/** Everything on the page that follows the sky besides the picture: caption, day or night, the critters' gear. */
 function markHero(
   hero: HTMLElement,
   sky: Sky,
   weather: Weather | undefined,
 ): void {
-  const skyIsLit = sky.sun.altitude > CIVIL_TWILIGHT_DEG;
+  const skyIsLit = sky.sun.altitude > CIVIL_TWILIGHT_DEG,
+    sunIsUp = sky.sun.altitude > 0;
   writeCaption(hero, captionParts(sky, weather));
   hero.dataset["daylight"] = skyIsLit ? "day" : "night";
+  showMood(moodOf(weather, sunIsUp));
 }
 /** How far the weather has come in, 0 to 1. With reduced motion it is simply there. */
 function arrivedShare(arrival: Arrival | undefined, reduced: boolean): number {

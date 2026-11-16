@@ -1,0 +1,322 @@
+---
+interface Props {
+  /** The event on `document` that brings this one out; without it the critter is there from the start. */
+  appearsOn?: string;
+}
+
+const { appearsOn } = Astro.props;
+---
+
+<div
+  class:list={["critter", { "critter--small": appearsOn !== undefined }]}
+  data-dir="1"
+  data-appears-on={appearsOn}
+  hidden={appearsOn !== undefined}
+  aria-hidden={appearsOn === undefined ? "true" : undefined}
+>
+  <span class="critter__gear"></span>
+  <span class="critter__say" hidden></span>
+  <span class="critter__z">z</span>
+  <span class="critter__z">z</span>
+</div>
+{appearsOn === undefined && (
+  <template data-star>
+    <span class="critter-star" aria-hidden="true"></span>
+  </template>
+)}
+
+<style>
+  /* Pokeable (critter-poke.ts), but only an extra: it stays out of the accessibility tree. */
+  .critter {
+    background: currentcolor;
+    border-radius: 0.3em 0.3em 0.07em 0.07em;
+    bottom: env(safe-area-inset-bottom, 0);
+    cursor: grab;
+    font-size: 1.5rem;
+    height: 0.85em;
+    left: 0.625rem;
+    position: fixed;
+    touch-action: none;
+    user-select: none;
+    width: 1em;
+    will-change: translate;
+    z-index: 10;
+  }
+
+  /* Waking up it rises over the same time it took to settle, instead of snapping back. */
+  .critter:not([data-carry="held"]) {
+    transition:
+      width 0.5s ease-out,
+      height 0.5s ease-out;
+  }
+
+  .critter--small {
+    font-size: 1rem;
+  }
+
+  .critter::before,
+  .critter::after {
+    background: var(--color-bg);
+    content: "";
+    height: 0.2em;
+    position: absolute;
+    top: 0.3em;
+
+    /* Waking: the eyes open only after the body has risen, the reverse of falling asleep. */
+    transition:
+      top 0.3s 0.45s,
+      height 0.3s 0.45s;
+    width: 0.15em;
+  }
+
+  .critter[data-dir="1"]::before {
+    left: 0.35em;
+  }
+
+  .critter[data-dir="1"]::after {
+    right: 0.07em;
+  }
+
+  .critter[data-dir="-1"]::before {
+    left: 0.07em;
+  }
+
+  .critter[data-dir="-1"]::after {
+    right: 0.35em;
+  }
+
+  .critter[data-carry="held"] {
+    border-radius: 0.3em;
+    cursor: grabbing;
+    height: 1em;
+  }
+
+  .critter[data-carry="held"]::before,
+  .critter[data-carry="held"]::after {
+    height: 0.3em;
+  }
+
+  .critter-star {
+    background: var(--color-strong);
+    border-radius: 50%;
+    box-shadow: 0 0 8px var(--color-strong);
+    height: 0.375em;
+    margin-left: -0.1875em;
+    pointer-events: none;
+    position: fixed;
+    width: 0.375em;
+    z-index: 9;
+  }
+
+  .critter--poked {
+    animation: critter-squash 0.35s;
+  }
+
+  @keyframes critter-squash {
+    40% {
+      scale: 1.25 0.7;
+    }
+
+    70% {
+      scale: 0.9 1.15;
+    }
+  }
+
+  .critter__say {
+    background: var(--color-bg);
+    border: 1px solid var(--color-line);
+    bottom: calc(100% + 0.35em);
+    color: var(--color-strong);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.5em;
+    left: 50%;
+    line-height: 1.6;
+    padding: 0.1em 0.5em;
+    position: absolute;
+    translate: -50% 0;
+    white-space: nowrap;
+  }
+
+  .critter__say[data-star] {
+    align-items: center;
+    display: inline-flex;
+    gap: 0.4em;
+  }
+
+  .critter__say[data-star]::before {
+    background: currentcolor;
+    clip-path: polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 91%,
+      50% 70%,
+      21% 91%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+    content: "";
+    height: 0.9em;
+    width: 0.9em;
+  }
+
+  .critter[data-mood="rain"] .critter__say {
+    bottom: calc(100% + 1.1em);
+  }
+
+  .critter__say[hidden] {
+    display: none;
+  }
+
+  /* critter-mood.ts sets data-mood on each critter from the hero's weather. */
+  .critter__gear {
+    display: none;
+    position: absolute;
+  }
+
+  .critter[data-mood="rain"] .critter__gear {
+    background:
+      linear-gradient(currentcolor, currentcolor) 50% 100% / 0.1em 0.55em
+        no-repeat,
+      linear-gradient(currentcolor, currentcolor) 50% 0 / 100% 0.3em no-repeat,
+      linear-gradient(currentcolor, currentcolor) 50% 0.3em / 70% 0.12em
+        no-repeat;
+    bottom: 100%;
+    display: block;
+    height: 0.9em;
+    left: -0.35em;
+    width: 1.7em;
+  }
+
+  .critter[data-mood="snow"] .critter__gear {
+    background:
+      linear-gradient(currentcolor, currentcolor) 50% 0 / 0.25em 0.15em
+        no-repeat,
+      linear-gradient(var(--color-dim), var(--color-dim)) 0 100% / 100% 0.3em
+        no-repeat;
+    bottom: 85%;
+    display: block;
+    height: 0.45em;
+    left: 0;
+    width: 1em;
+  }
+
+  .critter[data-mood="sun"] .critter__gear {
+    background: var(--color-bg);
+    display: block;
+    height: 0.28em;
+    left: 0.05em;
+    top: 0.25em;
+    width: 0.9em;
+    z-index: 1;
+  }
+
+  .critter[data-rest] {
+    height: 0.55em;
+    transition:
+      width 0.5s 0.6s,
+      height 0.5s 0.6s;
+    width: 1.3em;
+  }
+
+  .critter[data-rest]::before,
+  .critter[data-rest]::after {
+    height: 0.05em;
+    top: 0.25em;
+    transition: all 0.3s 0.6s;
+  }
+
+  .critter__z {
+    bottom: 100%;
+    color: var(--color-dim);
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 0.5em;
+    left: 100%;
+    line-height: 1;
+    opacity: 0;
+    position: absolute;
+  }
+
+  .critter[data-rest] .critter__z {
+    animation: critter-z 2.8s ease-out 1.2s infinite;
+  }
+
+  .critter[data-rest] .critter__z + .critter__z {
+    animation-delay: 2.6s;
+  }
+
+  @keyframes critter-z {
+    0% {
+      opacity: 0;
+      translate: 0 0;
+    }
+
+    20% {
+      opacity: 1;
+    }
+
+    100% {
+      opacity: 0;
+      translate: 0.8em -2em;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .critter--poked {
+      animation: none;
+    }
+
+    .critter[data-rest],
+    .critter[data-rest]::before,
+    .critter[data-rest]::after {
+      transition: none;
+    }
+
+    .critter[data-rest] .critter__z {
+      animation: none;
+      opacity: 1;
+    }
+
+    .critter[data-rest] .critter__z + .critter__z {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  import { setupCritter, setupLateCritter } from "../scripts/critter";
+  import { setupStars } from "../scripts/critter-stars";
+  import { prefersReducedMotion } from "../utils/motion";
+
+  const end = document.querySelector("footer");
+  if (end) {
+    new IntersectionObserver(([entry]) => {
+      for (const critter of document.querySelectorAll(".critter")) {
+        critter.toggleAttribute("data-rest", entry?.isIntersecting ?? false);
+      }
+    }).observe(end);
+  }
+
+  for (const critter of document.querySelectorAll<HTMLElement>(".critter")) {
+    const appearsOn = critter.dataset["appearsOn"];
+    if (appearsOn !== undefined) {
+      setupLateCritter(critter, appearsOn);
+      continue;
+    }
+    const { collect } = setupCritter(critter),
+      sky = document.querySelector<HTMLElement>("[data-sky-root]"),
+      prototype = document.querySelector<HTMLTemplateElement>(
+        "template[data-star]",
+      );
+    // Clicking the sky drops a star for the first critter to collect; without motion there is no chase to watch.
+    if (sky && prototype && critter.parentElement && !prefersReducedMotion()) {
+      setupStars(sky, {
+        prototype,
+        layer: critter.parentElement,
+        drop: collect,
+      });
+    }
+  }
+</script>
