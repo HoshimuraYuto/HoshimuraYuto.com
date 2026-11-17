@@ -41,6 +41,7 @@ const builtAt = new Date();
       <span
         class="welcome__caption-part welcome__caption-part--weather"
         data-sky-caption="weather"
+        data-typing
       ></span>
     </p>
     <a class="welcome__more" href="#log">
@@ -197,6 +198,21 @@ const builtAt = new Date();
     width: 100%;
   }
 
+  /* While the weather is on its way or being typed in (sky-typing.ts), a caret stands where it will appear. */
+  .welcome__caption-part--weather[data-typing] {
+    display: block;
+  }
+
+  .welcome__caption-part--weather[data-typing]::after {
+    animation: welcome-caret 1.4s steps(1) infinite;
+    background: currentcolor;
+    content: "";
+    display: inline-block;
+    height: 1em;
+    vertical-align: -0.15em;
+    width: 0.5em;
+  }
+
   .welcome__more {
     align-items: center;
     align-self: flex-start;
@@ -227,7 +243,8 @@ const builtAt = new Date();
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .welcome__caret {
+    .welcome__caret,
+    .welcome__caption-part--weather[data-typing]::after {
       animation: none;
     }
   }

@@ -18,6 +18,8 @@ import { lookFor } from "./sky-look";
 import { makeGrain, paintScene } from "./sky-paint";
 import { CIVIL_TWILIGHT_DEG, sceneFor } from "./sky-scene";
 import { formatJst, formatMoonAge, formatPlace, parseAt } from "./sky-time";
+import { setupTyping } from "./sky-typing";
+import type { Typing } from "./sky-typing";
 
 interface HeroOptions {
   now?: () => Date;
@@ -43,33 +45,21 @@ const TICK_MS = 60_000;
 const WEATHER_REFRESH_MS = 600_000;
 /** Time the clouds take to gather once the weather is known. */
 const ARRIVAL_MS = 2400;
-function captionParts(
-  sky: Sky,
-  weather: Weather | undefined,
-): Record<string, string> {
+/** The weather is typed in by its own slot (sky-typing.ts) once it arrives. */
+function captionParts(sky: Sky): Record<string, string> {
   return {
     time: formatJst(sky.date),
     place: formatPlace(sky.observer.latitude, sky.observer.longitude),
     moon: formatMoonAge(sky.moon.age),
-    weather: formatWeather(weather),
   };
 }
 function writeCaption(hero: HTMLElement, parts: Record<string, string>): void {
   for (const slot of hero.querySelectorAll<HTMLElement>("[data-sky-caption]")) {
-    slot.textContent = parts[slot.dataset["skyCaption"] ?? ""] ?? "";
+    const part = parts[slot.dataset["skyCaption"] ?? ""];
+    if (part !== undefined) {
+      slot.textContent = part;
+    }
   }
-}
-/** Everything on the page that follows the sky besides the picture: caption, day or night, the critters' gear. */
-function markHero(
-  hero: HTMLElement,
-  sky: Sky,
-  weather: Weather | undefined,
-): void {
-  const skyIsLit = sky.sun.altitude > CIVIL_TWILIGHT_DEG,
-    sunIsUp = sky.sun.altitude > 0;
-  writeCaption(hero, captionParts(sky, weather));
-  hero.dataset["daylight"] = skyIsLit ? "day" : "night";
-  showMood(moodOf(weather, sunIsUp));
 }
 /**
  * The canvas fills the window while the hero is a capped column: watching only the hero misses a width change
@@ -86,6 +76,7 @@ interface Hero {
   element: HTMLElement;
   canvas: HTMLCanvasElement | undefined;
   ctx: CanvasRenderingContext2D | undefined;
+  weatherSlot: Typing | undefined;
   /** Holds the sky as it was while the sky with new weather fades in over it. */
   previous: HTMLCanvasElement | undefined;
   fallCanvas: HTMLCanvasElement | undefined;
@@ -111,7 +102,11 @@ function makeHero(
   const canvas =
       element.querySelector<HTMLCanvasElement>("[data-sky-canvas]") ??
       undefined,
-    fixed = parseAt(search);
+    fixed = parseAt(search),
+    reduced = prefersReducedMotion(),
+    weatherSlot = element.querySelector<HTMLElement>(
+      '[data-sky-caption="weather"]',
+    );
   function moment(): Date {
     return fixed ?? now();
   }
@@ -119,23 +114,37 @@ function makeHero(
     element,
     canvas,
     ctx: canvas?.getContext("2d") ?? undefined,
+    weatherSlot: weatherSlot
+      ? setupTyping(weatherSlot, { reduced })
+      : undefined,
     previous:
       element.querySelector<HTMLCanvasElement>("[data-sky-previous]") ??
       undefined,
     fallCanvas:
       element.querySelector<HTMLCanvasElement>("[data-sky-fall]") ?? undefined,
     grain: makeGrain(seededRandom(1)),
-    reduced: prefersReducedMotion(),
+    reduced,
     moment,
     fetchWeather: async () =>
       (debug ? debugWeather(search, moment()) : undefined) ??
       (await weatherAt(moment(), WEATHER_SOURCES)),
   };
 }
+/** Everything on the page that follows the sky besides the picture: caption, day or night, the critters' gear. */
+function markHero(hero: Hero, sky: Sky, weather: Weather | undefined): void {
+  const skyIsLit = sky.sun.altitude > CIVIL_TWILIGHT_DEG,
+    sunIsUp = sky.sun.altitude > 0;
+  writeCaption(hero.element, captionParts(sky));
+  if (weather) {
+    hero.weatherSlot?.write(formatWeather(weather));
+  }
+  hero.element.dataset["daylight"] = skyIsLit ? "day" : "night";
+  showMood(moodOf(weather, sunIsUp));
+}
 function paintHero(hero: Hero, { arrival }: HeroState): void {
   const date = hero.moment(),
     sky = skyAt(date, TOKYO);
-  markHero(hero.element, sky, arrival?.weather);
+  markHero(hero, sky, arrival?.weather);
   if (hero.canvas && hero.ctx) {
     const [width, height] = fitCanvas(hero.canvas, hero.ctx);
     paintScene(
@@ -215,6 +224,10 @@ function refresh(hero: Hero, state: HeroState): void {
 /** Runs after the first sky is on screen, and a failure leaves that sky as it is. */
 async function loadWeather(hero: Hero, state: HeroState): Promise<void> {
   const weather = await hero.fetchWeather();
+  // Without any weather the slot stops waiting for it; a failed refresh keeps the weather on screen.
+  if (!weather && !state.arrival) {
+    hero.weatherSlot?.settle();
+  }
   if (
     state.stopped ||
     !weather ||
@@ -294,6 +307,7 @@ function setupSkyHero(
     stopWatching();
     cancelAnimationFrame(state.frame);
     state.stopFall();
+    hero.weatherSlot?.stop();
   };
 }
 
