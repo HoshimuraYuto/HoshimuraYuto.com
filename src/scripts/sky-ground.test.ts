@@ -1,8 +1,8 @@
 import { afterEach, describe, expect, test, vi } from "vitest";
 
-import type { Ground, Weather } from "../lib/weather/weather";
+import type { Ground } from "../lib/weather/weather";
 import { fakeContext, stubCanvases } from "./sky-canvas.test-helper";
-import { lyingFor, paintLying, reflectSky } from "./sky-ground";
+import { paintLying, reflectSky } from "./sky-ground";
 import type { Palette, Rgb } from "./sky-light";
 import type { Scene } from "./sky-scene";
 
@@ -45,23 +45,6 @@ const SCENE: Scene = {
   stars: [],
 };
 const COLS = 160;
-const WEATHER: Weather = {
-  time: new Date("2026-02-07T22:00:00Z"),
-  cloudCover: 0,
-  layers: [],
-  precipitation: undefined,
-  thunder: false,
-  obscuration: undefined,
-  visibility: 10_000,
-  wind: undefined,
-  origin: {
-    kind: "observation",
-    provider: "iem-metar",
-    place: "RJTT",
-    raw: "",
-    url: "",
-  },
-};
 function paintingOn(lying: Ground | undefined, scene: Scene = SCENE) {
   const fake = fakeContext();
   stubCanvases(fake.ctx, [scene.width, scene.height]);
@@ -109,19 +92,6 @@ function sheenCells(wet: number): Uint8ClampedArray {
 
 afterEach(() => {
   vi.restoreAllMocks();
-});
-
-describe(lyingFor, () => {
-  test("直前の様子が分からない天気(予報)には、地面の様子がない", () => {
-    expect(lyingFor(WEATHER, 1)).toBeUndefined();
-  });
-
-  test("天気が現れる途中は、その割合だけ溜まっている", () => {
-    const weather = { ...WEATHER, ground: { wet: 0.8, snow: 0.4 } };
-
-    expect(lyingFor(weather, 1)).toStrictEqual({ wet: 0.8, snow: 0.4 });
-    expect(lyingFor(weather, 0.5)).toStrictEqual({ wet: 0.4, snow: 0.2 });
-  });
 });
 
 describe(reflectSky, () => {

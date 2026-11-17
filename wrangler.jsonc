@@ -8,4 +8,7 @@
     "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page",
   },
+  // `wrangler preview` refuses to run without this block, even an empty one.
+  "previews": {},
+  "preview_urls": true,
 }

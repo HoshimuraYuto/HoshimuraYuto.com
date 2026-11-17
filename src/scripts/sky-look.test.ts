@@ -2,7 +2,7 @@ import { describe, expect, test } from "vitest";
 
 import type { Weather } from "../lib/weather/weather";
 import { defined } from "../test/defined";
-import { fadeLook, lookFor } from "./sky-look";
+import { lookFor } from "./sky-look";
 
 const AT = new Date("2026-10-24T04:00:00Z");
 const CLEAR: Weather = {
@@ -165,27 +165,6 @@ describe(lookFor, () => {
   test("視程が悪いほど、幕を濃くする", () => {
     expect(veilAt(8000)).toBeLessThan(veilAt(4000));
     expect(veilAt(4000)).toBeLessThan(veilAt(1000));
-  });
-});
-
-describe(fadeLook, () => {
-  test("雲・暗さ・幕を割合で薄め、降るものは変えない", () => {
-    const look = lookFor(
-        {
-          ...BROKEN,
-          visibility: 4000,
-          precipitation: { kind: "rain", intensity: "moderate" },
-        },
-        AT,
-      ),
-      half = fadeLook(look, 0.5);
-
-    expect(half.sheets[0]?.opacity).toBeCloseTo(
-      defined(look.sheets[0]).opacity / 2,
-    );
-    expect(half.gloom).toBeCloseTo(look.gloom / 2);
-    expect(half.veil).toBeCloseTo(look.veil / 2);
-    expect(half.fall).toStrictEqual(look.fall);
   });
 });
 
