@@ -6,7 +6,6 @@ import {
   weatherAt,
 } from "../lib/weather/weather";
 import type { Weather, WeatherSource } from "../lib/weather/weather";
-import { smooth } from "../utils/math";
 import { prefersReducedMotion } from "../utils/motion";
 import { seededRandom } from "../utils/random";
 import { moodOf, showMood } from "./critter-mood";
@@ -14,9 +13,8 @@ import { formatWeather } from "./sky-caption";
 import { debugWeather } from "./sky-debug";
 import { SKY_HIDDEN, SKY_SHOWN } from "./sky-dusk";
 import { startFall } from "./sky-fall";
-import { lyingFor } from "./sky-ground";
 import { fitCanvas, readPalette } from "./sky-light";
-import { fadeLook, lookFor } from "./sky-look";
+import { lookFor } from "./sky-look";
 import { makeGrain, paintScene } from "./sky-paint";
 import { CIVIL_TWILIGHT_DEG, sceneFor } from "./sky-scene";
 import { formatJst, formatMoonAge, formatPlace, parseAt } from "./sky-time";
@@ -73,12 +71,6 @@ function markHero(
   hero.dataset["daylight"] = skyIsLit ? "day" : "night";
   showMood(moodOf(weather, sunIsUp));
 }
-/** How far the weather has come in, 0 to 1. With reduced motion it is simply there. */
-function arrivedShare(arrival: Arrival | undefined, reduced: boolean): number {
-  return !arrival || reduced
-    ? 1
-    : smooth(performance.now() - arrival.at, 0, ARRIVAL_MS);
-}
 /**
  * The canvas fills the window while the hero is a capped column: watching only the hero misses a width change
  * past the cap, and the old bitmap is then stretched (the moon turns into an ellipse).
@@ -91,6 +83,8 @@ interface Hero {
   element: HTMLElement;
   canvas: HTMLCanvasElement | undefined;
   ctx: CanvasRenderingContext2D | undefined;
+  /** Holds the sky as it was while the sky with new weather fades in over it. */
+  previous: HTMLCanvasElement | undefined;
   fallCanvas: HTMLCanvasElement | undefined;
   grain: ReturnType<typeof makeGrain>;
   reduced: boolean;
@@ -122,6 +116,9 @@ function makeHero(
     element,
     canvas,
     ctx: canvas?.getContext("2d") ?? undefined,
+    previous:
+      element.querySelector<HTMLCanvasElement>("[data-sky-previous]") ??
+      undefined,
     fallCanvas:
       element.querySelector<HTMLCanvasElement>("[data-sky-fall]") ?? undefined,
     grain: makeGrain(seededRandom(1)),
@@ -132,10 +129,9 @@ function makeHero(
       (await weatherAt(moment(), WEATHER_SOURCES)),
   };
 }
-function paintHero(hero: Hero, { arrival }: HeroState): number {
+function paintHero(hero: Hero, { arrival }: HeroState): void {
   const date = hero.moment(),
-    sky = skyAt(date, TOKYO),
-    share = arrivedShare(arrival, hero.reduced);
+    sky = skyAt(date, TOKYO);
   markHero(hero.element, sky, arrival?.weather);
   if (hero.canvas && hero.ctx) {
     const [width, height] = fitCanvas(hero.canvas, hero.ctx);
@@ -144,23 +140,39 @@ function paintHero(hero: Hero, { arrival }: HeroState): number {
         ctx: hero.ctx,
         scene: sceneFor(sky, width, height),
         palette: readPalette(getComputedStyle(hero.element)),
-        look: arrival && fadeLook(lookFor(arrival.weather, date), share),
-        lying: arrival && lyingFor(arrival.weather, share),
+        look: arrival && lookFor(arrival.weather, date),
+        lying: arrival?.weather.ground,
       },
       hero.grain,
     );
   }
-  return share;
 }
-function drawFrame(hero: Hero, state: HeroState): void {
-  if (state.hidden) {
+/**
+ * Lays the sky on screen under the canvas, then fades the canvas in over it. Repainting the whole sky on each frame of
+ * the fade kept the main thread busy for as long as it lasted; the opacity is animated off the main thread.
+ */
+function fadeInOverPrevious(hero: Hero): void {
+  const { canvas, previous } = hero,
+    ctx = previous?.getContext("2d");
+  if (hero.reduced || !canvas || !previous || !ctx) {
     return;
   }
-  // While the clouds are still gathering, the next frame brings them a little further in.
-  if (paintHero(hero, state) < 1) {
-    state.frame = requestAnimationFrame(() => {
-      drawFrame(hero, state);
+  previous.width = canvas.width;
+  previous.height = canvas.height;
+  ctx.drawImage(canvas, 0, 0);
+  canvas
+    .animate([{ opacity: 0 }, { opacity: 1 }], {
+      duration: ARRIVAL_MS,
+      easing: "ease-in-out",
+    })
+    .addEventListener("finish", () => {
+      // A zero size frees the bitmap: the copy is only needed while the fade runs.
+      previous.width = 0;
     });
+}
+function drawFrame(hero: Hero, state: HeroState): void {
+  if (!state.hidden) {
+    paintHero(hero, state);
   }
 }
 function scheduleDraw(hero: Hero, state: HeroState): void {
@@ -208,6 +220,7 @@ async function loadWeather(hero: Hero, state: HeroState): Promise<void> {
     return;
   }
   state.arrival = { weather, at: performance.now() };
+  fadeInOverPrevious(hero);
   refresh(hero, state);
 }
 /** Keeps a live sky moving: the sky turns every minute, and new reports are asked for. Returns a stop function. */

@@ -308,18 +308,6 @@ function lookFor(weather: Weather, date: Date): WeatherLook {
     ...(reports(weather, "funnel") ? { funnel: true } : {}),
   };
 }
-/** The look at a share of its full strength, so the weather can arrive gradually instead of popping in. */
-function fadeLook(look: WeatherLook, share: number): WeatherLook {
-  return {
-    ...look,
-    sheets: look.sheets.map((sheet) => ({
-      ...sheet,
-      opacity: sheet.opacity * share,
-    })),
-    gloom: look.gloom * share,
-    veil: look.veil * share,
-  };
-}
 
-export { fadeLook, lookFor };
+export { lookFor };
 export type { CloudSheet, Fall, WeatherLook };

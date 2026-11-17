@@ -1,4 +1,3 @@
-import type { Ground, Weather } from "../lib/weather/weather";
 import { smooth } from "../utils/math";
 import { valueNoise } from "./sky-cloud-field";
 import { deviceScale, mix } from "./sky-light";
@@ -189,11 +188,5 @@ function paintLying(painter: Painter, reflection?: HTMLCanvasElement): void {
     layOnGround(painter, snow, band);
   }
 }
-/** The ground's cover at a share of its full amount, so that it arrives with the rest of the weather. */
-function lyingFor(weather: Weather, share: number): Ground | undefined {
-  return weather.ground
-    ? { wet: weather.ground.wet * share, snow: weather.ground.snow * share }
-    : undefined;
-}
 
-export { lyingFor, paintLying, reflectSky };
+export { paintLying, reflectSky };
