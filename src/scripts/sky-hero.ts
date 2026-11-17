@@ -45,7 +45,6 @@ const TICK_MS = 60_000;
 const WEATHER_REFRESH_MS = 600_000;
 /** Time the clouds take to gather once the weather is known. */
 const ARRIVAL_MS = 2400;
-/** The weather is typed in by its own slot (sky-typing.ts) once it arrives. */
 function captionParts(sky: Sky): Record<string, string> {
   return {
     time: formatJst(sky.date),
@@ -77,7 +76,6 @@ interface Hero {
   canvas: HTMLCanvasElement | undefined;
   ctx: CanvasRenderingContext2D | undefined;
   weatherSlot: Typing | undefined;
-  /** Holds the sky as it was while the sky with new weather fades in over it. */
   previous: HTMLCanvasElement | undefined;
   fallCanvas: HTMLCanvasElement | undefined;
   grain: ReturnType<typeof makeGrain>;
@@ -159,10 +157,6 @@ function paintHero(hero: Hero, { arrival }: HeroState): void {
     );
   }
 }
-/**
- * Lays the sky on screen under the canvas, then fades the canvas in over it. Repainting the whole sky on each frame of
- * the fade kept the main thread busy for as long as it lasted; the opacity is animated off the main thread.
- */
 function fadeInOverPrevious(hero: Hero): void {
   const { canvas, previous } = hero,
     ctx = previous?.getContext("2d");
@@ -224,7 +218,6 @@ function refresh(hero: Hero, state: HeroState): void {
 /** Runs after the first sky is on screen, and a failure leaves that sky as it is. */
 async function loadWeather(hero: Hero, state: HeroState): Promise<void> {
   const weather = await hero.fetchWeather();
-  // Without any weather the slot stops waiting for it; a failed refresh keeps the weather on screen.
   if (!weather && !state.arrival) {
     hero.weatherSlot?.settle();
   }

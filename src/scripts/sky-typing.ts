@@ -1,18 +1,12 @@
-/** Time between typed characters. */
 const CHARACTER_MS = 30;
 
 interface Typing {
-  /** Types the text in after what is there, or retypes it from the start when it does not continue it. */
   write: (text: string) => void;
-  /** Nothing more is coming: the caret goes. */
   settle: () => void;
   stop: () => void;
 }
 
-/**
- * Types text into a slot one character at a time, the way a terminal prints it; `data-typing` marks it for the caret.
- * Text appearing at once in a large block counts as a late Largest Contentful Paint; typed characters do not.
- */
+/** Text appearing at once in a large block counts as a late Largest Contentful Paint; typed characters do not. */
 function setupTyping(
   slot: HTMLElement,
   { reduced }: { reduced: boolean },
