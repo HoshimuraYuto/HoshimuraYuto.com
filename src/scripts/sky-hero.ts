@@ -78,6 +78,9 @@ function markHero(
 function resizeTarget(hero: HTMLElement): Element {
   return hero.querySelector("[data-sky-canvas]") ?? hero;
 }
+function sizeOf({ width, height }: DOMRectReadOnly): string {
+  return `${width}x${height}`;
+}
 
 interface Hero {
   element: HTMLElement;
@@ -244,13 +247,20 @@ function watchHero(hero: Hero, state: HeroState): () => void {
     state.hidden = false;
     refresh(hero, state);
   }
+  const target = resizeTarget(hero.element);
+  let size = sizeOf(target.getBoundingClientRect());
   const observer =
     typeof ResizeObserver === "undefined"
       ? undefined
-      : new ResizeObserver(() => {
-          refresh(hero, state);
+      : new ResizeObserver(([entry]) => {
+          // It also reports once on observe, with the size the first sky was already painted at.
+          const next = entry ? sizeOf(entry.contentRect) : "";
+          if (next !== size) {
+            size = next;
+            refresh(hero, state);
+          }
         });
-  observer?.observe(resizeTarget(hero.element));
+  observer?.observe(target);
   hero.element.addEventListener(SKY_HIDDEN, onHidden);
   hero.element.addEventListener(SKY_SHOWN, onShown);
   return () => {
